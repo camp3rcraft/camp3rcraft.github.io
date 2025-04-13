@@ -328,6 +328,32 @@ body {
     color: inherit;
 }
 
+.player {
+    background-color: #7a764678;
+    margin-top: 40px;
+    margin-left: 45px;
+    margin-bottom: 20px;
+    width: 600px;
+    border: 3px solid #ddd;
+    border-radius: 20px;
+    box-shadow: 0 0 15px #ddd;
+}
+
+.player-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #466e7a78;
+	backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px #ddd;
+    padding: 4px;
+    border: 3px solid #ddd;
+    border-radius: 75px;
+    color: #ddd;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
 .gif88x31 {
     background-color: #7a764678;
     backdrop-filter: blur(5px);
