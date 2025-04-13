@@ -13,13 +13,13 @@ body {
 }
 
 .backgroundGradient {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    background: radial-gradient(#a56d06, #000);
+    background: radial-gradient(#d37306, #000);
     filter: blur(100px);
     overflow: hidden;
 }
@@ -40,7 +40,7 @@ body {
     animation-name:  bg-circle-anim-4;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-    background: #e0af0d85;
+    background: #ffd00085;
 }
 
 @keyframes bg-circle-anim-4 {
@@ -73,7 +73,7 @@ body {
     animation-name:  bg-circle-anim-3;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-    background: #e7ac08c7;
+    background: #e79908c7;
 }
 
 @keyframes bg-circle-anim-3 {
@@ -105,7 +105,7 @@ body {
     animation-name:  bg-circle-anim-2;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-    background: #6e691b;
+    background: #d8a80a;
 }
 
 @keyframes bg-circle-anim-2 {
@@ -137,7 +137,7 @@ body {
     animation-name:  bg-circle-anim-1;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-    background: #ff1e0069;
+    background: #ff510069;
 }
 
 @keyframes bg-circle-anim-1 {
@@ -170,7 +170,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #ffffff00;
-    border: 15px solid #ff7300;
+    border: 15px solid #ff9900;
     border-radius: 50%;
 }
 
@@ -293,6 +293,17 @@ body {
     text-align: left;
 }
 
+.content-text-gallery {
+    margin: 0;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: #ffd000;
+    font-size: 12px;
+    text-align: left;
+    text-shadow: 0 0 15px #000000;
+}
+
 .content-text-title {
     margin: 0;
     margin-left: 20px;
@@ -353,6 +364,26 @@ body {
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
+
+.images-row {
+    text-align: center;
+  }
+  
+  .image-with-caption {
+    display: inline-block;
+    margin: 10px;
+    vertical-align: top;
+  }
+  
+  .image-with-caption img {
+    width: 150px;
+    height: auto;
+  }
+  
+  .image-with-caption figcaption {
+    text-align: center;
+  }
+  
 
 .gif88x31 {
     background-color: #7a764678;
