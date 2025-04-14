@@ -199,15 +199,218 @@ body {
 
 /* сверху фон */
 
-.top-title {
+.error-backgroundGradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background: radial-gradient(#c22c2c, #000);
+    filter: blur(100px);
+    overflow: hidden;
+}
+
+.error-bgCircle {
+    border-radius: 100%;
+    width: 20vh;
+    height: 20vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    user-select: none;
+}
+
+.error-bgCircle4 {
+    animation-timing-function: ease-in-out;
+    animation-duration: 7s;
+    animation-name:  bg-circle-anim-4;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #55000085;
+}
+
+@keyframes error-bg-circle-anim-4 {
+    from {
+        left: 33.8%;
+        top: 28.0%;
+        width: 50vh;
+        height: 50vh;
+    }
+
+    50% {
+        left: 17.8%;
+        top: 50.0%;
+        width: 30vh;
+        height: 30vh;
+
+    }
+
+    to {
+        left: 35.6%;
+        top: 32.8%;
+        width: 43.8vh;
+        height: 43.8vh;
+    }
+}
+
+.error-bgCircle3 {
+    animation-timing-function: ease-in-out;
+    animation-duration: 4s;
+    animation-name:  bg-circle-anim-3;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #7c0808c7;
+}
+
+@keyframes error-bg-circle-anim-3 {
+    from {
+        left: 40%;
+        top: 39.1%;
+        width: 30vh;
+        height: 30vh;
+    }
+
+    50% {
+        left: 13.7%;
+        top: 13%;
+        width: 48.4vh;
+        height: 50.4vh;
+    }
+
+    to {
+        left: 33.7%;
+        top: 23%;
+        width: 48.4vh;
+        height: 50.4vh;
+    }
+}
+
+.error-bgCircle2 {
+    animation-timing-function: ease-in-out;
+    animation-duration: 7s;
+    animation-name:  bg-circle-anim-2;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #ce4141;
+}
+
+@keyframes error-bg-circle-anim-2 {
+    from {
+        left: 14.5%;
+        top: -15.5%;
+        width: 75vh;
+        height: 75vh;
+    }
+
+    50% {
+        left: 34.3%;
+        top: -10.4%;
+        width: 70vh;
+        height: 70vh;
+    }
+
+    to {
+        left: 24.3%;
+        top: 10.4%;
+        width: 76vh;
+        height: 76vh;
+    }
+}
+
+.error-bgCircle1 {
+    animation-timing-function: ease-in-out;
+    animation-duration: 7s;
+    animation-name:  bg-circle-anim-1;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #5a1b1b69;
+}
+
+@keyframes error-bg-circle-anim-1 {
+    from {
+        left: 42.9%;
+        top: 26.0%;
+        width: 70vh;
+        height: 70vh;
+    }
+
+    50% {
+        left: 42.9%;
+        top: 26.0%;
+        width: 70vh;
+        height: 70vh;
+    }
+
+    to {
+        left: 20.4%;
+        top: 8.0%;
+        width: 90vh;
+        height: 90vh;
+    }
+}
+
+.error-bgCircle5 {
+    animation-timing-function: ease-in-out;
+    animation-duration: 7s;
+    animation-name:  bg-circle-anim-5;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    background: #ffffff00;
+    border: 15px solid #c02f2f;
+    border-radius: 50%;
+}
+
+@keyframes error-bg-circle-anim-5 {
+    from {
+        left: 25%;
+        top: 25.0%;
+        width: 200vh;
+        height: 200vh;
+    }
+
+    50% {
+        left: 32%;
+        top: 46.0%;
+        width: 150vh;
+        height: 150vh;
+    }
+
+    to {
+        left: 25%;
+        top: 20.0%;
+        width: 230vh;
+        height: 230vh;
+    }
+}
+
+.error-top-title {
     margin: 0;
     margin-top: 15px;
-    background-image: linear-gradient(to top, #b66f59 , #ffbd02);
+    background-image: linear-gradient(to top, #fa7b7b , #ff0000);
     color: transparent;
     background-clip: text;
     font-size: 50px;
     text-align: center;
-    text-shadow: 0 0 45px #000000;
+    text-shadow: 0 0 45px #771212;
+    cursor: pointer;
+    text-decoration: none;
+    background-color: transparent;
+    border: 0px;
+    border-radius: 0px;
+}
+
+/* сверху фон ошибки и ошибочный тайтл */
+
+.top-title {
+    margin: 0;
+    margin-top: 15px;
+    background-image: linear-gradient(to top, #fa997b , #ffbb00);
+    color: transparent;
+    background-clip: text;
+    font-size: 50px;
+    text-align: center;
+    text-shadow: 0 0 45px #ff7300;
     cursor: pointer;
     text-decoration: none;
     background-color: transparent;
@@ -239,6 +442,28 @@ body {
 }
 
 .navbar-button:hover {
+    background-color: #ddd;
+    color: #466e7a78;
+}
+
+.menu-button {
+    background-color: #466e7a78;
+	backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px #ddd;
+    padding: 4px;
+    width: 90%;
+    border: 3px solid #ddd;
+    border-radius: 75px;
+    color: #ddd;
+    font-size: 30px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    display: block;
+    margin: 0 auto;
+    text-decoration: none;
+}
+
+.menu-button:hover {
     background-color: #ddd;
     color: #466e7a78;
 }
@@ -342,9 +567,10 @@ body {
 .player {
     background-color: #7a764678;
     margin-top: 40px;
-    margin-left: 245px;
     margin-bottom: 20px;
-    width: 200px;
+    width: 60%;
+    display: block;
+    margin: 0 auto;
     border: 3px solid #ddd;
     border-radius: 20px;
     box-shadow: 0 0 15px #ddd;
@@ -353,6 +579,7 @@ body {
 .player-button {
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 50px;
     background-color: #466e7a78;
 	backdrop-filter: blur(5px);
     box-shadow: 0 0 15px #ddd;
@@ -361,6 +588,86 @@ body {
     border-radius: 75px;
     color: #ddd;
     font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-button:hover {
+    background-color: #ddd;
+    color: #466e7a78;
+}
+
+.player-text {
+    margin: 0;
+    margin-bottom: 20px;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #ddd;
+    font-size: 20px;
+    text-align: left;
+}
+
+#player-div span {
+    margin-top: 0;
+    color: #ffd000;
+    font-size: 40px;
+    text-align: center;
+    text-shadow: 0 0 15px #ddd;
+    display: inline-block;
+}
+
+.player-input[type="range"] {
+    background: transparent;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-moz-range-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #466e7a78;
+    padding: 4px;
+    border: none;
+    border-radius: 75px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-moz-range-progress {
+    background-color: rgb(97, 97, 97);
+    height: 60%;
+    border-radius: 75px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-moz-range-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #466e7a78;
+    box-shadow: 0 0 15px #ddd;
+    padding: 4px;
+    border: 3px solid #ddd;
+    border-radius: 75px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-moz-range-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #466e7a78;
+    box-shadow: 0 0 15px #ddd;
+    padding: 4px;
+    border: 3px solid #ddd;
+    border-radius: 75px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -384,6 +691,97 @@ body {
     text-align: center;
   }
   
+#weather-container {
+    background: transparent;
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    display: column;
+    justify-content: center;
+    margin-left: 18%;
+    margin-bottom: 20px;
+    max-width: 400px;
+    padding: 20px;
+    border: 5px solid #ddd;
+    border-radius: 55px;
+    box-shadow: 0 0 15px #ddd;
+    text-align: center;
+}
+
+#weather-info {
+    margin: 0;
+    margin-left: 20px;
+    margin-right: 20px;
+    color: #ddd;
+    font-size: 20px;
+    text-align: center;
+}
+
+#weather-icon {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 10px;
+    margin-bottom: 0;
+    display: none;
+}
+
+#temp-div p {
+    margin-top: 0;
+    color: #ffd000;
+    font-size: 40px;
+    text-align: center;
+    text-shadow: 0 0 15px #ddd;
+    display: inline-block;
+}
+
+#hourly-forecast {
+    margin-top: 30px;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    justify-content: space-between;
+    color: #ddd;
+}
+
+#hourly-item {
+    flex: 0 0 auto;
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 10px;
+    color: #ddd;
+}
+
+.hourly-item img {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+}
+
+#hourly-heading {
+    color: #fff;
+    margin-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+  
+.weather-input {
+    background-color: #466e7a78;
+	backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px #ddd;
+    padding: 4px;
+    border: 3px solid #ddd;
+    border-radius: 75px;
+    color: #ddd;
+    font-size: 30px;
+    /* cursor: pointer; */
+    transition: all 0.2s ease-in-out;
+}
+
+.weather-input:hover {
+    background-color: #ddd;
+    color: #466e7a78;
+}
 
 .gif88x31 {
     background-color: #7a764678;

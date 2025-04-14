@@ -31,13 +31,18 @@
         </div>
         <div class="content">
             <p class="content-title">ShampurRadio</p>
-            <p class="content-text">Плеер в котором воспроизводится музыка с сайта. Думаю в будущем чо-то ещё придумать с этим недобумбоксом</p>
-            <div class="player" style="text-align: center;">
+            <p class="content-text">Плеер в котором воспроизводится музыка с сайта. Недавно обновил его, имеет больше фишек для взаимодействия с музыкой</p>
+            <div class="player" style="text-align: center; margin-bottom: 20px;">
                 <audio id="audio"></audio>
-                <button id="playPause" class="player-button">▶ / &#10074&#10074</button>
-                <button id="nextTrack" class="player-button">➔</button>
+                <button id="playPause" class="player-button" style="margin-top: 20px;">▶</button>
+                <button id="stop" class="player-button" style="margin-top: 20px;">◼</button>
+                <button id="nextTrack" class="player-button" style="margin-top: 20px;">➔</button>
+                <input class="player-input" type="range" id="volume" min="0" max="1" value="1" step="0.01" style="width: 100px; margin-top: 20px;">
+                <div id="player-div">
+                 <span id="currentTime" class="player-text" style="font-size: 20px; color: #ddd;">00:00</span><span id="duration" class="player-text" style="font-size: 15px; color: #b9b9b9">00:00</span>
+                </div>
             </div>
-            <script src="script.js"></script>
+            <script src="audioplayer.js"></script>
         </div>
         <div class="gif88x31">
             <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif"></a>
