@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,600;1,14..32,600&family=JetBrains+Mono:ital,wght@0,800;1,800&family=Montserrat:ital,wght@0,600;1,600&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Unbounded:wght@500&display=swap" rel="stylesheet">
+        <title>
+            camper_crafting
+        </title>
+        <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="backgroundGradient">
+            <div class="bgCircle bgCircle1"></div>
+            <div class="bgCircle bgCircle2"></div>
+            <div class="bgCircle bgCircle3"></div>
+            <div class="bgCircle bgCircle4"></div>
+            <div class="bgCircle bgCircle5"></div>
+        </div>
+        <div>
+            <a href="index.html"><button class="top-title"><img src="assets/site_logo.png" alt="Site logo" width="40px">camper_crafting</button></a>
+        </div>
+        <div class="navbar">
+            <a href="index.html"><button class="navbar-button">Обо мне</button></a>
+            <a href="projects.html"><button class="navbar-button">Проекты</button></a>
+            <a href="prikols.html"><button class="navbar-button">Приколы</button></a>
+            <a href="social.html"><button class="navbar-button">Ссылки</button></a>
+            <a href="site.html"><button class="navbar-button">О сайте</button></a>
+        </div>
+        <div class="content">
+            <p class="content-title">Часы</p>
+            <p class="content-text">Здесь показывается ваше время и дата, есть таймер и секундомер</p>
+            <div> 
+                <p class="content-title">Время</p>   
+                <div class="content-text-social" id="time" style="color: #ddd; text-align: center; width: 100%; margin-left: 0px; margin-bottom: 0px; font-size: 60px;"></div>
+                <div class="content-text" id="date" style="color: #ddd; text-align: center; width: 100%; margin-left: 0px; margin-bottom: 0px; font-size: 20px;"></div>
+                <div class="content-text" id="timezone" style="color: #b9b9b9; text-align: center; width: 100%; margin-left: 0px; margin-top: 0px; font-size: 13px;"></div>
+            </div><br><br>
+            <div>
+                <p class="content-title">Секундомер</p>
+                <div class="content-text-social" id="stopwatch" style="color: #ddd; text-align: center; width: 100%; margin-left: 0px; margin-bottom: 0px; font-size: 50px;">00:00:00</div>
+                <div style="text-align: center;">
+                    <button class="navbar-button" id="startBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Старт</button>
+                    <button class="navbar-button" id="stopBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Стоп</button>
+                    <button class="navbar-button" id="resetBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Сброс</button>
+                </div>
+            </div><br><br>
+            <div style="text-align: center;">
+                <p class="content-title">Таймер</p>
+                <div class="content-text-social" id="timerDisplay" style="color: #ddd; text-align: center; width: 100%; margin-left: 0px; margin-bottom: 0px; font-size: 50px;">00:00</div>
+                <input class="weather-input" type="number" id="timerInput" placeholder="Введите секунды" min="1" style="font-size: 15px; margin-bottom: 10px;">
+                <div style="text-align: center;">
+                    <button class="navbar-button" id="startTimerBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Старт</button>
+                    <button class="navbar-button" id="stopTimerBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Стоп</button>
+                    <button class="navbar-button" id="resetTimerBtn" style="font-size: 15px; margin-bottom: 20px; text-align: center; margin-left: 0px;">Сброс</button>
+                </div>
+            </div>
+        </div>
+        <script src="clock.js"></script>
+        <script src="sekundomer.js"></script>
+        <script src="timer.js"></script>
+        <div class="gif88x31">
+            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif" style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif"></a>
+        </div>
+    </body>
+</html>

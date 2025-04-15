@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,600;1,14..32,600&family=JetBrains+Mono:ital,wght@0,800;1,800&family=Montserrat:ital,wght@0,600;1,600&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Unbounded:wght@500&display=swap" rel="stylesheet">
+        <title>
+            camper_crafting
+        </title>
+        <link rel="icon" href="favicon.ico" />
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div class="backgroundGradient">
+            <div class="bgCircle bgCircle1"></div>
+            <div class="bgCircle bgCircle2"></div>
+            <div class="bgCircle bgCircle3"></div>
+            <div class="bgCircle bgCircle4"></div>
+            <div class="bgCircle bgCircle5"></div>
+        </div>
+        <div>
+            <a href="index.html"><button class="top-title"><img src="assets/site_logo.png" alt="Site logo" width="40px">camper_crafting</button></a>
+        </div>
+        <div class="navbar">
+            <a href="index.html"><button class="navbar-button">Обо мне</button></a>
+            <a href="projects.html"><button class="navbar-button">Проекты</button></a>
+            <a href="prikols.html"><button class="navbar-button">Приколы</button></a>
+            <a href="social.html"><button class="navbar-button">Ссылки</button></a>
+            <a href="site.html"><button class="navbar-button">О сайте</button></a>
+        </div>
+        <div class="content">
+            <p class="content-title">base64</p>
+            <p class="content-text">Кодировка текста в base64 и декодировка base64 в текст. Удобно, ачо</p>
+            <label class="content-text" for="inputText" style="margin-left: 20px; width: 93%;">Введите текст:</label><br>
+            <textarea class="weather-input" id="inputText" rows="4" cols="50" style="resize: vertical; margin-top: 5px; margin-left: 20px; width: 93%; border-radius: 25px; font-size: 20px;" placeholder="Введите текст для кодирования или Base64 для декодирования"></textarea>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="navbar-button" style="font-size: 15px; margin-bottom: 35px; margin-left: 20px;" onclick="encodeBase64()">Кодировать в Base64</button>
+                <button class="navbar-button" style="font-size: 15px; margin-bottom: 35px; margin-left: 20px;" onclick="decodeBase64()">Декодировать из Base64</button>
+            </div>
+
+            <label class="content-text" style="margin-top: 30px; margin-left: 20px; width: 93%;">Результат:</label>
+            <textarea class="weather-input" id="outputText" readonly rows="4" cols="50" style="resize: vertical; margin-top: 5px; margin-left: 20px; margin-bottom: 20px; width: 93%; border-radius: 25px; font-size: 20px;" placeholder="Результат"></textarea>
+            <script>
+                function encodeBase64() {
+                  const input = document.getElementById('inputText').value;
+                  try {
+                    const encoded = btoa(encodeURIComponent(input).replace(/%([0-9A-F]{2})/g,
+                      (match, p1) => String.fromCharCode('0x' + p1)));
+                    document.getElementById('outputText').value = encoded;
+                  } catch (e) {
+                    alert('Ошибка при кодировании: ' + e.message);
+                  }
+                }
+              
+                function decodeBase64() {
+                  const input = document.getElementById('inputText').value;
+                  try {
+                    const decoded = decodeURIComponent(Array.prototype.map.call(atob(input), c =>
+                      '%' + c.charCodeAt(0).toString(16).padStart(2, '0')).join(''));
+                    document.getElementById('outputText').value = decoded;
+                  } catch (e) {
+                    alert('Ошибка при декодировании: ' + e.message);
+                  }
+                }
+              </script>
+        </div>
+        <div class="gif88x31">
+            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif" style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif"></a>
+        </div>
+    </body>
+</html>

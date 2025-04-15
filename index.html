@@ -4,14 +4,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,700;1,700&family=Montserrat:ital,wght@0,600;1,600&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,600;1,14..32,600&family=JetBrains+Mono:ital,wght@0,800;1,800&family=Montserrat:ital,wght@0,600;1,600&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Unbounded:wght@500&display=swap" rel="stylesheet">
         <title>
             camper_crafting
         </title>
         <link rel="icon" href="favicon.ico" />
         <link rel="stylesheet" href="style.css">
+        <meta property="og:title" content="camper_crafting" />
+        <meta property="og:description" content="Био, проекты, ссылки" />
+        <meta property="og:image" content="URL изображения для превью" />
+        <meta property="og:url" content="https://camp3rcraft.github.io" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="camper_crafting" />
     </head>
     <body>
+        <div id="preloader">
+            <button class="top-title" id="preloader-button"><img src="assets/site_logo.png" alt="logo" style="width: 40px;">camper_crafting</button>
+          </div>
         <div class="backgroundGradient">
             <div class="bgCircle bgCircle1"></div>
             <div class="bgCircle bgCircle2"></div>
@@ -20,7 +29,7 @@
             <div class="bgCircle bgCircle5"></div>
         </div>
         <div>
-            <a href="index.html"><button class="top-title">camper_crafting</button></a>
+            <a href="index.html"><button class="top-title"><img src="assets/site_logo.png" alt="Site logo" width="40px">camper_crafting</button></a>
         </div>
         <div class="navbar">
             <a><button class="navbar-button-this">Обо мне</button></a>
@@ -31,13 +40,29 @@
         </div>
         <div class="content">
             <p class="content-title">Обо мне</p>
-            <p class="content-text">хелло ты на сайте кемпера чаво бум🤯</p>
-            <p class="content-text">зовут меня Иван. люблю майнкрафт, гд и пельмени. я from russia</p>
-            <p class="content-text">пансан чёт решил свой сайт сделать. а меня замотивировало, и я тож захотел own bio.</p>
-            <p class="content-text">говорят тут спойлер лютый - <span class="spoiler">да я вдохновлялся сайтом пансана. в будущем мб перепишу если будут идеи</span></p>
+            <a><img src="assets/topavatarchevo.png" alt="GDPS Spherium logo" width="60px" style="box-shadow: 0 0 45px #ff7300; margin-left: 20px; display: inline-block;"><p class="content-text" style="display: inline-block; font-size: 40px;">Кемпер</p></a>
+            <p class="content-text">Звать меня Кемпером или Ваней. Мини ютубер на мини аудиторию. На данный момент 6К+ подписчиков на YouTube, планирую двигаться дальше. Пока что покинул часть интернета в которую входит недоразработка плагинов Minecraft, недоприложения ну и собственно канал на ютубчике.</p>
+            <p style="margin: 0 auto; text-align: center;"><a class="content-text-social" href="projects.html" style="color: #ff9900; font-size: 20px; text-shadow: 0 0 15px #ff7300; text-decoration: none;">Проекты</a><a class="content-text-social" href="social.html" style="color: #ff9900; font-size: 20px; text-shadow: 0 0 15px #ff7300; text-decoration: none;">Ссылки</a></p>
+            <p class="content-text" style="text-align: center; font-size: 15px;">Кнопки есть и в навбаре да я знаю чавооо</p>
         </div><br>
         <div class="gif88x31">
-            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif"></a>
+            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif" style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif"></a>
         </div>
+        <script>
+            // Ждем загрузки страницы
+            window.addEventListener('load', () => {
+              // Через 3 секунды запускаем плавное затухание
+              setTimeout(() => {
+                const preloader = document.getElementById('preloader');
+                preloader.classList.add('hidden');
+          
+                // Через 1 секунду (время перехода) скрываем прелоадер из DOM и показываем контент
+                setTimeout(() => {
+                  preloader.style.display = 'none';
+                  document.getElementById('content').style.display = 'block';
+                }, 1000);
+              }, 1000);
+            });
+          </script>
     </body>
 </html>
