@@ -515,6 +515,16 @@ body {
     box-shadow: 0 0 15px #ddd;
 }
 
+.content-block {
+    background-color: #466e7a78;
+    backdrop-filter: blur(5px);
+    margin-top: 40px;
+    width: 700px;
+    border: 5px solid #ddd;
+    border-radius: 35px;
+    box-shadow: 0 0 15px #ddd;
+}
+
 .content-projects {
     margin-bottom: 1500px;
     background-color: #7a764678;
@@ -697,7 +707,7 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-.player-input[type="range"]::-webkit-slider-runnable-track {
+.player-input[type="range"]::-moz-range-track {
     -webkit-appearance: none;
     appearance: none;
     background: #466e7a78;
@@ -709,7 +719,34 @@ body {
     transition: all 0.2s ease-in-out;
 }
 
-.player-input[type="range"]::-moz-range-track {
+.player-input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #466e7a78;
+    padding: 4px;
+    border: none;
+    border-radius: 75px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-webkit-slider-runnable-track {
+    background-color: rgb(97, 97, 97);
+    height: 60%;
+    border-radius: 75px;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.player-input[type="range"]::-webkit-slider-runnable-track {
     -webkit-appearance: none;
     appearance: none;
     background: #466e7a78;
@@ -844,6 +881,14 @@ body {
   .blinking {
     animation: blinkYellow 1s infinite, blinkYellowShadow 1s infinite;
   }
+
+.code {
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #1e1e1e;
+    color: #ddd;
+    font-family: JetBrains Mono;
+}
 
 .gif88x31 {
     background-color: #7a764678;

@@ -7,11 +7,14 @@ const tracks = [
     { file: "track6.mp3", title: "Miami Hotline - Vol. 3", author: "Demonicity" },
     { file: "track7.mp3", title: "Machina", author: "Dex Arson" },
     { file: "track8.mp3", title: "Supernova", author: "Xtrullor" },
+    { file: "track9.mp3", title: "Forsaken Neon", author: "Dimrain47" },
+    { file: "track10.mp3", title: "FALL FROM THE SKY PT. 2", author: "Romanceplanet" },
 ];
 const audioFolder = './audio/';
 let currentTrackIndex = Math.floor(Math.random() * tracks.length);
 
 const audioElement = document.getElementById('audio');
+const prevTrackButton = document.getElementById('prevTrack');
 const playPauseButton = document.getElementById('playPause');
 const stopButton = document.getElementById('stop');
 const nextTrackButton = document.getElementById('nextTrack');
@@ -75,6 +78,10 @@ function padZero(number) {
 
 // События
 audioElement.addEventListener('timeupdate', updateCurrentTime);
+audioElement.addEventListener('ended', () => {
+    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+    loadTrack();
+});
 playPauseButton.addEventListener('click', () => {
     if (audioElement.paused) {
         audioElement.play();
@@ -98,3 +105,16 @@ volumeInput.addEventListener('input', () => {
 });
 
 document.addEventListener('DOMContentLoaded', loadTrack);
+
+prevTrackButton.addEventListener('click', () => {
+    if(audioElement.currentTime > 5 && !audioElement.paused) {
+        audioElement.currentTime = 0;
+        updateTrackInfo(
+            tracks[currentTrackIndex].title, 
+            tracks[currentTrackIndex].author
+        );
+    } 
+    else {
+        currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+        loadTrack();
+    }});

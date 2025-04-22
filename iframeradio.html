@@ -30,25 +30,29 @@
             <a href="site.html"><button class="navbar-button">О сайте</button></a>
         </div>
         <div class="content">
-            <p class="content-title">Погода</p>
-            <p class="content-text">Узнайте погоду в вашем регионе легко и быстро. Введите в строке для города свой город на латыни.<br> Пример: Smolensk</p>
-            <div id="weather-container">
-                <input class="weather-input" style="font-size: 15px; margin-bottom: 20px;" type="text" id="city" placeholder="Напиши город">
-                <button class="navbar-button" style="font-size: 15px;" onclick="getWeather()">Искать</button>
-                
-                <img id="weather-icon" alt="Иконка Погоды">
-
-                <div id="temp-div"></div>
-
-                <div id="weather-info"></div>
-
-                <div id="hourly-forecast"></div><br>
-                <p class="content-text" style="text-align: center; font-size: 15px; color: #ddd; display: inline-block; text-decoration: none;"><a href="https://openweathermap.org/weather-conditions" style="text-align: center; font-size: 15px; color: #ddd; display: inline-block; text-decoration: none;">Powered by <img src="assets/openweathermap.png" alt="GDPS Spherium logo" width="23px" style="display: inline-block;">OpenWeatherMap</a></p>
+            <p class="content-title">ShampurRadio</p>
+            <p class="content-text" style="margin-bottom: 0px;">Гайд на добавление прекрасного плеера, вот этого:</p>
+            <div style="text-align: center;">
+                <iframe src="shampurradio-iframe.html" width="600px" height="270px" style="border: 0; margin-bottom: 20px;"></iframe>
             </div>
-            <script src="./weather.js"></script>
+            <p class="content-text"> Вставьте этот кусок кода на ваш сайт:</p>
+            <div id="code" class="code" style="margin-left: 20px; margin-right: 20px; margin-bottom: 20px;">
+                &lt;div style="text-align: center;"&gt;<br>
+                &lt;iframe src="https://camper.isvery.fun/shampurradio-iframe.html" width="600px" height="270px" style="border: 0; margin-bottom: 20px;"&gt;&lt;/iframe&gt;<br>
+                &lt;/div&gt;
+            </div>
+            <button class="navbar-button" style="font-size: 15px; margin-bottom: 20px; margin-left: 20px;" id="copyCode" onclick="copyToClipboardCode()">Копировать</button>
+            <p class="content-text">Мой плеер имеет следующие фичи:<br>- пауза, перематывание треков<br>- удобное регулирование громкости<br>- автоперемотка если трек кончился<br>- показ времени трека<br>- показ названия и автора трека</p>
         </div>
         <div class="gif88x31">
             <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif" style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif" style="margin-right: 10px;"></a><a href="https://isvery.fun"><img src="https://isvery.fun/assets/88x31.gif" alt="isvery.fun"></a>
         </div>
+        <script>
+            function copyToClipboardCode() {
+            let text = document.getElementById("code").innerText;
+            navigator.clipboard.writeText(text)
+            .then(() =>   alert("код скопирован!"))
+            .catch(err => console.error("Ошибка копирования:", err)); }
+        </script>
     </body>
 </html>
