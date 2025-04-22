@@ -9,6 +9,11 @@ const tracks = [
     { file: "track8.mp3", title: "Supernova", author: "Xtrullor" },
     { file: "track9.mp3", title: "Forsaken Neon", author: "Dimrain47" },
     { file: "track10.mp3", title: "FALL FROM THE SKY PT. 2", author: "Romanceplanet" },
+    { file: "track11.mp3", title: "Biome Fest", author: "C418" },
+    { file: "track12.mp3", title: "Taswell", author: "C418" },
+    { file: "track13.mp3", title: "Strad", author: "C418" },
+    { file: "track14.mp3", title: "Dog", author: "C418" },
+    { file: "track15.mp3", title: "otherside", author: "Lena Raine" },
 ];
 const audioFolder = './audio/';
 let currentTrackIndex = Math.floor(Math.random() * tracks.length);
@@ -23,6 +28,8 @@ const currentTimeSpan = document.getElementById('currentTime');
 const durationSpan = document.getElementById('duration');
 const trackTitleSpan = document.getElementById('trackTitle');
 const trackAuthorSpan = document.getElementById('trackAuthor');
+const repeatTrackButton = document.getElementById('repeatTrack');
+let isRepeat = false;
 
 
 function updateTrackInfo(title, author) {
@@ -79,8 +86,13 @@ function padZero(number) {
 // События
 audioElement.addEventListener('timeupdate', updateCurrentTime);
 audioElement.addEventListener('ended', () => {
-    currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-    loadTrack();
+    if (isRepeat) {
+        audioElement.currentTime = 0;
+        audioElement.play();
+    } else {
+        currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
+        loadTrack();
+    }
 });
 playPauseButton.addEventListener('click', () => {
     if (audioElement.paused) {
@@ -118,3 +130,8 @@ prevTrackButton.addEventListener('click', () => {
         currentTrackIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
         loadTrack();
     }});
+
+    repeatTrackButton.addEventListener('click', () => {
+        isRepeat = !isRepeat;
+        repeatTrackButton.classList.toggle('active', isRepeat);
+    });
