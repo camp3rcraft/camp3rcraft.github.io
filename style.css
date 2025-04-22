@@ -698,6 +698,11 @@ body {
     font-size: 15px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
 }
 
 .player-button:hover {
@@ -726,7 +731,8 @@ body {
 
 .player-textTitle {
     margin: 0 5px 20px 5px;
-    color: #ddd;
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
     font-size: 20px;
     text-align: left;
     opacity: 1;
@@ -828,6 +834,14 @@ body {
     border-radius: 75px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
 #repeatTrack {

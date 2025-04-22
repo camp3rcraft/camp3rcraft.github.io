@@ -29,6 +29,7 @@ const durationSpan = document.getElementById('duration');
 const trackTitleSpan = document.getElementById('trackTitle');
 const trackAuthorSpan = document.getElementById('trackAuthor');
 const repeatTrackButton = document.getElementById('repeatTrack');
+const playPauseIcon = document.getElementById('playPauseIcon');
 let isRepeat = false;
 
 
@@ -97,16 +98,16 @@ audioElement.addEventListener('ended', () => {
 playPauseButton.addEventListener('click', () => {
     if (audioElement.paused) {
         audioElement.play();
-        playPauseButton.textContent = '❚❚';
+        playPauseIcon.src = 'player/pause.svg'; // путь к картинке паузы
     } else {
         audioElement.pause();
-        playPauseButton.textContent = '▶';
+        playPauseIcon.src = 'player/play_arrow.svg'; // путь к картинке воспроизведения
     }
 });
 stopButton.addEventListener('click', () => {
     audioElement.pause();
     audioElement.currentTime = 0;
-    playPauseButton.textContent = '▶';
+    playPauseIcon.src = 'player/play_arrow.svg';
 });
 nextTrackButton.addEventListener('click', () => {
     currentTrackIndex = (currentTrackIndex + 1) % tracks.length;

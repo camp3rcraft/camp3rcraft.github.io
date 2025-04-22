@@ -14,15 +14,15 @@
     <body style="background-color: transparent;">
             <div class="player" style="text-align: center; width: 430px; margin-top: 20px;">
                 <audio id="audio"></audio>
-                <span class="player-textTitle fade-in" id="trackTitle" style="margin-top: 20px; font-size: 25px; text-shadow: 0 0 15px #ddd; text-align: center; margin-top: 20px; transition: all 0.2s ease-in-out;"></span><br><span class="player-author fade-in" id="trackAuthor" style="color: #b9b9b9; margin-top: 20px; font-size: 17px; text-shadow: 0 0 15px #ddd; text-align: center; margin-top: 20px;"></span><br>
-                <button id="prevTrack" class="player-button" style="margin-top: 20px;">⏮️</button>
-                <button id="playPause" class="player-button" style="margin-top: 20px;">▶</button>
-                <button id="stop" class="player-button" style="margin-top: 20px;">◼</button>
-                <button id="nextTrack" class="player-button" style="margin-top: 20px;">⏭️</button>
+                <span class="player-textTitle fade-in" id="trackTitle" style="margin-top: 20px; font-size: 25px; text-shadow: 0 0 15px #ff7300; text-align: center; margin-top: 20px; transition: all 0.2s ease-in-out;"></span><br><span class="player-author fade-in" id="trackAuthor" style="color: #b9b9b9; margin-top: 20px; font-size: 17px; text-shadow: 0 0 15px #ddd; text-align: center; margin-top: 20px;"></span><br>
+                <button id="prevTrack" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img src="player/skip_previous.svg"></a></button>
+                <button id="playPause" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img id="playPauseIcon" src="player/play_arrow.svg"></a></button>
+                <button id="stop" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img src="player/stop.svg"></a></button>
+                <button id="nextTrack" class="player-button" style="margin-top: 20px;"><img src="player/skip_next.svg"></button>
                 <input class="player-input" type="range" id="volume" min="0" max="1" value="1" step="0.01" style="width: 100px; margin-top: 10px;">
                 <div id="player-div">
                 <span id="currentTime" class="player-text" style="font-size: 20px; color: #ddd;">00:00</span><span id="duration" class="player-text" style="font-size: 15px; color: #b9b9b9">00:00</span>
-                <p class="content-text" style="text-align: center; font-size: 15px; color: #b9b9b9;">ShampurRadio v1.0<br>Кол-во треков: 15</p>
+                <p class="content-text" style="text-align: center; font-size: 15px; color: #b9b9b9;"><a href="https://camper.isvery.fun/randomradio.html" style="text-decoration: none; color: #ff9900; text-shadow: 0 0 15px #ff7300;">ShampurRadio v1.1</a><br>Кол-во треков: 15</p>
                 </div>
             </div>
             <script src="audioplayer.js"></script>
