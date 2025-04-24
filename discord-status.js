@@ -4,7 +4,7 @@ async function fetchStatus() {
 
     try {
       // Замените URL на адрес вашего бота с endpoint /status
-      const response = await fetch('https://vjcj8h-88-135-51-226.ru.tuna.am/status');
+      const response = await fetch('https://wii5o4-88-135-51-226.ru.tuna.am/status');
       if (!response.ok) {
         statusDiv.textContent = 'Ошибка при загрузке статуса';
         return;
