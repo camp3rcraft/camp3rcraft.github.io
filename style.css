@@ -701,6 +701,64 @@ body {
     }
 }
 
+.presence-card {
+    background-color: #2f3136;
+    border-radius: 10px;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.activity-header {
+    display: flex; /* Используем flexbox для выравнивания */
+    align-items: center; /* Выравниваем элементы по вертикали */
+}
+
+.icon-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 10px; /* Отступ между иконкой и текстом */
+}
+
+.activity-icon {
+    width: 80px;
+    height: 80px;
+    vertical-align: top;
+    border-radius: 10px; /* Закругляем углы */
+}
+
+.small-image {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid #72767d;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+.presence-card:hover .small-image,
+.icon-container:hover .small-image,
+.icon-container:hover .activity-icon {
+    opacity: 1;
+}
+
+.activity-info {
+    flex: 1; /* Занимает оставшееся место */
+}
+
+.activity-info h2 {
+    color: #fff;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.activity-info p {
+    margin: 5px 0;
+}
+
 .content-block {
     background-color: #466e7a78;
     backdrop-filter: blur(5px);

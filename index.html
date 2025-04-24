@@ -18,9 +18,9 @@
         <meta property="og:site_name" content="camper_crafting" />
     </head>
     <body>
-        <div id="preloader">
+        <!-- <div id="preloader">
             <button class="top-title" id="preloader-button"><img src="assets/site_logo.png" alt="logo" style="width: 40px;">camper_crafting</button>
-          </div>
+          </div> -->
         <div class="backgroundGradient">
             <div class="bgCircle bgCircle1"></div>
             <div class="bgCircle bgCircle2"></div>
@@ -41,7 +41,19 @@
         <div class="content">
             <p class="content-title">Обо мне</p>
             <a><img src="assets/topavatarchevo.png" alt="GDPS Spherium logo" width="60px" style="box-shadow: 0 0 45px #ff7300; margin-left: 20px; display: inline-block; vertical-align: middle;"><p class="content-text" style="display: inline-block; font-size: 40px; vertical-align: middle; margin-top: 13px;">Кемпер</p></a>
-            <div class="discord-status" id="status">Статус не загружен</div>
+            <div id="activityBlock" class="presence-card" style="margin: auto; margin-bottom: 15px; margin-top: 10px;">
+                <div class="activity-header">
+                    <div class="icon-container">
+                        <img id="activityIcon" class="activity-icon" src="" alt="Иконка активности" title="">
+                        <img id="smallImage" class="small-image" src="" alt="" title="">
+                    </div>
+                    <div class="activity-info">
+                        <h2 id="activityTitle"></h2>
+                        <p class="content-text" id="activityText" style="font-size: 13px;"></p>
+                        <p style="color: #389650; font-size: 15px;"><span id="elapsedTime"></span></p>
+                    </div>
+                </div>
+            </div>                    
             <p class="content-text">Звать меня Кемпером или Ваней. Мини ютубер на мини аудиторию. На данный момент 6К+ подписчиков на YouTube, планирую двигаться дальше. Пока что покинул часть интернета в которую входит недоразработка плагинов Minecraft, недоприложения ну и собственно канал на ютубчике.</p>
             <div style="text-align: center;">
                 <button id="toggleDevicesBtn">Мои девайсы</button>
