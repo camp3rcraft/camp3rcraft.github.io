@@ -22,6 +22,7 @@ body {
     background: radial-gradient(#d37306, #000);
     filter: blur(100px);
     overflow: hidden;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bgCircle {
@@ -41,6 +42,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #ffd00085;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-4 {
@@ -74,6 +76,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #e79908c7;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-3 {
@@ -106,6 +109,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #d8a80a;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-2 {
@@ -138,6 +142,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #ff510069;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-1 {
@@ -172,6 +177,7 @@ body {
     background: #ffffff00;
     border: 15px solid #ff9900;
     border-radius: 50%;
+    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-5 {
@@ -513,6 +519,114 @@ body {
     border: 5px solid #ddd;
     border-radius: 35px;
     box-shadow: 0 0 15px #ddd;
+}
+
+.devices-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 10px;
+}
+
+#toggleDevicesBtn {
+    background-color: #946500;
+	backdrop-filter: blur(5px);
+    box-shadow: 0 0 45px #ff7300;
+    padding: 4px;
+    margin-bottom: 10px;
+    border: 3px solid #ffae00;
+    border-radius: 75px;
+    color: #ffae00;
+    font-size: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+#toggleDevicesBtn:hover {
+    background-color: #cc8b00;
+    color: #ffae00;
+}
+
+.devices-wrapper {
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(.4,0,.2,1), opacity 0.5s;
+    max-height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+}
+
+.device-card:hover {
+    box-shadow: 0 4px 24px #0004;
+}
+
+.devices-wrapper.open {
+    max-height: 2000px; /* Должно быть больше, чем высота контента */
+    opacity: 1;
+    margin-bottom: 32px;
+}
+
+.device-card {
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid #fff6;
+    border-radius: 16px;
+    width: calc(50% - 16px);
+    min-width: 320px;
+    box-sizing: border-box;
+    padding: 24px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 0;
+    box-shadow: 0 2px 14px #0002;
+    transition: box-shadow 0.2s;
+}
+
+.device-card:hover {
+    box-shadow: 0 4px 24px #0004;
+}
+
+.device-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.device-icon {
+    width: 66px;
+    border-radius: 14px;
+    object-fit: contain;
+}
+
+.device-title {
+    font-size: 20px;
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    text-align: left;
+}
+
+.device-specs {
+    font-size: 11px;
+    color: #cecece;
+    margin-bottom: 0px;
+    text-align: left;
+}
+
+.device-date {
+    font-size: 10px;
+    color: #b1b1b1;
+    text-align: center;
+}
+
+@media (max-width: 800px) {
+    .device-card {
+        width: 100%;
+        min-width: unset;
+    }
+    .devices-container {
+        gap: 20px;
+    }
 }
 
 .content-prikols {
