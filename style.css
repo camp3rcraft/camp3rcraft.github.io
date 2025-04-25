@@ -734,7 +734,7 @@ body {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 1px solid #72767d;
+    border: 2px solid #2f3136;
     opacity: 1;
     transition: opacity 0.3s ease;
 }
