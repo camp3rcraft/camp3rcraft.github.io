@@ -3,7 +3,7 @@ async function fetchStatus() {
     const activityBlock = document.getElementById('activityBlock');
 
     try {
-        const response = await fetch('http://88.135.51.226:8888/status');
+        const response = await fetch('https://drpc.ownaquamarine.ru:8888/status');
 
         if (!response.ok) {
             throw new Error(`Ошибка сервера: ${response.status} ${response.statusText}`);
