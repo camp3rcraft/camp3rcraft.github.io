@@ -111,4 +111,30 @@ function showDisconnectModal(reason = 'Connection closed') {
     }
 }
 
-window.showDisconnectModal = showDisconnectModal; 
+window.showDisconnectModal = showDisconnectModal;
+
+const connect = () => {
+    const serverAddress = document.getElementById('server-address').value.trim();
+    const playerName = document.getElementById('player-name').value.trim();
+    const playerColor = document.getElementById('player-color').value;
+
+    if (!serverAddress || !playerName) {
+        showToast('Пожалуйста, введите адрес сервера и имя игрока', 'error');
+        return;
+    }
+
+    // Проверка формата адреса (IP:PORT)
+    const addressParts = serverAddress.split(':');
+    if (addressParts.length !== 2) {
+        showToast('Неверный формат адреса. Используйте IP:PORT', 'error');
+        return;
+    }
+
+    const port = parseInt(addressParts[1]);
+    if (isNaN(port) || port < 1 || port > 65535) {
+        showToast('Неверный порт. Должен быть от 1 до 65535', 'error');
+        return;
+    }
+
+    // ... остальной код подключения ...
+}; 

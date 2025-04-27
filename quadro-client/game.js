@@ -219,41 +219,37 @@ class Game {
         if (!this.map || !this.localPlayer) return;
         const centerX = this.canvas.width / 2;
         const centerY = this.canvas.height / 2;
+
+        // Заливка фона
+        if (this.map.background) {
+            this.ctx.fillStyle = this.map.background;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        } else {
+            this.ctx.fillStyle = '#1a1a1a';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+
         this.map.platforms.forEach(platform => {
             if (platform.type === 'text') {
-                // Рисуем текст
                 this.ctx.save();
                 this.ctx.font = `${platform.size || 24}px Arial`;
                 this.ctx.fillStyle = platform.color || '#fff';
                 this.ctx.textAlign = 'center';
                 this.ctx.translate(
-                    platform.x - this.localPlayer.x + centerX - 16,
-                    platform.y - this.localPlayer.y + centerY - 16
+                    platform.x - this.localPlayer.x + centerX,
+                    platform.y - this.localPlayer.y + centerY
                 );
                 if (platform.angle) this.ctx.rotate(platform.angle * Math.PI / 180);
                 this.ctx.fillText(platform.text || '', 0, 0);
                 this.ctx.restore();
                 return;
             }
-            // Цвет для lava
-            if (platform.type === 'lava') {
-                this.ctx.fillStyle = platform.color || '#e53935';
-            } else if (platform.type === 'wood') {
-                this.ctx.fillStyle = platform.color || '#8b4513';
-            } else {
-                this.ctx.fillStyle = platform.color || '#4a4a4a';
-            }
+            // Используем только platform.color
+            this.ctx.fillStyle = platform.color || '#4a4a4a';
             const x = platform.x - this.localPlayer.x + centerX - 16;
             const y = platform.y - this.localPlayer.y + centerY - 16;
             this.ctx.fillRect(x, y, platform.width, platform.height);
-            // Lava: рисуем анимацию/эффект
-            if (platform.type === 'lava') {
-                this.ctx.globalAlpha = 0.5;
-                this.ctx.fillStyle = '#fff';
-                this.ctx.fillRect(x, y, platform.width, platform.height);
-                this.ctx.globalAlpha = 1.0;
-            }
-            // Тень
+            // Тень (опционально)
             this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
             this.ctx.fillRect(x, y + platform.height - 2, platform.width, 2);
         });
@@ -285,25 +281,41 @@ class Game {
                 keys: this.keys
             }));
         }
-        
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Рисуем только если есть localPlayer
+
+        // Вся отрисовка платформ и фона — только тут!
+        this.drawPlatforms();
+
+        // Белый border по краю карты
+        this.ctx.strokeStyle = '#fff';
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Рисуем игроков и т.д.
         if (this.localPlayer) {
-            // Сначала рисуем платформы
-            this.drawPlatforms();
-            
-            // Затем рисуем игроков
             const centerX = this.canvas.width / 2;
             const centerY = this.canvas.height / 2;
-            
             this.players.forEach((player, id) => {
                 this.drawPlayer(player, centerX, centerY);
             });
         }
-        
-        // Обновляем отладочную информацию
+
         this.updateDebugInfo();
+        
+        // Коллизии между игроками
+        for (const player of this.players.values()) {
+            if (player.id === this.localPlayerId) continue;
+            const dx = this.localPlayer.x - player.x;
+            const dy = this.localPlayer.y - player.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if (distance < 32) { // 32 = 16 + 16 (радиусы игроков)
+                const angle = Math.atan2(dy, dx);
+                const overlap = 32 - distance;
+                this.localPlayer.x += Math.cos(angle) * overlap * 0.5;
+                this.localPlayer.y += Math.sin(angle) * overlap * 0.5;
+                player.x -= Math.cos(angle) * overlap * 0.5;
+                player.y -= Math.sin(angle) * overlap * 0.5;
+            }
+        }
         
         requestAnimationFrame(() => this.gameLoop());
     }
@@ -316,6 +328,37 @@ class Game {
             chatInput.value = '';
         } else {
             console.log('[CHAT][SEND] Не удалось отправить сообщение:', message, 'Socket:', this.socket);
+        }
+    }
+
+    render() {
+        // Заливка фона
+        if (this.map.background) {
+            this.ctx.fillStyle = this.map.background;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        } else {
+            this.ctx.fillStyle = '#1a1a1a';
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }
+
+        // Отрисовка платформ
+        for (const platform of this.map.platforms) {
+            this.ctx.save();
+            if (platform.type === 'text') {
+                this.ctx.font = `${platform.size || 16}px Arial`;
+                this.ctx.fillStyle = platform.color || '#fff';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.save();
+                this.ctx.translate(platform.x, platform.y);
+                this.ctx.rotate((platform.angle || 0) * Math.PI / 180);
+                this.ctx.fillText(platform.text || '', 0, 0);
+                this.ctx.restore();
+            } else {
+                this.ctx.fillStyle = platform.color || '#4a4a4a';
+                this.ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+            }
+            this.ctx.restore();
         }
     }
 }

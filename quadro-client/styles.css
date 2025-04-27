@@ -4,6 +4,12 @@
     box-sizing: border-box;
 }
 
+.prompt-regular {
+    font-family: "Prompt", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  
 body {
     font-family: Arial, sans-serif;
     background-color: #1a1a1a;
