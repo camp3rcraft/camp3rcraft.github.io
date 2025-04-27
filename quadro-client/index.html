@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quadro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <div class="login-screen">
+            <h1 style="font-family: Prompt; color: #ddd; font-size: 65px; text-shadow: 0 0 35px; margin-bottom: 0px;">quadro</h1>
+            <p style="font-family: Prompt; color: #686868; font-size: 15px; text-shadow: 0 0 35px; margin-bottom: 20px; text-align: center;">version 0.001beta<br>actual server core version: ver.1.000</p>
+            <div class="login-form">
+                <input type="text" id="nickname" placeholder="Nickname (English letters only)" maxlength="16">
+                <input type="text" id="server-ip" placeholder="Server IP" value="localhost">
+                <input type="color" id="player-color" value="#ffffff">
+                <button id="connect-btn">Connect</button>
+            </div>
+        </div>
+        <canvas id="game-canvas"></canvas>
+        <div class="game-ui">
+            <div class="chat-container">
+                <div class="chat-messages" id="chat-messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input" placeholder="Type message...">
+                    <button id="chat-send">Send</button>
+                </div>
+            </div>
+            <div class="debug-info" id="debug-info"></div>
+            <div class="controls">
+                <label class="debug-toggle">
+                    <input type="checkbox" id="debug-checkbox">
+                    Show Debug Info
+                </label>
+                <button id="disconnect-btn">Disconnect</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container"></div>
+    <div id="disconnected-modal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h2>Disconnected</h2>
+            <p id="disconnect-reason">Connection closed</p>
+            <button id="modal-ok-btn">OK</button>
+        </div>
+    </div>
+    <div class="map-editor-btn-container">
+        <a href="editor.html" id="map-editor-btn">Map Editor</a>
+    </div>
+    <script src="script.js"></script>
+    <script src="game.js"></script>
+</body>
+</html> 
