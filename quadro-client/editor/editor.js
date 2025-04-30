@@ -31,6 +31,10 @@ class MapEditor {
         this.setupMapSettingsModal();
         this.setupMoveWithWASD();
         this.render();
+        this.setupWelcomeScreen();
+        this.setupModals();
+        this.setupFileInput();
+        this.loadTemplates();
     }
 
     setupCanvas() {
@@ -112,7 +116,8 @@ class MapEditor {
                 // Проверяем точки изменения размера
                 if (this.selectedObject && 
                     this.selectedObject.type !== 'spawn' && 
-                    this.selectedObject.type !== 'text') {
+                    this.selectedObject.type !== 'text' &&
+                    !['jumppad','gravitypad'].includes(this.selectedObject.type)) {
                     const handle = this.getResizeHandleAt(pos);
                     if (handle) {
                         this.resizeHandle = handle;
@@ -162,13 +167,17 @@ class MapEditor {
                     case 'default':
                     case 'wood':
                     case 'lava':
+                    case 'jumppad':
+                    case 'gravitypad':
                         newObj = {
                             x: Math.round(pos.x / this.gridSize) * this.gridSize,
-                            y: Math.round(pos.y / this.gridSize) * this.gridSize,
-                            width: this.gridSize * 2,
-                            height: this.gridSize,
-                            color: this.currentTool === 'default' ? '#4a4a4a' : 
-                                   this.currentTool === 'wood' ? '#8b4513' : '#e53935',
+                            y: Math.round(pos.y / this.gridSize) * this.gridSize + this.gridSize / 2,
+                            width: this.currentTool === 'jumppad' || this.currentTool === 'gravitypad' ? this.gridSize : this.gridSize * 2,
+                            height: this.currentTool === 'jumppad' || this.currentTool === 'gravitypad' ? this.gridSize / 2 : this.gridSize,
+                            color: this.currentTool === 'default' ? '#4a4a4a' :
+                                   this.currentTool === 'wood' ? '#8b4513' :
+                                   this.currentTool === 'lava' ? '#e53935' :
+                                   this.currentTool === 'jumppad' ? '#ffe066' : '#66e0ff',
                             type: this.currentTool
                         };
                         break;
@@ -404,18 +413,54 @@ class MapEditor {
         this.propFontSize.value = obj.fontSize || 16;
         this.propRotation.value = obj.rotation || 0;
 
-        // Для платформ (default, wood, lava)
-        if (['default', 'wood', 'lava'].includes(obj.type)) {
+        // Для платформ (default, wood, lava, jumppad, gravitypad)
+        if (["default", "wood", "lava", "jumppad", "gravitypad"].includes(obj.type)) {
             this.propX.parentElement.style.display = '';
             this.propY.parentElement.style.display = '';
-            this.propWidth.parentElement.style.display = '';
-            this.propHeight.parentElement.style.display = '';
-            this.propColor.parentElement.style.display = '';
+            // Для jumppad и gravitypad запрещаем изменение размера и цвета
+            if (["jumppad", "gravitypad"].includes(obj.type)) {
+                this.propWidth.parentElement.style.display = 'none';
+                this.propHeight.parentElement.style.display = 'none';
+                this.propColor.parentElement.style.display = 'none';
+            } else {
+                this.propWidth.parentElement.style.display = '';
+                this.propHeight.parentElement.style.display = '';
+                this.propColor.parentElement.style.display = '';
+            }
             this.propTypeGroup.style.display = (obj.type === 'default') ? '' : 'none';
             this.duplicateBtn.style.display = '';
+            // Для jumppad и gravitypad показываем поворот
+            if (["jumppad", "gravitypad"].includes(obj.type)) {
+                this.propRotationGroup.style.display = '';
+                // Добавляем кнопки для поворота
+                if (!document.getElementById('rotate-left-btn')) {
+                    const btnLeft = document.createElement('button');
+                    btnLeft.id = 'rotate-left-btn';
+                    btnLeft.textContent = '⟲ 90°';
+                    btnLeft.style.marginRight = '5px';
+                    btnLeft.onclick = () => {
+                        obj.rotation = ((obj.rotation || 0) - 90) % 360;
+                        if (obj.rotation < 0) obj.rotation += 360;
+                        this.propRotation.value = obj.rotation;
+                        this.render();
+                    };
+                    this.propRotationGroup.appendChild(btnLeft);
+                }
+                if (!document.getElementById('rotate-right-btn')) {
+                    const btnRight = document.createElement('button');
+                    btnRight.id = 'rotate-right-btn';
+                    btnRight.textContent = '90° ⟳';
+                    btnRight.onclick = () => {
+                        obj.rotation = ((obj.rotation || 0) + 90) % 360;
+                        this.propRotation.value = obj.rotation;
+                        this.render();
+                    };
+                    this.propRotationGroup.appendChild(btnRight);
+                }
+            }
         }
-        // Для дерева и лавы — без типа
-        if (['wood', 'lava'].includes(obj.type)) {
+        // Для дерева, лавы, джампадов — без типа
+        if (["wood", "lava", "jumppad", "gravitypad"].includes(obj.type)) {
             this.propTypeGroup.style.display = 'none';
         }
         // Для текста
@@ -477,14 +522,15 @@ class MapEditor {
         for (const obj of this.objects) {
             if (obj.type === 'spawn') {
                 mapData.spawn = { x: obj.x, y: obj.y };
-            } else if (["default", "wood", "lava"].includes(obj.type)) {
+            } else if (["default", "wood", "lava", "jumppad", "gravitypad"].includes(obj.type)) {
                 mapData.platforms.push({
                     x: obj.x,
                     y: obj.y,
                     width: obj.width,
                     height: obj.height,
                     color: obj.color,
-                    type: obj.type
+                    type: obj.type,
+                    rotation: obj.rotation || 0
                 });
             } else if (obj.type === 'text') {
                 mapData.platforms.push({
@@ -513,6 +559,108 @@ class MapEditor {
         URL.revokeObjectURL(url);
     }
 
+    // Универсальный импорт карты (используется для load, import и шаблонов)
+    importMapData(mapData) {
+        this.objects = [];
+        // Точка спавна
+        if (mapData.spawn) {
+            this.objects.push({
+                x: mapData.spawn.x,
+                y: mapData.spawn.y,
+                width: 32,
+                height: 32,
+                color: '#00ff00',
+                type: 'spawn'
+            });
+        }
+        // Платформы и текст
+        if (Array.isArray(mapData.platforms)) {
+            mapData.platforms.forEach(platform => {
+                if (platform.type === 'text') {
+                    this.objects.push({
+                        x: platform.x,
+                        y: platform.y,
+                        width: platform.width || 100,
+                        height: platform.height || 30,
+                        color: platform.color || '#ffffff',
+                        type: 'text',
+                        text: platform.text || '',
+                        fontSize: platform.size || 16,
+                        rotation: platform.angle || 0
+                    });
+                } else {
+                    this.objects.push({
+                        x: platform.x,
+                        y: platform.y,
+                        width: platform.width,
+                        height: platform.height,
+                        color: platform.color,
+                        type: platform.type
+                    });
+                }
+            });
+        }
+        // Имя карты
+        this.mapName = mapData.name || '';
+        // Цвет фона
+        this.mapBgColor = mapData.background || mapData.backgroundColor || '#1a1a1a';
+        // Размеры
+        this.canvas.width = mapData.width || 800;
+        this.canvas.height = mapData.height || 600;
+        this.setupCanvas();
+        document.getElementById('map-name').value = this.mapName;
+        this.render();
+        document.getElementById('welcome-screen').style.display = 'none';
+        document.getElementById('editor-container').style.display = 'block';
+    }
+
+    // Исправленный импорт из шаблона
+    async importTemplateMap(filename) {
+        if (!filename) {
+            alert('Template file is not specified.');
+            return;
+        }
+        try {
+            const response = await fetch(`templates/${filename}`);
+            if (!response.ok) {
+                alert(`Template file not found: ${filename}`);
+                return;
+            }
+            const raw = await response.json();
+            console.log('Загруженный шаблон:', raw);
+            // Если шаблон содержит mapData — импортируем его, иначе весь объект
+            const mapData = raw.mapData ? raw.mapData : raw;
+            this.importMapData(mapData);
+            document.getElementById('templates-modal').style.display = 'none';
+        } catch (error) {
+            alert('Error loading template map.');
+            console.error('Error loading template map:', error);
+        }
+    }
+
+    // Исправленный обычный импорт
+    importMap() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.onchange = (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const mapData = JSON.parse(e.target.result);
+                    this.importMapData(mapData);
+                } catch (error) {
+                    console.error('Error loading map:', error);
+                    alert('Error loading map file. Please make sure it is a valid map file.');
+                }
+            };
+            reader.readAsText(file);
+        };
+        input.click();
+    }
+
+    // Исправленный loadMap
     loadMap() {
         const input = document.createElement('input');
         input.type = 'file';
@@ -523,58 +671,10 @@ class MapEditor {
             reader.onload = (e) => {
                 try {
                     const mapData = JSON.parse(e.target.result);
-                    // Очищаем текущие объекты
-                    this.objects = [];
-                    // Устанавливаем размеры холста
-                    this.canvas.width = mapData.width;
-                    this.canvas.height = mapData.height;
-                    // Устанавливаем название карты
-                    this.mapName = mapData.name || '';
-                    document.getElementById('map-name').value = this.mapName;
-                    // Устанавливаем цвет фона
-                    this.mapBgColor = mapData.background || '#1a1a1a';
-                    // Добавляем точку спавна
-                    if (mapData.spawn) {
-                        this.objects.push({
-                            x: mapData.spawn.x,
-                            y: mapData.spawn.y,
-                            width: 32,
-                            height: 32,
-                            color: '#00ff00',
-                            type: 'spawn'
-                        });
-                    }
-                    // Добавляем платформы
-                    if (mapData.platforms) {
-                        mapData.platforms.forEach(platform => {
-                            if (platform.type === 'text') {
-                                this.objects.push({
-                                    x: platform.x,
-                                    y: platform.y,
-                                    width: 100,
-                                    height: 30,
-                                    color: platform.color,
-                                    type: 'text',
-                                    text: platform.text,
-                                    fontSize: platform.size,
-                                    rotation: platform.angle || 0
-                                });
-                            } else {
-                                this.objects.push({
-                                    x: platform.x,
-                                    y: platform.y,
-                                    width: platform.width,
-                                    height: platform.height,
-                                    color: platform.color,
-                                    type: platform.type || 'default'
-                                });
-                            }
-                        });
-                    }
-                    this.selectedObject = null;
-                    this.render();
+                    this.importMapData(mapData);
                 } catch (error) {
                     console.error('Error loading map:', error);
+                    alert('Error loading map file. Please make sure it is a valid map file.');
                 }
             };
             reader.readAsText(file);
@@ -637,19 +737,29 @@ class MapEditor {
         // Draw objects
         this.objects.forEach(obj => {
             this.ctx.save();
-            
             if (obj.type === 'text') {
                 this.ctx.translate(obj.x + obj.width/2, obj.y + obj.height/2);
-                this.ctx.rotate(obj.rotation * Math.PI / 180);
+                this.ctx.rotate((obj.rotation || 0) * Math.PI / 180);
                 this.ctx.fillStyle = obj.color;
                 this.ctx.font = `${obj.fontSize}px Arial`;
                 this.ctx.textAlign = 'center';
                 this.ctx.textBaseline = 'middle';
                 this.ctx.fillText(obj.text, 0, 0);
+            } else if (["jumppad", "gravitypad"].includes(obj.type)) {
+                // Рисуем с поворотом
+                this.ctx.translate(obj.x + obj.width/2, obj.y + obj.height/2);
+                this.ctx.rotate((obj.rotation || 0) * Math.PI / 180);
+                this.ctx.fillStyle = obj.color;
+                this.ctx.fillRect(-obj.width/2, -obj.height/2, obj.width, obj.height);
+                // Можно добавить иконку стрелки
+                this.ctx.fillStyle = obj.type === 'jumppad' ? '#bfa800' : '#007a99';
+                this.ctx.font = 'bold 24px Arial';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+                this.ctx.fillText(obj.type === 'jumppad' ? '↑' : '⇅', 0, 0);
             } else {
                 this.ctx.fillStyle = obj.color;
                 this.ctx.fillRect(obj.x, obj.y, obj.width, obj.height);
-                
                 if (obj.type === 'spawn') {
                     this.ctx.fillStyle = '#000';
                     this.ctx.beginPath();
@@ -657,7 +767,6 @@ class MapEditor {
                     this.ctx.fill();
                 }
             }
-            
             this.ctx.restore();
         });
 
@@ -700,8 +809,8 @@ class MapEditor {
 
     getResizeHandles() {
         if (!this.selectedObject) return [];
-        // Только для платформ
-        if (['default', 'wood', 'lava'].includes(this.selectedObject.type)) {
+        // Только для платформ, кроме jumppad и gravitypad
+        if (["default", "wood", "lava"].includes(this.selectedObject.type)) {
             return [
                 { x: this.selectedObject.x, y: this.selectedObject.y },
                 { x: this.selectedObject.x + this.selectedObject.width, y: this.selectedObject.y },
@@ -882,9 +991,186 @@ class MapEditor {
             }
         });
     }
+
+    setupWelcomeScreen() {
+        const createCard = document.getElementById('create-card');
+        const importCard = document.getElementById('import-card');
+        const templatesCard = document.getElementById('templates-card');
+
+        createCard.addEventListener('click', () => this.showModal('create-modal'));
+        importCard.addEventListener('click', () => this.importMap());
+        templatesCard.addEventListener('click', () => this.showModal('templates-modal'));
+    }
+
+    setupModals() {
+        // Create modal
+        const createModal = document.getElementById('create-modal');
+        const createForm = document.getElementById('create-form');
+        const cancelBtn = createForm.querySelector('.cancel-btn');
+
+        createForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.createNewMap({
+                name: document.getElementById('modal-map-name').value,
+                width: parseInt(document.getElementById('map-width').value),
+                height: parseInt(document.getElementById('map-height').value),
+                backgroundColor: document.getElementById('map-bgcolor').value
+            });
+            this.hideModal('create-modal');
+        });
+
+        cancelBtn.addEventListener('click', () => this.hideModal('create-modal'));
+
+        // Templates modal
+        const templatesModal = document.getElementById('templates-modal');
+        templatesModal.addEventListener('click', (e) => {
+            if (e.target === templatesModal) {
+                this.hideModal('templates-modal');
+            }
+        });
+    }
+
+    setupFileInput() {
+        this.fileInput = document.createElement('input');
+        this.fileInput.type = 'file';
+        this.fileInput.accept = '.json';
+        this.fileInput.style.display = 'none';
+        document.body.appendChild(this.fileInput);
+
+        this.fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        const mapData = JSON.parse(e.target.result);
+                        // Скрываем приветственный экран
+                        document.getElementById('welcome-screen').style.display = 'none';
+                        // Показываем редактор
+                        document.getElementById('editor-container').style.display = 'block';
+                        // Инициализируем редактор с данными карты
+                        this.initEditor(mapData);
+                    } catch (error) {
+                        console.error('Error loading map:', error);
+                        alert('Error loading map file');
+                    }
+                };
+                reader.readAsText(file);
+            }
+        });
+    }
+
+    async loadTemplates() {
+        const templatesGrid = document.getElementById('templates-grid');
+        templatesGrid.innerHTML = '';
+        // Статический список шаблонов
+        const templates = [
+            {
+                name: 'Platformer Template',
+                file: 'template1.json',
+                author: 'System',
+                description: 'A basic platformer level template with platforms and spawn point',
+                preview: 'template1.png'
+            },
+            // Добавьте сюда другие шаблоны по аналогии
+        ];
+        for (const template of templates) {
+            const templateCard = this.createTemplateCard(template);
+            templatesGrid.appendChild(templateCard);
+        }
+    }
+
+    createTemplateCard(template) {
+        const card = document.createElement('div');
+        card.className = 'template-card';
+        card.innerHTML = `
+            <div class="template-preview">
+                <img src="templates/${template.preview}" alt="${template.name}" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjE1MCIgZmlsbD0iIzJjM2U1MCIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiNlY2YwZjEiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBwcmV2aWV3PC90ZXh0Pjwvc3ZnPg=='">
+            </div>
+            <div class="template-info">
+                <h3>${template.name}</h3>
+                <p>${template.description}</p>
+                <p class="template-author">by ${template.author}</p>
+                <button class="create-btn">Create</button>
+            </div>
+        `;
+        const button = card.querySelector('.create-btn');
+        if (template.file) {
+            button.onclick = () => this.importTemplateMap(template.file);
+        } else {
+            button.disabled = true;
+            button.textContent = 'No file';
+        }
+        return card;
+    }
+
+    showModal(modalId) {
+        document.getElementById(modalId).style.display = 'flex';
+    }
+
+    hideModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+    }
+
+    createNewMap(config) {
+        const mapData = {
+            name: config.name,
+            width: config.width,
+            height: config.height,
+            backgroundColor: config.backgroundColor,
+            objects: [],
+            layers: []
+        };
+        this.initEditor(mapData);
+    }
+
+    initEditor(mapData) {
+        // Скрываем приветственный экран
+        document.getElementById('welcome-screen').style.display = 'none';
+        
+        // Показываем редактор
+        const editorContainer = document.getElementById('editor-container');
+        editorContainer.style.display = 'block';
+        
+        // Инициализируем редактор с данными карты
+        // Здесь будет код инициализации редактора
+        console.log('Initializing editor with:', mapData);
+    }
 }
 
-// Initialize editor when the page loads
-window.addEventListener('load', () => {
-    new MapEditor();
-}); 
+// Инициализация редактора при загрузке страницы
+const editor = new MapEditor();
+
+// Глобальная функция для инициализации редактора с данными карты
+function initEditor(mapData) {
+    const editor = new MapEditor();
+    
+    // Устанавливаем размеры холста
+    editor.canvas.width = mapData.width;
+    editor.canvas.height = mapData.height;
+    
+    // Устанавливаем цвет фона
+    editor.mapBgColor = mapData.backgroundColor;
+    
+    // Очищаем существующие объекты
+    editor.objects = [];
+    
+    // Добавляем объекты из данных карты
+    if (mapData.objects && Array.isArray(mapData.objects)) {
+        mapData.objects.forEach(obj => {
+            editor.objects.push(obj);
+        });
+    }
+    
+    // Добавляем слои из данных карты
+    if (mapData.layers && Array.isArray(mapData.layers)) {
+        mapData.layers.forEach(layer => {
+            // Здесь можно добавить логику для работы со слоями
+        });
+    }
+    
+    // Обновляем отображение
+    editor.render();
+    
+    return editor;
+} 

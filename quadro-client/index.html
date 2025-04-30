@@ -9,8 +9,8 @@
 <body>
     <div class="game-container">
         <div class="login-screen">
-            <h1 style="font-family: Prompt; color: #ddd; font-size: 65px; text-shadow: 0 0 35px; margin-bottom: 0px;">quadro</h1>
-            <p style="font-family: Prompt; color: #686868; font-size: 15px; text-shadow: 0 0 35px; margin-bottom: 20px; text-align: center;">version 0.005beta<br><a href="https://github.com/camp3rcraft/quadrocore" style="text-decoration: none; color: inherit;">actual server core version: <a style="color: #ddd;" href="https://github.com/camp3rcraft/quadrocore">quadrocore ver.1.010</a></a></p>
+            <img src="banner.png" width="70%">
+            <p style="font-family: Prompt; color: #686868; font-size: 15px; text-shadow: 0 0 35px; margin-bottom: 20px; text-align: center;">version 0.109beta<br>actual server core version: ver.1.100</p>
             <div class="login-form">
                 <input type="text" id="nickname" placeholder="Nickname (English letters only)" maxlength="16">
                 <input type="text" id="server-ip" placeholder="Server IP" value="localhost">
@@ -25,6 +25,7 @@
                 <div class="chat-input">
                     <input type="text" id="chat-input" placeholder="Type message...">
                     <button id="chat-send">Send</button>
+                    <button id="kill-btn" style="margin-left:8px;background:#e53935;color:#fff;font-weight:bold;">Kill</button>
                 </div>
             </div>
             <div class="debug-info" id="debug-info"></div>
@@ -46,7 +47,7 @@
         </div>
     </div>
     <div class="map-editor-btn-container">
-        <a href="editor/editor" id="map-editor-btn">Map Editor</a>
+        <a href="editor/editor.html" id="map-editor-btn">Map Editor</a>
     </div>
     <script src="script.js"></script>
     <script src="game.js"></script>

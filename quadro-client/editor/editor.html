@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map Editor</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        // Загружаем данные карты из localStorage при загрузке страницы
+        document.addEventListener('DOMContentLoaded', () => {
+            const mapData = JSON.parse(localStorage.getItem('currentMap'));
+            if (mapData) {
+                // Устанавливаем имя карты
+                document.getElementById('map-name').value = mapData.name;
+                
+                // Инициализируем редактор с данными карты
+                if (typeof initEditor === 'function') {
+                    initEditor(mapData);
+                }
+                
+                // Очищаем данные из localStorage
+                localStorage.removeItem('currentMap');
+            }
+        });
+    </script>
     <style>
         :root {
             --sidebar-width: 80px;
@@ -212,99 +231,172 @@
     </style>
 </head>
 <body>
-    <div class="toolbar">
-        <div class="map-name">
-            <input type="text" id="map-name" placeholder="Map Name" readonly>
-        </div>
-        <div class="file-actions">
-            <button id="new-map">New</button>
-            <button id="save-map">Save</button>
-            <button id="load-map">Load</button>
-            <button id="map-settings-btn" title="Map Settings"><i class="fas fa-cog"></i></button>
-        </div>
-    </div>
-
-    <div class="sidebar">
-        <div class="tool-button" id="select-tool" title="Select">
-            <i class="fas fa-mouse-pointer"></i>
-        </div>
-        <div class="blocks-container">
-            <div class="block-preview" data-type="default" style="background-color: #4a4a4a; color: #bfc9d1;" title="Stone Block">
-                <i class="fas fa-gem"></i>
-            </div>
-            <div class="block-preview" data-type="wood" style="background-color: #8b4513; color: #e2c08d;" title="Wood Block">
-                <i class="fas fa-tree"></i>
-            </div>
-            <div class="block-preview" data-type="lava" style="background-color: #e53935; color: #ffb347;" title="Lava Block">
-                <i class="fas fa-fire"></i>
-            </div>
-            <div class="block-preview" data-type="spawn" style="background-color: #ffffff; color: #222;" title="Spawn Point">
-                <i class="fas fa-home"></i>
-            </div>
-            <div class="block-preview" data-type="text" style="background-color: #ffffff; color: #222;" title="Text">
-                <i class="fas fa-font"></i>
-            </div>
-            <div class="block-preview" data-type="delete" style="background-color: #e53935; color: #fff;" title="Delete">
-                <i class="fas fa-trash"></i>
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-screen">
+        <div class="welcome-content">
+            <img src="../client/banner.png" width="70%">
+            <p style="font-size: 50px;">Map Editor</p>
+            <div class="welcome-cards">
+                <div class="welcome-card" id="create-card">
+                    <i class="fas fa-plus"></i>
+                    <h2>Create New</h2>
+                    <p>Start from scratch</p>
+                </div>
+                <div class="welcome-card" id="import-card">
+                    <i class="fas fa-upload"></i>
+                    <h2>Import</h2>
+                    <p>Load existing map</p>
+                </div>
+                <!-- <div class="welcome-card" id="templates-card">
+                    <i class="fas fa-cube"></i>
+                    <h2>Templates</h2>
+                    <p>Choose from templates</p>
+                </div> -->
             </div>
         </div>
     </div>
 
-    <div class="main-content">
-        <canvas id="editor-canvas"></canvas>
-        <div class="properties-panel" id="properties-panel">
-            <div id="object-properties-section">
-                <h3>Object Properties</h3>
-                <div class="property">
-                    <label for="prop-x">X:</label>
-                    <input type="number" id="prop-x">
+    <!-- Create New Map Modal -->
+    <div id="create-modal" class="modal">
+        <div class="modal-content">
+            <h2>Create New Map</h2>
+            <form id="create-form">
+                <div class="form-group">
+                    <label for="modal-map-name">Map Name</label>
+                    <input type="text" id="modal-map-name" required>
                 </div>
-                <div class="property">
-                    <label for="prop-y">Y:</label>
-                    <input type="number" id="prop-y">
+                <div class="form-group">
+                    <label for="map-width">Width</label>
+                    <input type="number" id="map-width" value="800" min="100" max="5000" required>
                 </div>
-                <div class="property">
-                    <label for="prop-width">Width:</label>
-                    <input type="number" id="prop-width">
+                <div class="form-group">
+                    <label for="map-height">Height</label>
+                    <input type="number" id="map-height" value="600" min="100" max="5000" required>
                 </div>
-                <div class="property">
-                    <label for="prop-height">Height:</label>
-                    <input type="number" id="prop-height">
+                <div class="form-group">
+                    <label for="map-bgcolor">Background Color</label>
+                    <input type="color" id="map-bgcolor" value="#1a1a1a">
                 </div>
-                <div class="property">
-                    <label for="prop-color">Color:</label>
-                    <input type="color" id="prop-color">
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn">Cancel</button>
+                    <button type="submit" class="create-btn">Create</button>
                 </div>
-                <div class="property" id="prop-type-group">
-                    <label for="prop-type">Type:</label>
-                    <select id="prop-type">
-                        <option value="default">Stone</option>
-                        <option value="wood">Wood</option>
-                        <option value="lava">Lava</option>
-                        <option value="text">Text</option>
-                    </select>
-                </div>
-                <div class="property" id="prop-text-group">
-                    <label for="prop-text">Text:</label>
-                    <input type="text" id="prop-text">
-                </div>
-                <div class="property" id="prop-fontsize-group">
-                    <label for="prop-fontsize">Font Size:</label>
-                    <input type="number" id="prop-fontsize" min="1" max="200">
-                </div>
-                <div class="property" id="prop-rotation-group">
-                    <label for="prop-rotation">Rotation:</label>
-                    <input type="number" id="prop-rotation" min="0" max="360">
-                </div>
-                <button id="duplicate-object" style="margin-top:10px;">Duplicate</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Templates Modal -->
+    <div id="templates-modal" class="modal">
+        <div class="modal-content">
+            <h2>Templates</h2>
+            <div id="templates-grid" class="templates-grid">
+                <!-- Templates will be loaded here -->
             </div>
         </div>
     </div>
 
-    <div class="status-bar">
-        <div class="status-item" id="cursor-position">X: 0, Y: 0</div>
-        <div class="status-item" id="grid-size">Grid: 32px</div>
-        <div class="status-item" id="selected-object">No object selected</div>
+    <!-- Main Editor (hidden initially) -->
+    <div id="editor-container" class="editor-container" style="display: none;">
+        <div class="toolbar">
+            <div class="map-name">
+                <input type="text" id="map-name" placeholder="Map Name" readonly>
+            </div>
+            <div class="file-actions">
+                <button id="new-map">New</button>
+                <button id="save-map">Save</button>
+                <button id="load-map">Load</button>
+                <button id="map-settings-btn" title="Map Settings"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+
+        <div class="sidebar">
+            <div class="tool-button" id="select-tool" title="Select">
+                <i class="fas fa-mouse-pointer"></i>
+            </div>
+            <div class="blocks-container">
+                <div class="block-preview" data-type="default" style="background-color: #4a4a4a; color: #bfc9d1;" title="Stone Block">
+                    <i class="fas fa-gem"></i>
+                </div>
+                <div class="block-preview" data-type="wood" style="background-color: #8b4513; color: #e2c08d;" title="Wood Block">
+                    <i class="fas fa-tree"></i>
+                </div>
+                <div class="block-preview" data-type="lava" style="background-color: #e53935; color: #ffb347;" title="Lava Block">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="block-preview" data-type="jumppad" style="background-color: #ffe066; color: #bfa800;" title="Jump Pad (Up)">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <div class="block-preview" data-type="gravitypad" style="background-color: #66e0ff; color: #007a99;" title="Gravity Pad (Invert)">
+                    <i class="fas fa-arrows-alt-v"></i>
+                </div>
+                <div class="block-preview" data-type="spawn" style="background-color: #ffffff; color: #222;" title="Spawn Point">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="block-preview" data-type="text" style="background-color: #ffffff; color: #222;" title="Text">
+                    <i class="fas fa-font"></i>
+                </div>
+                <div class="block-preview" data-type="delete" style="background-color: #e53935; color: #fff;" title="Delete">
+                    <i class="fas fa-trash"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <canvas id="editor-canvas"></canvas>
+            <div class="properties-panel" id="properties-panel">
+                <div id="object-properties-section">
+                    <h3>Object Properties</h3>
+                    <div class="property">
+                        <label for="prop-x">X:</label>
+                        <input type="number" id="prop-x">
+                    </div>
+                    <div class="property">
+                        <label for="prop-y">Y:</label>
+                        <input type="number" id="prop-y">
+                    </div>
+                    <div class="property">
+                        <label for="prop-width">Width:</label>
+                        <input type="number" id="prop-width">
+                    </div>
+                    <div class="property">
+                        <label for="prop-height">Height:</label>
+                        <input type="number" id="prop-height">
+                    </div>
+                    <div class="property">
+                        <label for="prop-color">Color:</label>
+                        <input type="color" id="prop-color">
+                    </div>
+                    <div class="property" id="prop-type-group">
+                        <label for="prop-type">Type:</label>
+                        <select id="prop-type">
+                            <option value="default">Stone</option>
+                            <option value="wood">Wood</option>
+                            <option value="lava">Lava</option>
+                            <option value="text">Text</option>
+                        </select>
+                    </div>
+                    <div class="property" id="prop-text-group">
+                        <label for="prop-text">Text:</label>
+                        <input type="text" id="prop-text">
+                    </div>
+                    <div class="property" id="prop-fontsize-group">
+                        <label for="prop-fontsize">Font Size:</label>
+                        <input type="number" id="prop-fontsize" min="1" max="200">
+                    </div>
+                    <div class="property" id="prop-rotation-group">
+                        <label for="prop-rotation">Rotation:</label>
+                        <input type="number" id="prop-rotation" min="0" max="360">
+                    </div>
+                    <button id="duplicate-object" style="margin-top:10px;">Duplicate</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item" id="cursor-position">X: 0, Y: 0</div>
+            <div class="status-item" id="grid-size">Grid: 32px</div>
+            <div class="status-item" id="selected-object">No object selected</div>
+        </div>
     </div>
 
     <!-- Модальное окно настроек карты -->

@@ -1,0 +1,9 @@
+[
+  {
+    "name": "Platformer Template",
+    "file": "template1.json",
+    "author": "System",
+    "description": "A basic platformer level template with platforms and spawn point",
+    "preview": "template1.png"
+  }
+] 

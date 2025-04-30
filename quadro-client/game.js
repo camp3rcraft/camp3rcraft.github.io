@@ -1,21 +1,31 @@
 class Game {
     constructor() {
-        console.log('[GAME] Game constructor called');
         this.canvas = document.getElementById('game-canvas');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 800;
-        this.canvas.height = 600;
+        this.canvas.width = 1200;
+        this.canvas.height = 800;
+        
+        // Инициализация звуков
+        this.sounds = {
+            chat: new Audio('sounds/chat-send.mp3'),
+            join: new Audio('sounds/joined-sound.ogg'),
+            leave: new Audio('sounds/left-sound.ogg')
+        };
         
         this.players = new Map();
         this.localPlayer = null;
         this.socket = null;
         this.map = null;
+        this.showPlayerList = false;
+        this.playerMessages = new Map();
+        this.messageTimers = new Map();
         
         this.keys = {
             a: false,
             d: false,
             space: false,
-            shift: false
+            shift: false,
+            tab: false
         };
         
         // Для отладки
@@ -24,6 +34,10 @@ class Game {
         this.fps = 0;
         this.lastFpsUpdate = 0;
         this.frameCount = 0;
+        
+        this.acceleration = 1.2; // ускорение
+        this.deceleration = 1.0; // торможение
+        this.maxSpeed = 7; // максимальная скорость
         
         this.setupEventListeners();
     }
@@ -35,9 +49,7 @@ class Game {
                 throw new Error('Failed to load map');
             }
             this.map = await response.json();
-            console.log('Map loaded:', this.map);
         } catch (error) {
-            console.error('Error loading map:', error);
             // Если не удалось загрузить карту, используем встроенную
             this.map = {
                 width: 800,
@@ -55,7 +67,6 @@ class Game {
     }
     
     setupEventListeners() {
-        console.log('[GAME] setupEventListeners called');
         document.getElementById('connect-btn').addEventListener('click', () => this.connect());
         document.getElementById('disconnect-btn').addEventListener('click', () => this.disconnect());
         document.getElementById('debug-checkbox').addEventListener('change', (e) => {
@@ -65,26 +76,86 @@ class Game {
         // Управление чатом
         const chatInput = document.getElementById('chat-input');
         const chatSend = document.getElementById('chat-send');
-        chatSend.addEventListener('click', () => { console.log('[GAME] chatSend click'); this.sendChatMessage(chatInput); });
+        const killBtn = document.getElementById('kill-btn');
+        if (killBtn) {
+            killBtn.addEventListener('click', () => {
+                if (this.map && this.map.spawn && this.localPlayer) {
+                    this.localPlayer.x = this.map.spawn.x;
+                    this.localPlayer.y = this.map.spawn.y;
+                    this.localPlayer.velocityX = 0;
+                    this.localPlayer.velocityY = 0;
+                }
+                if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                    this.socket.send(JSON.stringify({ type: 'kill' }));
+                }
+            });
+        }
+        chatSend.addEventListener('click', () => this.sendChatMessage(chatInput));
         chatInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                console.log('[GAME] chatInput Enter');
                 this.sendChatMessage(chatInput);
             }
         });
         
         document.addEventListener('keydown', (e) => {
-            if (e.key.toLowerCase() === 'a') this.keys.a = true;
-            if (e.key.toLowerCase() === 'd') this.keys.d = true;
-            if (e.key === ' ') this.keys.space = true;
-            if (e.key === 'Shift') this.keys.shift = true;
+            // Не реагируем на управление, если фокус в чате
+            if (document.activeElement === chatInput) return;
+            // Сброс всех клавиш при смене раскладки
+            if (['Shift', 'Alt', 'Control', 'Meta'].includes(e.key)) {
+                resetKeys();
+                return;
+            }
+            if (e.code === 'KeyA') this.keys.a = true;
+            if (e.code === 'KeyD') this.keys.d = true;
+            if (e.code === 'Space') this.keys.space = true;
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.keys.shift = true;
+            if (e.code === 'Tab') {
+                e.preventDefault();
+                this.keys.tab = true;
+                this.showPlayerList = true;
+            }
         });
         
         document.addEventListener('keyup', (e) => {
-            if (e.key.toLowerCase() === 'a') this.keys.a = false;
-            if (e.key.toLowerCase() === 'd') this.keys.d = false;
-            if (e.key === ' ') this.keys.space = false;
-            if (e.key === 'Shift') this.keys.shift = false;
+            // Не реагируем на управление, если фокус в чате
+            if (document.activeElement === chatInput) return;
+            if (e.code === 'KeyA') this.keys.a = false;
+            if (e.code === 'KeyD') this.keys.d = false;
+            if (e.code === 'Space') this.keys.space = false;
+            if (e.code === 'ShiftLeft' || e.code === 'ShiftRight') this.keys.shift = false;
+            if (e.code === 'Tab') {
+                this.keys.tab = false;
+                this.showPlayerList = false;
+            }
+        });
+
+        // Сброс всех клавиш при завершении композиции (смена раскладки)
+        window.addEventListener('compositionend', resetKeys);
+
+        // Сброс всех клавиш при потере фокуса окна или ухода с input чата
+        const resetKeys = () => {
+            this.keys.a = false;
+            this.keys.d = false;
+            this.keys.space = false;
+            this.keys.shift = false;
+            // Сразу отправляем на сервер пустой input
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({
+                    type: 'input',
+                    keys: this.keys
+                }));
+            }
+        };
+        window.addEventListener('blur', resetKeys);
+        // Сброс только при уходе во вкладку
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                resetKeys();
+            }
+        });
+        // При возвращении во вкладку ничего не делаем
+        window.addEventListener('focus', () => {
+            // Не сбрасываем клавиши
         });
     }
     
@@ -103,11 +174,15 @@ class Game {
         
         this.socket.onopen = () => {
             console.log('WebSocket connection established');
+            console.log('Chat input before connection:', document.getElementById('chat-input').disabled);
             this.socket.send(JSON.stringify({
                 type: 'join',
                 nickname,
                 color
             }));
+            
+            // Воспроизводим звук подключения
+            this.sounds.join.play().catch(e => console.log('Error playing join sound:', e));
             
             // Скрываем экран авторизации и показываем игровой интерфейс
             document.querySelector('.login-screen').style.display = 'none';
@@ -126,23 +201,31 @@ class Game {
             if (data.type === 'join') {
                 if (data.map) {
                     this.map = data.map;
-                    console.log('Map received on join:', this.map);
                 }
                 if (data.playerId) {
-                    this.localPlayerId = data.playerId;
+                    this.localPlayerId = String(data.playerId);
+                    const chatInput = document.getElementById('chat-input');
+                    const chatSend = document.getElementById('chat-send');
+                    console.log('Chat input before activation:', chatInput.disabled);
+                    if (chatInput) {
+                        chatInput.disabled = false;
+                        chatInput.removeAttribute('disabled');
+                        chatInput.value = '';
+                        console.log('Chat input after activation:', chatInput.disabled);
+                    }
+                    if (chatSend) {
+                        chatSend.disabled = false;
+                        console.log('Chat send button after activation:', chatSend.disabled);
+                    }
                 }
             }
             
             if (data.type === 'state') {
-                const newPlayers = new Map(Object.entries(data.players));
-                if (this.localPlayerId && newPlayers.has(this.localPlayerId)) {
-                    this.localPlayer = newPlayers.get(this.localPlayerId);
-                } else if (!this.localPlayer && newPlayers.size > 0) {
-                    this.localPlayer = newPlayers.values().next().value;
-                }
-                this.players = newPlayers;
-                if (this.localPlayer) {
-                    this.socket.send(JSON.stringify({ type: 'ping' }));
+                this.players = new Map(Object.entries(data.players));
+                if (this.localPlayerId && this.players.has(this.localPlayerId)) {
+                    this.localPlayer = this.players.get(this.localPlayerId);
+                } else {
+                    this.localPlayer = this.players.values().next().value;
                 }
             }
             
@@ -153,11 +236,18 @@ class Game {
             
             // Логика для чата и системных сообщений
             if (data.type === 'chat') {
-                const isSystem = data.sender === 'system';
-                const msg = isSystem ? `[SYSTEM] ${data.message}` : `[${data.sender}] ${data.message}`;
-                console.log('[CHAT][RECV]', msg, data);
-                if (window.addMessageToChat) {
-                    window.addMessageToChat(msg);
+                const chatMessages = document.getElementById('chat-messages');
+                const div = document.createElement('div');
+                div.textContent = `[${data.sender}] ${data.message}`;
+                chatMessages.appendChild(div);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                // Воспроизвести звук отправки
+                if (this.sounds && this.sounds.chat) {
+                    this.sounds.chat.play().catch(e => console.log('Error playing chat sound:', e));
+                }
+                // Показать сообщение над игроком
+                if (data.senderId) {
+                    this.showMessageAbovePlayer(data.senderId, data.message);
                 }
             }
         };
@@ -175,10 +265,20 @@ class Game {
                 location.reload();
             }
         };
+
+        // Гарантируем рабочие обработчики чата
+        const chatInput = document.getElementById('chat-input');
+        const chatSend = document.getElementById('chat-send');
+        chatSend.addEventListener('click', () => this.sendChatMessage(chatInput));
+        chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') this.sendChatMessage(chatInput);
+        });
     }
     
     disconnect() {
         if (this.socket) {
+            // Воспроизводим звук отключения
+            this.sounds.leave.play().catch(e => console.log('Error playing leave sound:', e));
             this.socket.close();
             // Показываем экран авторизации и скрываем игровой интерфейс
             document.querySelector('.login-screen').style.display = 'flex';
@@ -258,23 +358,121 @@ class Game {
     drawPlayer(player, centerX, centerY) {
         const x = player.x - this.localPlayer.x + centerX - 16;
         const y = player.y - this.localPlayer.y + centerY - 16;
-        
-        // Рисуем кубик
         this.ctx.fillStyle = player.color;
         this.ctx.fillRect(x, y, 32, 32);
-        
-        // Рисуем тень
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
         this.ctx.fillRect(x, y + 32 - 2, 32, 2);
-        
-        // Рисуем никнейм
         this.ctx.font = '12px Arial';
         this.ctx.fillStyle = '#ffffff';
         this.ctx.textAlign = 'center';
         this.ctx.fillText(player.nickname, x + 16, y - 5);
+
+        // Рисуем сообщение над игроком, если оно есть
+        if (this.playerMessages.has(player.id)) {
+            const message = this.playerMessages.get(player.id);
+            this.ctx.font = '14px Arial';
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.textAlign = 'center';
+            
+            // Добавляем тень для лучшей читаемости
+            this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+            this.ctx.shadowBlur = 2;
+            this.ctx.shadowOffsetX = 1;
+            this.ctx.shadowOffsetY = 1;
+            
+            this.ctx.fillText(message, x + 16, y - 25);
+            
+            // Сбрасываем тень
+            this.ctx.shadowColor = 'transparent';
+            this.ctx.shadowBlur = 0;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
+        }
+    }
+    
+    drawPlayerList() {
+        if (!this.showPlayerList) return;
+
+        const canvasWidth = this.canvas.width;
+        const barHeight = 60;
+        const startY = 40;
+
+        // Фон — полоса во всю ширину
+        this.ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        this.ctx.fillRect(0, startY, canvasWidth, barHeight);
+
+        // Получаем игроков в массив
+        const playersArr = Array.from(this.players.values());
+        const blockWidth = 260;
+        const blockHeight = 40;
+        const gap = 30;
+        const totalWidth = playersArr.length * blockWidth + (playersArr.length - 1) * gap;
+        let startX = (canvasWidth - totalWidth) / 2;
+        const blockY = startY + (barHeight - blockHeight) / 2;
+
+        // Заголовок по центру
+        this.ctx.font = 'bold 22px Arial';
+        this.ctx.fillStyle = '#fff';
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText('Список игроков', canvasWidth / 2, startY - 10);
+
+        // Информация о сервере, игроках и пинге
+        const serverIp = document.getElementById('server-ip')?.value || '';
+        const playersCount = this.players.size;
+        const ping = this.ping;
+        const infoText = `IP: ${serverIp}    |    Игроков: ${playersCount}    |    Ваш пинг: ${ping}мс`;
+        this.ctx.font = '16px Arial';
+        this.ctx.fillStyle = '#bbb';
+        this.ctx.fillText(infoText, canvasWidth / 2, startY + barHeight + 25);
+
+        // Рисуем каждого игрока
+        playersArr.forEach((player, idx) => {
+            const x = startX + idx * (blockWidth + gap);
+            // Блок
+            this.ctx.fillStyle = 'rgba(30,30,30,0.95)';
+            this.ctx.fillRect(x, blockY, blockWidth, blockHeight);
+            // Цветной квадратик
+            this.ctx.fillStyle = player.color;
+            this.ctx.fillRect(x + 15, blockY + 10, 20, 20);
+            // Ник и пинг
+            this.ctx.font = 'bold 18px Arial';
+            this.ctx.fillStyle = '#fff';
+            this.ctx.textAlign = 'left';
+            this.ctx.fillText(player.nickname, x + 45, blockY + 27);
+            this.ctx.font = '14px Arial';
+            this.ctx.fillStyle = '#aaa';
+            const ping = player.id === this.localPlayerId ? this.ping + 'ms' : '?ms';
+            this.ctx.fillText(ping, x + blockWidth - 50, blockY + 27);
+        });
+    }
+    
+    drawMapBorder() {
+        if (!this.map || !this.map.width || !this.map.height || !this.localPlayer) return;
+        const centerX = this.canvas.width / 2;
+        const centerY = this.canvas.height / 2;
+        // Смещение камеры
+        const offsetX = this.localPlayer.x - centerX + 16;
+        const offsetY = this.localPlayer.y - centerY + 16;
+        // Анимация цвета: плавное мигание между белым и красным
+        const t = (performance.now() / 700) % (2 * Math.PI);
+        const r = Math.floor(255 * (0.5 + 0.5 * Math.sin(t)));
+        const g = Math.floor(255 * (0.5 + 0.5 * Math.cos(t)));
+        const b = Math.floor(255 * (0.5 + 0.5 * Math.sin(t + Math.PI)));
+        // Микс белого и красного
+        const color = `rgb(${255},${g},${g})`;
+        this.ctx.save();
+        this.ctx.lineWidth = 6;
+        this.ctx.strokeStyle = color;
+        this.ctx.shadowColor = color;
+        this.ctx.shadowBlur = 10;
+        this.ctx.strokeRect(-offsetX, -offsetY, this.map.width, this.map.height);
+        this.ctx.restore();
     }
     
     gameLoop() {
+        // ОТКЛЮЧЕНО: Локальная физика и обработка джампадов/гравипадов
+        // Теперь клиент только отображает localPlayer по данным сервера
+
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
             this.socket.send(JSON.stringify({
                 type: 'input',
@@ -282,21 +480,26 @@ class Game {
             }));
         }
 
-        // Вся отрисовка платформ и фона — только тут!
         this.drawPlatforms();
+        this.drawPlayerList();
 
         // Белый border по краю карты
         this.ctx.strokeStyle = '#fff';
         this.ctx.lineWidth = 2;
         this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // Рисуем игроков и т.д.
         if (this.localPlayer) {
             const centerX = this.canvas.width / 2;
             const centerY = this.canvas.height / 2;
+            // Гарантируем, что localPlayer всегда отрисовывается
+            this.drawPlayer(this.localPlayer, centerX, centerY);
+            // Остальные игроки (если есть)
             this.players.forEach((player, id) => {
-                this.drawPlayer(player, centerX, centerY);
+                if (id !== this.localPlayerId) {
+                    this.drawPlayer(player, centerX, centerY);
+                }
             });
+            this.drawMapBorder();
         }
 
         this.updateDebugInfo();
@@ -322,13 +525,45 @@ class Game {
 
     sendChatMessage(chatInput) {
         const message = chatInput.value.trim();
-        if (message && this.socket && this.socket.readyState === 1) {
-            console.log('[CHAT][SEND] Отправка сообщения:', message);
-            this.socket.send(JSON.stringify({ type: 'chat', message: message }));
+        if (message && this.socket && this.socket.readyState === WebSocket.OPEN) {
+            // Ограничение длины сообщения
+            const maxLength = 30;
+            const shortMessage = message.length > maxLength ? message.substring(0, maxLength) + '...' : message;
+            this.socket.send(JSON.stringify({
+                type: 'chat',
+                message: shortMessage
+            }));
             chatInput.value = '';
-        } else {
-            console.log('[CHAT][SEND] Не удалось отправить сообщение:', message, 'Socket:', this.socket);
+            // Воспроизвести звук отправки
+            if (this.sounds && this.sounds.chat) {
+                this.sounds.chat.play().catch(e => console.log('Error playing chat sound:', e));
+            }
+            // Показать сообщение над игроком
+            if (this.localPlayerId) {
+                this.showMessageAbovePlayer(this.localPlayerId, shortMessage);
+            }
         }
+    }
+
+    showMessageAbovePlayer(playerId, message) {
+        // Ограничиваем длину сообщения
+        const maxLength = 30;
+        const shortenedMessage = message.length > maxLength ? 
+            message.substring(0, maxLength) + '...' : message;
+        
+        // Устанавливаем сообщение
+        this.playerMessages.set(playerId, shortenedMessage);
+        
+        // Очищаем предыдущий таймер, если он есть
+        if (this.messageTimers.has(playerId)) {
+            clearTimeout(this.messageTimers.get(playerId));
+        }
+        
+        // Устанавливаем новый таймер для удаления сообщения через 5 секунд
+        this.messageTimers.set(playerId, setTimeout(() => {
+            this.playerMessages.delete(playerId);
+            this.messageTimers.delete(playerId);
+        }, 5000));
     }
 
     render() {
@@ -364,6 +599,5 @@ class Game {
 }
 
 window.onload = () => {
-    console.log('[GAME] window.onload');
     window.gameInstance = new Game();
 }; 
