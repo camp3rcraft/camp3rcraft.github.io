@@ -31,6 +31,29 @@
         <div>
             <a href="index.html"><button class="top-title"><img src="assets/site_logo.png" alt="Site logo" width="40px">camper_crafting</button></a>
         </div>
+        <div id="countdown-container" style="display: flex; align-items: center; margin-top: 5px;">
+            <div id="countdown-label" style="margin-right: 15px; font-size: 15px; font-weight: bold; color: #ddd; text-shadow: 0 0 15px #ddd;">
+                🏖️До лета:
+            </div>
+            <div class="countdown">
+                <div class="countdown-item">
+                    <span id="days">00</span>
+                    <span class="label">Дней</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="hours">00</span>
+                    <span class="label">Часов</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span>
+                    <span class="label">Минут</span>
+                </div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span>
+                    <span class="label">Секунд</span>
+                </div>
+            </div>
+        </div>
         <div class="navbar">
             <a><button class="navbar-button-this">Обо мне</button></a>
             <a href="projects.html"><button class="navbar-button">Проекты</button></a>
@@ -41,7 +64,7 @@
         <div class="content">
             <p class="content-title">Обо мне</p>
             <a><img src="assets/topavatarchevo.png" alt="GDPS Spherium logo" width="60px" style="box-shadow: 0 0 45px #ff7300; margin-left: 20px; display: inline-block; vertical-align: middle;"><p class="content-text" style="display: inline-block; font-size: 40px; vertical-align: middle; margin-top: 13px;">Кемпер</p></a>
-            <div id="errorBox" style="
+            <!-- <div id="errorBox" style="
                 display: none;
                 background-color: #ff4d4f;
                 color: white;
@@ -64,11 +87,11 @@
                         <p style="color: #389650; font-size: 15px;"><span id="elapsedTime"></span></p>
                     </div>
                 </div>
-            </div>                    
+            </div>                     -->
             <p class="content-text">Звать меня Кемпером или Ваней. Мини ютубер на мини аудиторию. На данный момент 6К+ подписчиков на YouTube, планирую двигаться дальше. Пока что покинул часть интернета в которую входит недоразработка плагинов Minecraft, недоприложения ну и собственно канал на ютубчике.</p>
-            <div style="text-align: center;">
+            <!-- <div style="text-align: center;">
                 <a href="quadro-client/index.html"><button class="playquadro">Поиграть в quadro</button></a>
-            </div>
+            </div> -->
             <div style="text-align: center;">
                 <button id="toggleDevicesBtn">Мои девайсы</button>
                 <div class="devices-wrapper" id="devicesWrapper">
@@ -78,6 +101,7 @@
             <p style="margin: 0 auto; text-align: center;"><a class="content-text-social" href="projects.html" style="color: #ff9900; font-size: 20px; text-shadow: 0 0 15px #ff7300; text-decoration: none;">Проекты</a><a class="content-text-social" href="social.html" style="color: #ff9900; font-size: 20px; text-shadow: 0 0 15px #ff7300; text-decoration: none;">Ссылки</a></p>
             <p class="content-text" style="text-align: center; font-size: 15px;">Кнопки есть и в навбаре да я знаю чавооо</p>
             <p class="content-text" id="last-update" style="text-align: center; font-size: 12px; color: #acacac">loading...</p>
+            
         </div><br>
         <div class="gif88x31">
             <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif" style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif" style="margin-right: 10px;"></a><a href="https://isvery.fun"><img src="https://isvery.fun/assets/88x31.gif" alt="isvery.fun"></a>
@@ -91,12 +115,13 @@
                 setTimeout(() => {
                   preloader.style.display = 'none';
                   document.getElementById('content').style.display = 'block';
-                }, 1000);
-              }, 1000);
+                }, 400);
+              }, 400);
             });
           </script>
           <script src="last-update.js"></script>
           <script src="devices.js"></script>
           <script src="discord-status.js"></script>
+          <script src="countdown.js"></script>
     </body>
 </html>

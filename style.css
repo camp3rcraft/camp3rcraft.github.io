@@ -22,7 +22,7 @@ body {
     background: radial-gradient(#d37306, #000);
     filter: blur(100px);
     overflow: hidden;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .bgCircle {
@@ -42,7 +42,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #ffd00085;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-4 {
@@ -76,7 +76,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #e79908c7;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-3 {
@@ -109,7 +109,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #d8a80a;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-2 {
@@ -142,7 +142,7 @@ body {
     animation-iteration-count: infinite;
     animation-direction: alternate;
     background: #ff510069;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-1 {
@@ -177,7 +177,7 @@ body {
     background: #ffffff00;
     border: 15px solid #ff9900;
     border-radius: 50%;
-    transition: all 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes bg-circle-anim-5 {
@@ -1207,3 +1207,48 @@ body {
     min-width: 320px;
     text-align: center;
   }
+
+  #countdown-container {
+  display: flex;
+  align-items: center;
+}
+
+#countdown-label {
+  margin-right: 15px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+}
+.countdown-item {
+  text-align: center;
+  margin-right: 10px;
+  margin-left: 10px;
+  color: #ddd;
+  text-shadow: 0 0 15px #ddd;
+}
+.countdown-item span {
+  display: block;
+  font-size: 15px;
+}
+
+.label {
+  font-size: 10px;
+  color: #c2c1c1;
+}
+
+.summer-message {
+    font-size: 20px;
+    color: #ddd;
+    text-shadow: 0 0 15px #ddd;
+}
+
+.beach-svg {
+  margin-top: 30px;
+  border-radius: 0 0 30px 30px;
+  overflow: hidden;
+  box-shadow: inset 0 10px 20px -10px #d9b44a;
+}

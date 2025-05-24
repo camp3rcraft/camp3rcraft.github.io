@@ -14,13 +14,13 @@ const devices = [
     {
         icon: "devices/phone.png",
         name: "Мобила",
-        specs: "Samsung Galaxy S21+<br>display - Dynamic AMOLED 2X 2400 x 1080 (FHD+)<br>cpu - Exynos 2100<br>memory - 8/256гб<br>os - One UI 6.1 (Android 14)",
+        specs: "Samsung Galaxy S21+<br>display - Dynamic AMOLED 2X 2400 x 1080 (FHD+)<br>cpu - Exynos 2100<br>memory - 8/256гб<br>os - One UI 7.0 (Android 15)",
         date: "26-09-2024"
     },
     {
         icon: "devices/step-phone.png",
         name: "Вторая мобила",
-        specs: "Samsung Galaxy S8<br>display - Super AMOLED 2960 x 1440<br>cpu - Exynos 8895<br>memory - 4/64гб<br>os - One UI 7 (Android 15)",
+        specs: "Samsung Galaxy S8<br>display - Super AMOLED 2960 x 1440<br>cpu - Exynos 8895<br>memory - 4/64гб<br>os - One UI 7.0 (Android 15)",
         date: "25-02-2025"
     },
     {
