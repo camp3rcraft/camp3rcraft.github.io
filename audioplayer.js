@@ -14,6 +14,11 @@ const tracks = [
     { file: "track13.mp3", title: "Strad", author: "C418" },
     { file: "track14.mp3", title: "Dog", author: "C418" },
     { file: "track15.mp3", title: "otherside", author: "Lena Raine" },
+    { file: "track16.mp3", title: "Still Loving You", author: "Scorpions" },
+    { file: "track17.mp3", title: "Lunar Abyss", author: "Lchavasse" },
+    { file: "track18.mp3", title: "ЯḄЬ", author: "AXIUS LIИK" },
+    { file: "track19.mp3", title: "Noise", author: "Hensonn" },
+    { file: "track20.mp3", title: "Tears", author: "Amos Roddy" },
 ];
 
 const audioFolder = './audio/';
@@ -35,7 +40,7 @@ let isRepeat = false;
 
 // Конфигурация для изменения нескольких CSS-свойств
 const colorConfig = {
-    specialTracks: [10, 11, 12, 13, 14], // Индексы треков 11-15 (0-based)
+    specialTracks: [10, 11, 12, 13, 14, 19], // Индексы треков 11-15 (0-based)
     targetClasses: {
         'backgroundGradient': { background: 'radial-gradient(#5406d3, #000)' },
         'bgCircle4': { background: '#5900ff85' },
