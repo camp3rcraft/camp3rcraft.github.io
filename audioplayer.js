@@ -19,6 +19,7 @@ const tracks = [
     { file: "track18.mp3", title: "ЯḄЬ", author: "AXIUS LIИK" },
     { file: "track19.mp3", title: "Noise", author: "Hensonn" },
     { file: "track20.mp3", title: "Tears", author: "Amos Roddy" },
+    { file: "track21.mp3", title: "Classic Pursuit", author: "cYsmix" },
 ];
 
 const audioFolder = './audio/';
