@@ -1404,7 +1404,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 16px;
-  max-width: 600px;
+  max-width: 650px;
   margin: 20px auto 0 auto; /* auto по бокам центрирует */
   justify-items: center;    /* центрирует карточки в ячейках */
   margin-bottom: 20px;
