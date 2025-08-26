@@ -9,31 +9,31 @@ const cardData = [
         icon: 'assets/prikols/pasta.png',
         title: 'Пасты на каждый день',
         description: 'Тут ты найдёшь сборник различных паст на свой вкус и пук. пасты от пансана, ну и свои парочку',
-        link: 'pasta.html'
+        link: 'pasta'
     },
     {
         icon: 'assets/prikols/gallery.png',
         title: 'Галерея из дерьма',
         description: 'Добро пожаловать в самую топовую галерею этого мира! Здесь собраны шедевры лучших творителей, взгляните!',
-        link: 'gallery.html'
+        link: 'gallery'
     },
     {
         icon: 'assets/prikols/weather.png',
         title: 'Погода',
         description: 'Узнайте погоду в вашем регионе легко и быстро',
-        link: 'weather.html'
+        link: 'weather'
     },
     {
         icon: 'assets/prikols/base64.png',
         title: 'base64',
         description: 'Кодировка текста в base64 и декодировка base64 в текст. Удобно, ачо',
-        link: 'base64.html'
+        link: 'base64'
     },
     {
         icon: 'assets/prikols/clock.png',
         title: 'Часы',
         description: 'Здесь показывается ваше время и дата, есть таймер и секундомер',
-        link: 'clock.html'
+        link: 'clock'
     },
 ];
 

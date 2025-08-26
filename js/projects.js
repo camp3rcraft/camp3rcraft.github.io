@@ -36,7 +36,7 @@ const projects = [
         openDate: "",
         telegram: "",
         discord: "",
-        website: "ctn/index.html",
+        website: "ctn/index",
         github: ""
     }
 ];
