@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubbles Background</title>
+  <style>
+.bubble-background {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Or desired height */
+  overflow: hidden; /* Hide bubbles outside the container */
+}
+
+.bubble {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.3); /* Semi-transparent white */
+  border-radius: 50%;
+  animation: float-bubble linear infinite; /* Apply animation */
+}
+
+/* Example Keyframe Animation */
+@keyframes float-bubble {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100vh) scale(1.2); /* Adjust for desired movement */
+    opacity: 0;
+  }
+}
+
+/* Individual bubble styling for variation */
+.bubble:nth-child(1) {
+  width: 20px;
+  height: 20px;
+  left: 10%;
+  animation-duration: 10s;
+  animation-delay: 0s;
+}
+
+.bubble:nth-child(2) {
+  width: 35px;
+  height: 35px;
+  left: 30%;
+  animation-duration: 12s;
+  animation-delay: 2s;
+}
+/* Add more for varied sizes, positions, and animation timings */
+  </style>
+</head>
+<body>
+  <h1>Create Eye-popping Hero Sections</h1>
+
+<div class="bubble-background">
+  <span class="bubble"></span>
+  <span class="bubble"></span>
+  <!-- Add more bubbles as needed -->
+</div>
+</body>
+</html>

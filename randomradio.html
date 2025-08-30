@@ -33,36 +33,125 @@
             <a href="index"><button class="navbar-button">Обо мне</button></a>
             <a href="projects"><button class="navbar-button">Проекты</button></a>
             <a href="prikols"><button class="navbar-button">Приколы</button></a>
-            <a href="social"><button class="navbar-button">Ссылки</button></a>
+            <!-- <a href="social"><button class="navbar-button">Ссылки</button></a> -->
             <a href="site"><button class="navbar-button">О сайте</button></a>
         </div>
         <div class="content">
-            <p class="content-title">ShampurRadio</p>
-            <p class="content-text">Плеер в котором воспроизводится музыка с моего сайта. Включи, послушай то чо я слушаю</p>
-            <div class="player" style="text-align: center; margin-bottom: 20px;">
-                <audio id="audio"></audio>
-                <span class="player-textTitle" id="trackTitle" style="margin-top: 20px; font-size: 25px; text-align: center; margin-top: 20px; transition: all 0.2s ease-in-out;"></span><br><span class="player-author fade-in" id="trackAuthor" style="color: #ddd; margin-top: 20px; font-size: 17px; text-shadow: 0 0 15px #ddd; text-align: center; margin-top: 20px;"></span><br>
-                <button id="prevTrack" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img src="assets/player/skip_previous.svg"></a></button>
-                <button id="playPause" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img id="playPauseIcon" src="assets/player/play_arrow.svg"></a></button>
-                <button id="stop" class="player-button" style="margin-top: 20px;"><a class="material-symbols-outlined"><img src="assets/player/stop.svg"></a></button>
-                <button id="nextTrack" class="player-button" style="margin-top: 20px;"><img src="assets/player/skip_next.svg"></button>
-                <input class="player-input" type="range" id="volume" min="0" max="1" value="1" step="0.01" style="width: 100px; margin-top: 10px;">
-                <!-- <button id="repeatTrack" class="player-button" style="margin-top: 20px;">🔁</button> -->
-                <div id="player-div">
-                 <span id="currentTime" class="player-text" style="font-size: 20px; color: #ddd;">00:00</span><span id="duration" class="player-text" style="font-size: 15px; color: #b9b9b9">00:00</span>
+            <p class="content-title" style="margin-bottom: 0px;">ShampurRadio<br><p style="font-size: 15px; color: #ff9900; margin-bottom: 10px; text-align: center; margin-top: 0px;"> Бета 2.0.0</p></p>
+            <!-- <p class="content-text">Плеер в котором воспроизводится музыка с моего сайта. Включи, послушай то чо я слушаю</p> -->
+                <div class="player" style="text-align: center; margin-bottom: 20px;">
+                    <audio id="audio"></audio>
+                    <!-- <button id="playlistName" class="playlist-name-btn">ShampurRadio ▼</button> -->
+                    <img id="trackCover" src="assets/covers/unknown-track.png" alt="Cover" style="user-select: none; width:150px; height:150px; margin:10px auto; display:block; border-radius:10px; margin-top: 20px;">
+                    <span class="player-textTitle" id="trackTitle" style="margin-top: 20px; font-size: 25px; cursor: pointer;"></span><span style="font-size: 15px; color: #9e9e9e;">ID:</span><span id="trackID" style="cursor: pointer; font-size: 15px; color: #9e9e9e;">0</span><br>
+                    <span class="player-author fade-in" id="trackAuthor" style="color: #ddd; font-size: 17px;"></span><br>
+                    
+                                        <div id="player-div">
+                        <span id="currentTime" style="font-size: 20px; color: #ddd;">00:00</span>
+                        <span id="duration" style="font-size: 15px; color: #b9b9b9; margin-bottom: 0px;">00:00</span>
+                    </div>
+
+                    <button id="settingsButton" class="settings-btn"><img src="assets/player/settings.svg" alt="Настройки" /></button>
+                    <button id="prevTrack" class="player-button"><img src="assets/player/skip_previous.svg"></button>
+                    <button id="playPause" class="player-button" style="width: 60px; height: 50px"><img id="playPauseIcon" src="assets/player/play_arrow.svg"></button>
+                    <button id="nextTrack" class="player-button"><img src="assets/player/skip_next.svg"></button>
+                    <button class="like-btn" id="likeButton"><img src="assets/icons/heart.svg" alt="Like"></button><br>
+                    <!-- <button id="stop" class="player-button" style="width: 50px; height: 40px; margin-top: 0;"><img src="assets/player/stop.svg"></button><br> -->
+                    <input class="player-input" type="range" id="volume" min="0" max="1" value="1" step="0.01" style="width: 100px; margin-top: 5px; margin-bottom: 20px;"><br>
+                    <!-- <button id="repeatTrack" class="player-button">🔁</button> -->
+
                 </div>
-                <div id="lyricsDisplay" style="
-    position: fixed; bottom: 20px; width: 100%; text-align: center; 
-    color: white; font-size: 1.2em; text-shadow: 0 0 10px rgba(255,255,255,0.5);
-    user-select: none;
-"></div>
-            </div>
-            <p class="content-text" style="text-align: center; font-size: 15px; color: #b9b9b9; margin-bottom: 0px;">Кол-во треков: 26</p>
-            <a href="iframeradio" style="text-decoration: none;"><p class="content-text" style="text-align: center; font-size: 15px; color: #ff9900; text-shadow: 0 0 15px #ff7300; margin-top: 0px;">Как добавить этот плеер на свой сайт?</p></a>
-            <script src="js/audioplayer.js"></script>
+            <p class="content-text" style="text-align: center; font-size: 15px; color: #b9b9b9; margin-bottom: 20px;">Кол-во треков: 26</p>
+            <!-- <a href="iframeradio" style="text-decoration: none;"><p class="content-text" style="text-align: center; font-size: 15px; color: #ff9900; text-shadow: 0 0 15px #ff7300; margin-top: 0px;">Как добавить этот плеер на свой сайт?</p></a> -->
         </div>
         <div class="gif88x31">
-            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.github.io"><img src="assets/pansangg.gif"  style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="https://n3tael.eu.org/assets/buttons/n3tael.gif" style="margin-right: 10px;"></a><a href="https://isvery.fun"><img src="https://isvery.fun/assets/88x31.gif" alt="isvery.fun" style="margin-right: 10px;"></a><a href="https://www.mozilla.org/ru/firefox/"><img src="assets/firefox.png"></a>
+            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://camper.isvery.fun/randomradio"><img src="assets/shampurradio.gif"  style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="https://n3tael.eu.org/assets/buttons/n3tael.gif" style="margin-right: 10px;"></a><a href="https://isvery.fun"><img src="https://isvery.fun/assets/88x31.gif" alt="isvery.fun" style="margin-right: 10px;"></a><a href="https://www.mozilla.org/ru/firefox/"><img src="assets/firefox.png"></a>
         </div>
+                <!-- Модальное окно -->
+                <div id="musicModalOverlay" class="music-modal-overlay" style="display:none;">
+                    <div class="music-modal">
+                        <span id="musicModalClose" class="music-modal-close">&times;</span>
+                        <img id="modalTrackCover" src="assets/covers/unknown-track.png" alt="Cover" style="user-select: none; width:200px; height:200px; margin:0 auto 10px; display:block; border-radius:10px;">
+                        <h2 id="musicModalTitle">Трек</h2>
+                        <p id="musicModalAuthor">Автор</p>
+                        <div id="musicModalLinks" class="music-modal-links"></div>
+                    </div>
+                </div>
+
+<div id="explicitWarningOverlay" class="modal-overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; 
+    background:rgba(0,0,0,0.75); justify-content:center; align-items:center; z-index:9999;">
+  <div style="background:#222; padding:20px; border-radius:10px; text-align:center; max-width:320px; color:#fff;">
+    <h2>Внимание!</h2>
+    <p>Этот трек содержит Explicit Content.</p>
+    <button id="explicitListenFromStart" style="margin-right:10px; padding:8px 12px;">Слушать с начала</button>
+    <button id="explicitListenAnyway" style="padding:8px 12px;">Всё равно послушать</button>
+  </div>
+</div>
+
+
+<div class="settings-modal-overlay">
+  <div class="settings-modal">
+    <span class="settings-modal-close">&times;</span>
+
+    <!-- <div class="setting-item">
+      <div class="setting-info">
+        <h3>Vibe Mode</h3>
+        <p>Включает на определённых треках фиолетовое оформление</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="vibeModeCheckbox">
+        <span class="slider round"></span>
+      </label>
+    </div>
+
+    <div class="setting-item">
+      <div class="setting-info">
+        <h3>Skip Explicit Content</h3>
+        <p>Пропускать контент с пометкой Explicit Content</p>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="skipExplicitCheckbox">
+        <span class="slider round"></span>
+      </label>
+    </div> -->
+
+    <p style="text-align: center; color: #696969; font-size: 1.5em;">В разработке...</p>
+
+  </div>
+</div>
+
+<!-- <div id="playlistModalOverlay" class="playlist-modal-overlay">
+  <div id="playlistModal" class="playlist-modal">
+    <button id="playlistModalClose" class="playlist-close">×</button>
+    <h2 class="playlist-title">Выбери плейлист</h2>
+    <div id="playlistList" class="playlist-list"></div>
+  </div>
+</div> -->
+
+<div id="likeNotification" class="notification"></div>
+<div id="copyNotification" class="copy-notification">Ссылка на трек скопирована!</div>
+
+<div id="welcomeModalOverlay" class="welcome-modal-overlay" style="display:none;">
+  <div class="welcome-modal-window">
+    <h2>ShampurRadio Бета 2.0.0</h2>
+    <p>Недавно радио очень сильно обновилось, могут быть ошибки и баги. У плеера теперь новый дизайн, добавлен скип Explicit Content, а также можно теперь делиться треками из радио и добавить текущий трек у себя в сервисе (YouTube, Spotify или Яндекс Музыка)</p>
+    <h2 style="text-align: left; color: #ddd; text-shadow: none; font-size: 20px; margin-top: 10px;">Главные изменения</h2>
+    <p style="margin-top: 5px; font-size: 10px;">1. Внешка плеера переработана</p>
+    <p style="margin-top: 5px; font-size: 10px;">2. Можно посмотреть на каких площадках есть текущий трек. Для этого кликните по его названию</p>
+    <p style="margin-top: 5px; font-size: 10px;">3. Моментальное обновление информации о треке</p>
+    <p style="margin-top: 5px; font-size: 10px;">4. Covers: Обложки к трекам</p>
+    <p style="margin-top: 5px; font-size: 10px;">5. Explicit Content: Пометка Explicit Content и возможность скипать такой контент. Для этого зайдите в настройки</p>
+    <p style="margin-top: 5px; font-size: 10px;">6. Copy-ID-for-Share: кликните по ID трека и у вас скопируется ссылка на этот трек. По этой ссылке можно будет послушать трек легко и быстро</p>
+    <!-- <p><a href="https://github.com/yourusername/yourrepo#readme" target="_blank" rel="noopener" style="color:#ff9900; text-decoration:none; text-align: center;">Ченджлог на GitHub</a></p> -->
+    <label style="display:flex; align-items:center; justify-content:flex-start; gap:10px; margin-top:20px; color:#ccc; font-size: 14px;">
+      <input type="checkbox" id="dontShowCheckbox" />
+      Не показывать больше
+    </label>
+    <button id="continueBtn">Продолжить</button>
+  </div>
+</div>
+
+
+                <script src="js/audioplayer.js"></script>
     </body>
 </html>

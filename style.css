@@ -443,21 +443,20 @@ body {
 }
 
 .navbar {
-    background-color: #3a382178;
+    background-color: rgba(56, 56, 56, 0.308);
+    border-radius: 55px;
     backdrop-filter: blur(5px);
     margin-top: 20px;
     padding: 15px;
-    border: 5px solid #ddd;
-    border-radius: 75px;
-    box-shadow: 0 0 15px #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .navbar-button {
-    background-color: #466e7a78;
+    background-color: rgba(255, 255, 255, 0.05);
 	backdrop-filter: blur(5px);
-    box-shadow: 0 0 15px #ddd;
+    /* box-shadow: 0 0 15px #ddd; */
     padding: 4px;
-    border: 3px solid #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 75px;
     color: #ddd;
     font-size: 20px;
@@ -510,13 +509,13 @@ body {
 }
 
 .content {
-    background-color: #3a382178;
+    background-color: rgba(56, 56, 56, 0.308);
+    border-radius: 25px;
     backdrop-filter: blur(5px);
     margin-top: 40px;
     width: 700px;
-    border: 5px solid #ddd;
-    border-radius: 35px;
-    box-shadow: 0 0 15px #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* box-shadow: 0 0 15px #ddd; */
 }
 
 .devices-container {
@@ -530,21 +529,24 @@ body {
 }
 
 #toggleDevicesBtn {
-    background-color: #946500;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 55px;
 	backdrop-filter: blur(5px);
-    box-shadow: 0 0 45px #ff7300;
+    /* box-shadow: 0 0 45px #ff7300; */
     padding: 4px;
     margin-bottom: 10px;
-    border: 3px solid #ffae00;
-    border-radius: 75px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffae00;
     font-size: 25px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
 #toggleDevicesBtn:hover {
-    background-color: #cc8b00;
-    color: #ffae00;
+    transform: translateY(-10px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    cursor: pointer;
 }
 
 .playquadro {
@@ -865,27 +867,25 @@ body {
 }
 
 .player {
-    background-color: #7a764678;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 35px;
     margin-top: 40px;
     margin-bottom: 20px;
-    width: 60%;
+    width: 70%;
     display: block;
     margin: 0 auto;
-    border: 3px solid #ddd;
-    border-radius: 35px;
-    box-shadow: 0 0 15px #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .player-button {
     margin-top: 10px;
     margin-bottom: 10px;
     width: 50px;
-    background-color: #466e7a78;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 35px;
 	backdrop-filter: blur(5px);
-    box-shadow: 0 0 15px #ddd;
     padding: 4px;
-    border: 3px solid #ddd;
-    border-radius: 75px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     font-size: 15px;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -901,8 +901,8 @@ body {
 }
 
 .player-button:hover {
-    background-color: #ddd;
-    color: #466e7a78;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
 }
 
 .player-text {
@@ -1049,6 +1049,507 @@ body {
     color: green;
 }
 
+.music-modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 15, 20, 0.85);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.music-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto; /* кликабельный, когда видим */
+}
+
+.music-modal {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 24px;
+    max-width: 420px;
+    width: 90%;
+    color: #fff;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+    animation: scaleIn 0.3s ease;
+    text-align: center;
+    position: relative;
+}
+
+.music-modal-overlay.active .music-modal {
+    transform: scale(1);
+}
+
+.music-modal h2 {
+    margin: 0 5px 20px 5px;
+    margin-bottom: 0px;
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    font-size: 30px;
+}
+
+.music-modal p {
+    margin-top: 0px;
+    color: #ddd;
+    font-size: 20px;
+}
+
+.music-modal-close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 26px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+    transition: color 0.2s;
+}
+.music-modal-close:hover {
+    color: #ff9900;
+}
+
+.music-modal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* кнопки с иконкой и тайтлом */
+.music-modal-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.25s ease;
+}
+
+/* бренды */
+.music-modal-button.youtube {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff0000;
+}
+.music-modal-button.spotify {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #1db954;
+}
+.music-modal-button.soundcloud {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff7700;
+}
+.music-modal-button.yandex {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffcc00;
+}
+
+.music-modal-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+/* анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes scaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* иконки в кнопках (через <img>) */
+.music-modal-button img {
+    width: 20px;
+    height: 20px;
+}
+
+/* контейнер модалки и анимация как раньше */
+.settings-modal-overlay {
+    display: flex; /* ставим flex всегда, но делаем скрытым */
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 15, 20, 0.85);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.settings-modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.settings-modal {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 24px;
+    max-width: 420px;
+    width: 90%;
+    color: #fff;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    position: relative;
+    text-align: left;
+}
+.settings-modal-overlay.active .settings-modal {
+    transform: scale(1);
+    opacity: 1;
+}
+.settings-modal-close {
+    position: absolute; right: 20px; top: 15px;
+    font-size: 26px; font-weight: bold;
+    cursor: pointer; color: #aaa;
+    transition: color 0.2s;
+}
+.settings-modal-close:hover { color: #ff9900; }
+
+/* отдельная настройка */
+.setting-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    margin-bottom: 16px;
+}
+.setting-info h3 {
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    margin: 0 0 4px 0;
+}
+.setting-info p { 
+    color: #999; 
+    margin: 0; 
+    max-width: 350px; 
+}
+
+/* toggle switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px; 
+  height: 26px;
+}
+.switch input { display: none; }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #555;
+  transition: 0.2s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px; /* подогнал */
+  width: 20px;
+  left: 3px; top: 3px;
+  background-color: white;
+  transition: 0.2s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+    background-color: #ff9900;
+    box-shadow: 0 0 15px #ff7300;
+}
+input:checked + .slider:before { transform: translateX(24px); }
+
+
+.explicit-badge {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.copy-notification {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    padding: 12px 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10000;
+}
+.copy-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.playlist-modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+    z-index: 1000;
+}
+
+.playlist-modal-overlay.active {
+    opacity: 1;
+}
+
+.playlist-modal {
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    color: white;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.playlist-modal-overlay.active .playlist-modal {
+    transform: translateY(0);
+}
+
+.playlist-title {
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.playlist-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.playlist-item {
+    background: #2a2a2a;
+    border-radius: 12px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+    text-align: center;
+}
+
+.playlist-item:hover {
+    transform: scale(1.05);
+    background: #3a3a3a;
+}
+
+.playlist-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.playlist-item span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.track-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+  padding:6px;
+  border-radius:8px;
+  position:relative;
+}
+.track-info { display:flex; gap:8px; align-items:center; }
+.track-cover { position:relative; width:50px; height:50px; border-radius:5px; overflow:hidden; }
+.track-cover img { width:100%; height:100%; object-fit:cover; }
+.play-button { 
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  display:none; background:rgba(0,0,0,0.5); border-radius:50%; padding:6px; cursor:pointer;
+}
+.track-cover:hover .play-button { display:block; }
+
+.track-title { font-weight:bold; }
+.track-author { color:#ccc; font-size:0.85em; }
+.track-explicit { color:#ff3300; font-size:0.75em; margin-left:4px; }
+
+.track-meta { display:flex; align-items:center; gap:8px; }
+.track-duration { font-size:0.8em; color:#aaa; }
+.track-like { cursor:pointer; width:22px; height:22px; }
+.track-like.liked { filter: hue-rotate(320deg); } /* красный */
+
+.like-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 45px;
+    background-color: rgba(255, 0, 0, 0.397);
+    border-radius: 35px;
+	backdrop-filter: blur(5px);
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+.like-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+}
+
+.settings-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 45px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 35px;
+	backdrop-filter: blur(5px);
+    padding: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24
+}
+
+.settings-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+}
+
+.notification {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    padding: 12px 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10000;
+}
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.welcome-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(15, 15, 20, 0.85);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.welcome-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.welcome-modal-window {
+background-color: rgba(255, 255, 255, 0.05);
+border-radius: 15px;
+border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 30px 40px;
+  max-width: 700px;
+  width: 90%;
+  text-align: center;
+  /* color: white; */
+  /* box-shadow: 0 0 20px rgba(255, 153, 0, 0.8); */
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.welcome-modal-overlay.active .welcome-modal-window {
+  transform: scale(1);
+}
+
+.welcome-modal-window h2 {
+  margin: 0;
+  font-size: 25px;
+  color: #ff9900;
+  text-shadow: 0 0 15px #ff7300;
+}
+
+.welcome-modal-window p {
+    text-align: left;
+    margin-top:10px;
+    color:#ffffff;
+  margin: 0;
+  font-size: 15px;
+}
+
+.welcome-modal-window button {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 55px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ff9900;
+    text-shadow: 0 0 15px #ff7300;
+    margin-top: 10px;
+    cursor: pointer;
+  font-size: 25px;
+  transition: all 0.2s ease-in-out;
+}
+
+.welcome-modal-window button:hover {
+        transform: translateY(-5px);
+    box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
 .images-row {
     text-align: center;
   }
@@ -1182,14 +1683,13 @@ body {
 }
 
 .gif88x31 {
-    background-color: rgba(122, 118, 70, 0.47);
+    background-color: rgba(56, 56, 56, 0.308);
+    border-radius: 55px;
     backdrop-filter: blur(5px);
     margin-top: 40px;
     width: fit-content;
     padding: 15px;
-    border: 5px solid #ddd;
-    border-radius: 55px;
-    box-shadow: 0 0 15px #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #maintenance-backdrop {
@@ -1409,7 +1909,7 @@ body {
 
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
   gap: 16px;
   max-width: 650px;
   margin: 20px auto 0 auto; /* auto по бокам центрирует */
@@ -1424,9 +1924,9 @@ body {
     border-radius: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 16px 24px;
-  width: 240;
+  width: 35px;
   transition: box-shadow 0.2s;
-  height: 72px;
+  height: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -1440,10 +1940,10 @@ body {
 }
 
 .about-icon {
-  width: 44px;
-  width: 44px;
-  height: 44px;
-  margin-right: 16px;
+  /* width: 24px; */
+  width: 34px;
+  height: 34px;
+  /* margin-right: 16px; */
   border-radius: 12px;
   object-fit: cover;
   flex-shrink: 0;
