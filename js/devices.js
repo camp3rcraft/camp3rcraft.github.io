@@ -18,17 +18,17 @@ const devices = [
         date: "26-09-2024"
     },
     {
+        icon: "assets/devices/siphone.png",
+        name: "Вторая мобила",
+        specs: "iPhone 8<br>display - Retina HD 1334 x 750<br>cpu - A11 Bionic<br>memory - 2/64гб<br>os - iOS 16.7.7",
+        date: "29-08-2025",
+        // sold: true
+    },
+    {
         icon: "assets/devices/laptop.png",
         name: "Ноутбук",
         specs: "Acer Aspire 5 A515-51G<br>cpu - Intel Core i3 6006U<br>ram - 6гб RAM<br>gpu - NVIDIA GeForce 940mx<br>disk - SSD 512гб<br>os - Windows 11",
         date: "20-09-2019"
-    },
-    {
-        icon: "assets/devices/step-phone.png",
-        name: "Вторая мобила",
-        specs: "Samsung Galaxy S8<br>display - Super AMOLED 2960 x 1440<br>cpu - Exynos 8895<br>memory - 4/64гб<br>os - One UI 7.0 (Android 15)",
-        date: "25-02-2025",
-        sold: true
     }
 ];
 

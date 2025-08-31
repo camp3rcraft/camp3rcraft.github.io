@@ -542,7 +542,7 @@ body {
     transition: all 0.2s ease-in-out;
 }
 #toggleDevicesBtn:hover {
-    transform: translateY(-10px);
+    transform: translateY(-3px);
     box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
     -webkit-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
     -moz-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
