@@ -948,88 +948,71 @@ body {
     display: inline-block;
 }
 
-.player-input[type="range"] {
-    background: transparent;
-    transition: all 0.2s ease-in-out;
+.player-input {
+  -webkit-appearance: none; /* убираем стандартный стиль */
+  appearance: none;
+  width: 100px;
+  height: 8px;
+  background: #dddddd00;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
 }
 
-.player-input[type="range"]::-moz-range-track {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #466e7a78;
-    padding: 4px;
-    border: none;
-    border-radius: 75px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+/* Chrome, Safari */
+.player-input::-webkit-slider-runnable-track {
+  height: 7px;
+  background: #ffaa2b;
+  border-radius: 55px;
 }
 
-.player-input[type="range"]::-moz-range-progress {
-    background-color: rgb(97, 97, 97);
-    height: 60%;
-    border-radius: 75px;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+.player-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 55px;
+  cursor: pointer;
+  margin-top: -5px; /* чтобы кружок был по центру трека */
 }
 
-.player-input[type="range"]::-moz-range-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+
+/* Firefox */
+.player-input::-moz-range-track {
+  height: 5px;
+  background: #466e7a78;
+  border-radius: 55px;
 }
 
-.player-input[type="range"]::-moz-range-track {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #466e7a78;
-    box-shadow: 0 0 15px #ddd;
-    padding: 4px;
-    border: 3px solid #ddd;
-    border-radius: 75px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+.player-input::-moz-range-progress {
+  height: 9px;
+  background: #ff9900;
+  box-shadow: 0 0 25px #ff7300;
+  border-radius: 55px;
+  position: relative;   /* добавляем позиционирование */
+  z-index: 2;
 }
 
-.player-input[type="range"]::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #466e7a78;
-    padding: 4px;
-    border: none;
-    border-radius: 75px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
+.player-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 55px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;   /* добавляем позиционирование */
+  z-index: 1;   
 }
 
-.player-input[type="range"]::-webkit-slider-runnable-track {
-    background-color: rgb(97, 97, 97);
-    height: 60%;
-    border-radius: 75px;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
+/* .player-input::-moz-range-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.596);
+  cursor: pointer;
+} */
 
-.player-input[type="range"]::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
 
-.player-input[type="range"]::-webkit-slider-runnable-track {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #466e7a78;
-    box-shadow: 0 0 15px #ddd;
-    padding: 4px;
-    border: 3px solid #ddd;
-    border-radius: 75px;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-}
 
 .material-symbols-outlined {
   font-variation-settings:
@@ -1564,6 +1547,186 @@ border: 1px solid rgba(255, 255, 255, 0.1);
     -moz-box-shadow: 0 10px 12px -1px rgba(0,0,0,0.5);
     cursor: pointer;
 }
+
+.tracklist-modal-overlay {
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.7);
+  display:none;
+  justify-content: center;
+  align-items: center;
+  z-index:1000;
+}
+
+.tracklist-modal-content {
+  background:#1a1a1a;
+  color:white;
+  max-width: 700px;
+  width: 90%;
+  max-height: 80%;
+  overflow-y: auto;
+  padding: 20px;
+  border-radius:10px;
+  position: relative;
+}
+
+.tracklist-modal-close {
+  position: absolute;
+  top:10px;
+  right:15px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.tracklist-item {
+  display:flex;
+  align-items:center;
+  padding:10px;
+  border-bottom:1px solid #333;
+  gap:10px;
+  position: relative;
+}
+
+.tracklist-item img {
+  width:50px;
+  height:50px;
+  object-fit:cover;
+  border-radius:5px;
+  position: relative;
+}
+
+.tracklist-play-btn-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  cursor: pointer;
+  font-size: 24px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+
+.tracklist-cover-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tracklist-cover-wrapper:hover .tracklist-play-btn-overlay {
+  display: block;
+}
+
+.tracklist-item img:hover + .tracklist-play-btn-overlay {
+  opacity:1;
+}
+
+.tracklist-info {
+  flex:1;
+  display:flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tracklist-buttons {
+  display:flex;
+  gap:5px;
+}
+
+.tracklist-buttons button {
+  background:#333;
+  border:none;
+  color:white;
+  padding:5px 8px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.tracklist-buttons button:hover {
+  background:#555;
+}
+
+#tracklistModal {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  /* другие стили модалки */
+}
+
+#tracklistModal.active {
+  opacity: 1;
+}
+
+
+
+.track-time-slider {
+  -webkit-appearance: none; /* убираем стандартный стиль */
+  appearance: none;
+  width: 80%;
+  height: 8px;
+  background: #dddddd00;
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+
+/* chrome and safari */
+.track-time-slider::-webkit-slider-runnable-track {
+  height: 7px;
+  background: #ffaa2b;
+  border-radius: 55px;
+}
+
+.track-time-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 55px;
+  cursor: pointer;
+  margin-top: -5px;
+}
+
+
+/* firefox */
+.track-time-slider::-moz-range-track {
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 55px;
+}
+
+.track-time-slider::-moz-range-progress {
+  height: 9px;
+  background: #ff9900;
+  box-shadow: 0 0 25px #ff7300;
+  border-radius: 55px;
+  position: relative;   /* добавляем позиционирование */
+  z-index: 2;
+}
+
+.track-time-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 55px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;   /* добавляем позиционирование */
+  z-index: 1; 
+}
+
+
 
 .images-row {
     text-align: center;

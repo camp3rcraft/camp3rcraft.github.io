@@ -27,7 +27,10 @@ const tracks = [
     { file: "track26.mp3", title: "Precipice", author: "Aaron Cherof", explicit: false, cover: "track26.jpg", links: { spotify:"https://open.spotify.com/track/2I3SfDBpiBZjAqYm547JF3?si=edb27f03b6564485", youtube:"https://music.youtube.com/watch?v=dEgjOyBwIaE&si=ieX-5OIXxijqfX1H", yandex:"https://music.yandex.ru/track/127914292?utm_source=web&utm_medium=copy_link" } },
     { file: "track27.mp3", title: "Distortion", author: "LXST CXNTURY", explicit: true, cover: "track27.jpg", links: { spotify:"https://open.spotify.com/track/58leguITNtMvVHSuNJzERV?si=7dbd79db01b248ed", yandex:"https://music.yandex.ru/track/58723124?utm_source=web&utm_medium=copy_link" } },
     { file: "track28.mp3", title: "Волна (Remastered)", author: "DJ SMASH", explicit: false, cover: "track28.jpg", links: { spotify:"https://open.spotify.com/track/4igevpRstq8oQaXB6rhpW1?si=223023b9146f4300", youtube:"https://music.youtube.com/watch?v=D2uZjE7JfPU&si=ZIpU3TTZBltjz9Z0", yandex:"https://music.yandex.ru/track/42125196?utm_source=web&utm_medium=copy_link" } },
-    { file: "track29.mp3", title: "To the Infinity Castle", author: "Diego Mitre", explicit: false, cover: "track29.jpg", links: { spotify:"https://open.spotify.com/track/6vGFGjwN2UVK5dkgIBfjSL?si=b32afdaeb50d43ba", youtube:"https://music.youtube.com/watch?v=JgNTxDhGvsI&si=wY1b27CGaawrb5iR" } }
+    { file: "track29.mp3", title: "To the Infinity Castle", author: "Diego Mitre", explicit: false, cover: "track29.jpg", links: { spotify:"https://open.spotify.com/track/6vGFGjwN2UVK5dkgIBfjSL?si=b32afdaeb50d43ba", youtube:"https://music.youtube.com/watch?v=JgNTxDhGvsI&si=wY1b27CGaawrb5iR" } },
+    { file: "track30.mp3", title: "Cheri Cheri Lady", author: "Modern Talking", explicit: false, cover: "track30.jpg", links: { spotify:"https://open.spotify.com/track/2aEuA8PSqLa17Y4hKPj5rr?si=4a0467ca52404def", youtube:"https://music.youtube.com/watch?v=c1ZCYY-4lAM&si=oiIN_kKp5lMiCRz9" } },
+    { file: "track31.mp3", title: "YMCA - Original Version 1978", author: "Village People", explicit: false, cover: "track31.jpg", links: { spotify:"https://open.spotify.com/track/54OR1VDpfkBuOY5zZjhZAY?si=e893bcd90ced4b30", youtube:"https://music.youtube.com/watch?v=RN8Li7kYNnw&si=x6AfsiRsSGxjETk1", yandex:"https://music.yandex.ru/track/16070954?utm_source=web&utm_medium=copy_link" } },
+    { file: "track32.mp3", title: "Brother Louie", author: "Modern Talking", explicit: false, cover: "track32.jpg", links: { spotify:"https://open.spotify.com/track/5zWZ9iNevP0397xB3jWV2z?si=d226b4c26a5c4795", youtube:"https://music.youtube.com/watch?v=b5EZp76Oxhw&si=9HzSjG0tjkmmVahU" } }
 ];
 
 // const playlists = [
@@ -307,7 +310,7 @@ function loadTrack(autoPlay = false) {
     let tries = 0;
     do {
       currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
-      track = getCurrentTrack(); // <-- фикс опечатки
+      track = getCurrentTrack();
       tries++;
       if (tries > tracks.length) {
         console.warn("Все треки explicit, воспроизведение остановлено");
@@ -325,6 +328,9 @@ function loadTrack(autoPlay = false) {
 
   updateTrackInfo();
 
+  // **обновляем Media Session**
+  updateMediaSession(track);
+
   if(autoPlay){
     audioElement.play().catch(console.error);
   }
@@ -332,23 +338,65 @@ function loadTrack(autoPlay = false) {
   applyVibeStyles?.();
 }
 
+
 // ===== TIMERS =====
-audioElement.addEventListener('timeupdate',()=>{
-  const c=audioElement.currentTime, d=audioElement.duration;
-  const mc=Math.floor(c/60), sc=Math.floor(c%60);
-  currentTimeSpan.textContent=`${mc<10?'0':''}${mc}:${sc<10?'0':''}${sc}`;
-  if(d){
-    const md=Math.floor(d/60), sd=Math.floor(d%60);
-    durationSpan.textContent=`${md<10?'0':''}${md}:${sd<10?'0':''}${sd}`;
+audioElement.addEventListener('timeupdate', () => {
+  if (!audioElement.duration) return;
+
+  // обновляем текст времени
+  const c = audioElement.currentTime, d = audioElement.duration;
+  const mc = Math.floor(c / 60), sc = Math.floor(c % 60);
+  currentTimeSpan.textContent = `${mc<10?'0':''}${mc}:${sc<10?'0':''}${sc}`;
+
+  if (d) {
+    const md = Math.floor(d / 60), sd = Math.floor(d % 60);
+    durationSpan.textContent = `${md<10?'0':''}${md}:${sd<10?'0':''}${sd}`;
+  }
+
+  // обновляем прогресс бар + слайдер
+  updateProgress();
+});
+
+// === перемотка по слайдеру ===
+seekSlider.addEventListener('input', () => {
+  if (audioElement.duration) {
+    const seekTime = (seekSlider.value / 100) * audioElement.duration;
+    audioElement.currentTime = seekTime;
   }
 });
+
+function resetProgress() {
+  seekSlider.value = 0;
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) progressBar.style.width = '0%';
+}
+
+function updateProgress() {
+  if (!audioElement.duration) return;
+  
+  const progressPercent = (audioElement.currentTime / audioElement.duration) * 100;
+  
+  // обновляем слайдер
+  seekSlider.value = progressPercent;
+
+  // обновляем кастомный прогресс-бар (если у тебя есть)
+  const progressBar = document.getElementById('progressBar');
+  if (progressBar) {
+    progressBar.style.width = `${progressPercent}%`;
+  }
+}
+
 
 audioElement.addEventListener('ended', () => {
   currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
   loadTrack(true);
 });
 
-audioElement.addEventListener('play',()=>playPauseIcon.src='assets/player/pause.svg');
+audioElement.addEventListener('play', () => {
+  playPauseIcon.src = 'assets/player/pause.svg';
+  initVisualizer();
+});
+
 audioElement.addEventListener('pause',()=>playPauseIcon.src='assets/player/play_arrow.svg');
 
 // ===== CONTROLS =====
@@ -376,6 +424,7 @@ nextTrackButton.addEventListener('click', () => {
         currentTrackIndex = (currentTrackIndex + 1) % tracks.length;
     } while (playerSettings.skipExplicit && tracks[currentTrackIndex].explicit);
     loadTrack(true);
+    resetProgress();
 });
 
 prevTrackButton.addEventListener('click', () => {
@@ -388,9 +437,95 @@ prevTrackButton.addEventListener('click', () => {
         } while (playerSettings.skipExplicit && tracks[currentTrackIndex].explicit);
         loadTrack(true);
     }
+    resetProgress();
 });
 
 volumeInput.addEventListener('input',()=>{audioElement.volume=volumeInput.value;});
+
+// ===== AUDIO VISUALIZER (реально только бас) =====
+let audioCtx, analyser, source, filter, dataArray;
+
+function initVisualizer() {
+  if (audioCtx) return; // уже инициализировано
+
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  source = audioCtx.createMediaElementSource(audioElement);
+
+  // фильтр для анализа
+  filter = audioCtx.createBiquadFilter();
+  filter.type = "lowpass";
+  filter.frequency.value = 50;
+
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 256;
+  dataArray = new Uint8Array(analyser.frequencyBinCount);
+
+  // звук в колонки
+  source.connect(audioCtx.destination);
+
+  // фильтр → анализатор (только для визуализации)
+  source.connect(filter);
+  filter.connect(analyser);
+
+  animateCover();      // твоя анимация обложки
+  animateBgCircles();  // новая анимация кругов фона
+}
+
+function animateCover() {
+  requestAnimationFrame(animateCover);
+
+  if (!analyser) return;
+  analyser.getByteFrequencyData(dataArray);
+
+  // берём только низкие частоты (бас)
+  const bassBins = 5; // можно подбирать
+  let sum = 0;
+  for (let i = 0; i < bassBins; i++) {
+    sum += dataArray[i];
+  }
+  const bass = sum / bassBins; // средний уровень баса 0-255
+
+  const amplified = bass * 2; 
+  const scale = 1 + (amplified / 256) * 0.1;
+
+  if (trackCover) {
+    trackCover.style.transform = `scale(${scale})`;
+  }
+
+  // если хочешь фон тоже под бас
+  // bgCircles.forEach(circle => {
+  //   const brightnessFactor = 0.3 + (bass / 255) * 8.7;
+  //   circle.style.filter = `brightness(${brightnessFactor})`;
+  // });
+}
+
+
+function updateMediaSession(track) {
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.title,
+      artist: track.author || 'Unknown',
+      album: 'ShampurRadio',
+      artwork: [
+        { src: track.cover ? `assets/covers/${track.cover}` : 'assets/covers/unknown-track.png', sizes: '512x512', type: 'image/png' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => audioElement.play());
+    navigator.mediaSession.setActionHandler('pause', () => audioElement.pause());
+    navigator.mediaSession.setActionHandler('previoustrack', () => prevTrackButton.click());
+    navigator.mediaSession.setActionHandler('nexttrack', () => nextTrackButton.click());
+
+    // Ползунок перемотки
+    navigator.mediaSession.setActionHandler('seekto', (details) => {
+      if (details.fastSeek && 'fastSeek' in audioElement) {
+        audioElement.fastSeek(details.seekTime);
+        return;
+      }
+      audioElement.currentTime = details.seekTime;
+    });
+  }
+}
 
 // ===== INIT =====
 document.addEventListener('DOMContentLoaded', () => {
@@ -416,6 +551,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  const seekSlider = document.getElementById('seekSlider');
 
   // Чтение трека из URL или случайный
   const fromURL = parseInt(new URLSearchParams(window.location.search).get('track'));
@@ -499,3 +636,106 @@ function getNextTrackIndex(forward = true) {
 
     return newIndex;
 }
+
+const openTracklistBtn = document.getElementById('openTracklistBtn');
+const tracklistModal = document.getElementById('tracklistModal');
+const tracklistClose = document.getElementById('tracklistModalClose');
+const tracklistContainer = document.getElementById('tracklistContainer');
+
+// Play по кнопке на обложке
+tracks.forEach((track, index) => {
+  const item = document.createElement('div');
+  item.className = 'tracklist-item';
+  
+item.innerHTML = `
+  <div class="tracklist-cover-wrapper">
+    <img src="assets/covers/${track.cover || 'unknown-track.png'}" alt="${track.title}" class="tracklist-cover">
+    <div class="tracklist-play-btn-overlay">▶</div>
+  </div>
+  <div class="tracklist-info">
+    <span class="tracklist-title">${track.title}</span>
+    <span class="tracklist-author">${track.author || ''}</span>
+  </div>
+  <div class="tracklist-buttons">
+    <button class="tracklist-like-btn">❤</button>
+    <button class="tracklist-share-btn">🔗</button>
+  </div>
+`;
+
+item.querySelector('.tracklist-like-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  if(likedTracks.includes(index)) likedTracks = likedTracks.filter(x => x !== index);
+  else likedTracks.push(index);
+  saveSettings();
+  showNotification(likeNotification, likedTracks.includes(index) ? 'Вы лайкнули трек' : 'Трек больше не лайкнут');
+});
+
+item.querySelector('.tracklist-share-btn').addEventListener('click', e => {
+  e.stopPropagation();
+  const link = `${window.location.origin}${window.location.pathname}?track=${index}`;
+  navigator.clipboard.writeText(link).then(() => showNotification(copyNotification, `Ссылка на трек #${index} скопирована!`));
+});
+
+const playBtn = item.querySelector('.tracklist-play-btn-overlay');
+playBtn.addEventListener('click', (e) => { // <- e здесь
+    e.stopPropagation();                     // предотвращаем всплытие
+    currentTrackIndex = index;               // ставим трек
+    loadTrack(true);                          // начинаем воспроизведение
+    closeTracklistModal();                    // закрываем модалку
+});
+
+  tracklistContainer.appendChild(item);
+});
+
+function closeTracklistModal() {
+  tracklistModal.classList.remove('active');
+  tracklistModal.style.display = 'none'; // <- принудительно скрываем
+}
+
+openTracklistBtn.addEventListener('click', () => {
+  tracklistModal.style.display = 'flex';
+  requestAnimationFrame(() => tracklistModal.classList.add('active'));
+});
+
+tracklistClose.addEventListener('click', () => {
+  closeTracklistModal();
+});
+
+tracklistModal.addEventListener('click', e => {
+  if (e.target === tracklistModal) closeTracklistModal();
+});
+
+
+
+// const bgCircles = document.querySelectorAll('.bgCircle');
+// let bgCircleAngles = Array.from(bgCircles).map(() => Math.random() * Math.PI * 2);
+
+// function animateBackground() {
+//   requestAnimationFrame(animateBackground);
+
+//   if (!analyser) return;
+//   analyser.getByteFrequencyData(dataArray);
+
+//   // берём бас
+//   const bassBins = 1;
+//   let sum = 0;
+//   for (let i = 0; i < bassBins; i++) sum += dataArray[i];
+//   const bass = sum / bassBins; // 0-255
+
+//   bgCircles.forEach((circle, i) => {
+//     // скорость движения зависит от баса
+//     const speed = 0.001 + (bass / 255) * 5.02;
+//     bgCircleAngles[i] += speed;
+
+//     const radius = 50 + i*10; // радиус движения
+//     const x = 50 + Math.cos(bgCircleAngles[i]) * radius; 
+//     const y = 50 + Math.sin(bgCircleAngles[i]) * radius;
+
+//     circle.style.left = `${x}%`;
+//     circle.style.top = `${y}%`;
+
+//     // светлеем под бас
+//     const brightness = 0.5 + (bass / 255) * 0.5;
+//     circle.style.filter = `brightness(${brightness})`;
+//   });
+// }
