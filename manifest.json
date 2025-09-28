@@ -1,0 +1,21 @@
+{
+  "name": "ShampurRadio",
+  "short_name": "ShampurRadio",
+  "start_url": "/randomradio",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#ff9900",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/assets/icons/pwaicon192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icons/pwaicon512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

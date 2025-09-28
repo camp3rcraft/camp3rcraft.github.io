@@ -17,6 +17,9 @@
         <meta property="og:image" content="assets/sradio.ico">
         <meta property="og:description" content="Музыкальный плеер с множеством прикольных фишек">
         <meta property="og:url" content="https://camp3rcraft.github.io/randomradio">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <link rel="manifest" href="/manifest.json">
     </head>
     <body>
         <div class="backgroundGradient">
@@ -39,13 +42,14 @@
         <div class="content">
             <!-- <p class="content-title" style="margin-bottom: 0px; background-image: linear-gradient(to right, #fec9b9 , #fedc6e); color: transparent; background-clip: text; font-weight: 600;">ShampurRadio</p><div style="background-color: rgba(255, 255, 255, 0.05); border-radius: 55px; border: 1px solid rgba(255, 255, 255, 0.1); width: 50%;"><p style="font-size: 15px; color: #ff9900; margin-bottom: 10px; text-align: center; margin-top: 0px;">b2.2.0</p></div> -->
             <div style="display: flex; justify-content: center; align-items: center; gap: 10px;">
-              <p class="content-title" style="margin-bottom: 15px; margin-top: 15px; background-image: linear-gradient(to right, #fec9b9 , #fedc6e); color: transparent; background-clip: text; font-weight: 600;">
+              <p class="content-title" style="margin-bottom: 0px; margin-top: 15px; background-image: linear-gradient(to right, #fec9b9 , #fedc6e); color: transparent; background-clip: text; font-weight: 600;">
                 ShampurRadio
               </p>
               <div style="background-color: rgba(255, 255, 255, 0.05); border-radius: 55px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 5px 10px;">
                 <p style="font-size: 15px; color: #ff9900; margin: 0; text-align: center; text-shadow: 0 0 15px #ff7300;">b2.2.0</p>
               </div>
             </div>
+            <p style="text-align: center; margin-bottom: 15px; margin-top: 0; color: #ff5b5b; text-shadow: 0 0 5px #ff5b5b; font-size: 0.8em;">Поддержка прекращена</p>
 
             <!-- <p class="content-text">Плеер в котором воспроизводится музыка с моего сайта. Включи, послушай то чо я слушаю</p> -->
                 <div class="player" style="text-align: center; margin-bottom: 20px;">
@@ -129,7 +133,7 @@
     </div> -->
 
     <p style="text-align: center; color: #696969; font-size: 0.6em;">ShampurRadio b2.2.0</p>
-
+    <p style="text-align: center; margin-bottom: 15px; margin-top: 0; color: #ff5b5b; font-size: 0.5em;">Поддержка прекращена</p>
   </div>
 </div>
 
@@ -162,6 +166,7 @@
               </div>
             </div>
     <!-- <p style="text-align: center; font-size: 1em; color: #9292929d;">Бета 2.1.0</p> -->
+    <p style="text-align: center; margin-bottom: 15px; margin-top: 0; color: #ff5b5b; text-shadow: 0 0 5px #ff5b5b; font-size: 0.8em;">Поддержка прекращена</p>
     <p>Добро пожаловать в обновлённое ShampuRadio! Во втором поколении моего плеера появилось очень много нового! Теперь слушать треки стало комфортнее и приятнее. Приятного прослушивания!</p>
     <h2 class="welcome-modal-steptitle" style="text-align: left; color: #ddd; text-shadow: none; font-size: 20px; margin-top: 10px;">Changelog <a style="margin-top: 3px; text-decoration-style: none; cursor: pointer; color: #ff9900; text-shadow: 0 0 15px #ff7300; text-align: left; font-size: 0.7em;" href="https://github.com/camp3rcraft/camp3rcraft.github.io/blob/main/ShampurRadio-CHANGELOG.md">полный ченджлог</a></h2>
     <h2 class="welcome-modal-steptitle" style="text-align: left; font-size: 15px; margin-top: 10px;">b2.2.0</h2>
@@ -193,8 +198,12 @@
     <button id="continueBtn">Продолжить</button>
   </div>
 </div>
-
-
+                <script>
+                if ("serviceWorker" in navigator) {
+                  navigator.serviceWorker.register("/sw.js")
+                    .then(() => console.log("✅Service Worker is working!"));
+                }
+                </script>
                 <script src="js/audioplayer.js"></script>
     </body>
 </html>

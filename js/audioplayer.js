@@ -447,6 +447,132 @@ const tracks = [
         bgCircle5: { border: '15px solid #f16503' },
         'player-textTitle': { color: '#e7b100ff', textShadow: '0 0 15px #e7b100ff' }
       }
+    },
+    {
+      file: "track37.mp3",
+      title: "In My Mind",
+      author: "Dynoro, Gigi D'Agostino",
+      explicit: false,
+      cover: "track37.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/0E9ZjEAyAwOXZ7wJC0PD33?si=bb00053ca2014885",
+        youtube: "https://music.youtube.com/watch?v=74vpAa4AZ5c&si=SzUSEXWPYzg621YR",
+        yandex: "https://music.yandex.ru/track/39257277?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient(#0c0c0c, #000)' },
+        bgCircle4: { background: '#4e5277' },
+        bgCircle3: { background: '#01fdc0' },
+        bgCircle2: { background: '#f6f3ff' },
+        bgCircle1: { background: '#4e5277' },
+        bgCircle5: { border: '15px solid #f6f3ff' },
+        'player-textTitle': { color: '#f6f3ff', textShadow: '0 0 15px #f6f3ff' }
+      }
+    },
+    {
+      file: "track38.mp3",
+      title: "Arms Around You",
+      author: "XXXTentacion, Lil Pump, Maluma, Swae Lee",
+      explicit: true,
+      cover: "track38.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/2LskIZrCeLxRvCiGP8gxlh?si=3c67a813ab8247b1",
+        youtube: "https://music.youtube.com/watch?v=4LJJNt2Rkgw&si=A6ox5Fq1TBI-VV0t",
+        yandex: "https://music.yandex.ru/track/44318163?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient(#e3ddc7, #000)' },
+        bgCircle4: { background: '#8fae8c' },
+        bgCircle3: { background: '#bdbfcb' },
+        bgCircle2: { background: '#e6c496' },
+        bgCircle1: { background: '#8fae8c' },
+        bgCircle5: { border: '15px solid #364049' },
+        'player-textTitle': { color: '#f6f3ff', textShadow: '0 0 15px #f6f3ff' }
+      }
+    },
+    {
+      file: "track39.mp3",
+      title: "Die Young (Slowed)",
+      author: "Lil Texas",
+      explicit: false,
+      cover: "track39.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/7AUpTOHTBAyg68d7pXorga?si=d4149394d2794bb3",
+        youtube: "https://music.youtube.com/watch?v=i3jp5qxngRc&si=IBf5V2VILP0JNJRa",
+        yandex: "https://music.yandex.ru/track/139994903?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient(#de4983, #000)' },
+        bgCircle4: { background: '#dfbb0d' },
+        bgCircle3: { background: '#dfbb0d' },
+        bgCircle2: { background: '#de4983' },
+        bgCircle1: { background: '#dfbb0d' },
+        bgCircle5: { border: '15px solid #de4983' },
+        'player-textTitle': { color: '#dfbb0d', textShadow: '0 0 15px #dfbb0d' }
+      }
+    },
+    {
+      file: "track40.mp3",
+      title: "Wind Of Change",
+      author: "Scorpions",
+      explicit: false,
+      cover: "track40.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/3ovjw5HZZv43SxTwApooCM?si=da7572d9b7164613",
+        youtube: "https://music.youtube.com/watch?v=Ukh1zoiV304&si=pBlTlWaiEsyqQGLN",
+        yandex: "https://music.yandex.ru/track/10216?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient(#bbbcc0, #000)' },
+        bgCircle4: { background: '#bbbcc0' },
+        bgCircle3: { background: '#5b6059' },
+        bgCircle2: { background: '#6d7c77' },
+        bgCircle1: { background: '#868885' },
+        bgCircle5: { border: '15px solid #f1ecf2' },
+        'player-textTitle': { color: '#f1eff0', textShadow: '0 0 15px #f1eff0' }
+      }
+    },
+    {
+      file: "track41.mp3",
+      title: "The Winner Takes It All",
+      author: "ABBA",
+      explicit: false,
+      cover: "track41.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/3oEkrIfXfSh9zGnE7eBzSV?si=cba0bca23d394a8e",
+        youtube: "https://music.youtube.com/watch?v=WbnG3eAGb6Y&si=ko8dg5U0GmPLtz-t",
+        yandex: "https://music.yandex.ru/track/25788?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient(#070d0b, #000)' },
+        bgCircle4: { background: '#eeb91b' },
+        bgCircle3: { background: '#721818' },
+        bgCircle2: { background: '#b0762c' },
+        bgCircle1: { background: '#9a1b24' },
+        bgCircle5: { border: '15px solid #e1b56a' },
+        'player-textTitle': { color: '#e1b56a', textShadow: '0 0 15px #e1b56a' }
+      }
+    },
+    {
+      file: "track42.mp3",
+      title: "Life Distortion",
+      author: "Crxz",
+      explicit: false,
+      cover: "track42.jpg"
+      // links: {
+      //   spotify: "https://open.spotify.com/track/3oEkrIfXfSh9zGnE7eBzSV?si=cba0bca23d394a8e",
+      //   youtube: "https://music.youtube.com/watch?v=WbnG3eAGb6Y&si=ko8dg5U0GmPLtz-t",
+      //   yandex: "https://music.yandex.ru/track/25788?utm_source=web&utm_medium=copy_link"
+      // }
+      // colors: {
+      //   backgroundGradient: { background: 'radial-gradient(#070d0b, #000)' },
+      //   bgCircle4: { background: '#eeb91b' },
+      //   bgCircle3: { background: '#721818' },
+      //   bgCircle2: { background: '#b0762c' },
+      //   bgCircle1: { background: '#9a1b24' },
+      //   bgCircle5: { border: '15px solid #e1b56a' },
+      //   'player-textTitle': { color: '#e1b56a', textShadow: '0 0 15px #e1b56a' }
+      // }
     }
 ];
 
