@@ -523,7 +523,7 @@ const tracks = [
         yandex: "https://music.yandex.ru/track/10216?utm_source=web&utm_medium=copy_link"
       },
       colors: {
-        backgroundGradient: { background: 'radial-gradient(#bbbcc0, #000)' },
+        backgroundGradient: { background: 'radial-gradient( #bbbcc0, #000)' },
         bgCircle4: { background: '#bbbcc0' },
         bgCircle3: { background: '#5b6059' },
         bgCircle2: { background: '#6d7c77' },
@@ -558,21 +558,185 @@ const tracks = [
       title: "Life Distortion",
       author: "Crxz",
       explicit: false,
-      cover: "track42.jpg"
-      // links: {
-      //   spotify: "https://open.spotify.com/track/3oEkrIfXfSh9zGnE7eBzSV?si=cba0bca23d394a8e",
-      //   youtube: "https://music.youtube.com/watch?v=WbnG3eAGb6Y&si=ko8dg5U0GmPLtz-t",
-      //   yandex: "https://music.yandex.ru/track/25788?utm_source=web&utm_medium=copy_link"
-      // }
-      // colors: {
-      //   backgroundGradient: { background: 'radial-gradient(#070d0b, #000)' },
-      //   bgCircle4: { background: '#eeb91b' },
-      //   bgCircle3: { background: '#721818' },
-      //   bgCircle2: { background: '#b0762c' },
-      //   bgCircle1: { background: '#9a1b24' },
-      //   bgCircle5: { border: '15px solid #e1b56a' },
-      //   'player-textTitle': { color: '#e1b56a', textShadow: '0 0 15px #e1b56a' }
-      // }
+      cover: "track42.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/7Lh40SPkPGBo77ADsMxaJ4?si=0a93f45e43994888",
+        yandex: "https://music.yandex.ru/track/117435291?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #000b29ff, #000 )' },
+        bgCircle4: { background: '#003e71' },
+        bgCircle3: { background: '#05050f' },
+        bgCircle2: { background: '#002949' },
+        bgCircle1: { background: '#03030b' },
+        bgCircle5: { border: '15px solid #014075' },
+        'player-textTitle': { color: '#014075', textShadow: '0 0 15px #014075' }
+      }
+    },
+    {
+      file: "track43.mp3",
+      title: "Nock Em",
+      author: "Bossfight",
+      explicit: false,
+      cover: "track43.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/2rl0WAMR1CMtn0svwCXOwK?si=7f41c4e3de9b430c",
+        youtube: "https://music.youtube.com/watch?v=J077DryC2os&si=uy2EWG3awByO0sUc"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #c7959f, #000 )' },
+        bgCircle4: { background: '#f54384' },
+        bgCircle3: { background: '#d3b4fe' },
+        bgCircle2: { background: '#b0fb24' },
+        bgCircle1: { background: '#5899f1' },
+        bgCircle5: { border: '15px solid #fc2474' },
+        'player-textTitle': { color: '#b4fd1f', textShadow: '0 0 15px #b4fd1f' }
+      }
+    },
+    {
+      file: "track44.mp3",
+      title: "Milky Ways",
+      author: "Bossfight",
+      explicit: false,
+      cover: "track44.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/4Lh9y6lykMrLL3MBhx0CeO?si=f8f093b8cf7b43b9",
+        youtube: "https://music.youtube.com/watch?v=_5w8SJ3yVsc&si=Q7eZCyhg5GcWOt03"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #bababa, #000 )' },
+        bgCircle4: { background: '#ff0202' },
+        bgCircle3: { background: '#ffffff' },
+        bgCircle2: { background: '#fe0000' },
+        bgCircle1: { background: '#454f82' },
+        bgCircle5: { border: '15px solid #9b02d9' },
+        'player-textTitle': { color: '#ffffff', textShadow: '0 0 15px #ffffff' }
+      }
+    },
+    {
+      file: "track45.mp3",
+      title: "BLUE",
+      author: "Billie Eilish",
+      explicit: false,
+      cover: "track45.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/2prqm9sPLj10B4Wg0wE5x9?si=0a7827f27937466d",
+        yandex: "https://music.yandex.ru/track/126087913?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #112c41, #000 )' },
+        bgCircle4: { background: '#0b3857' },
+        bgCircle3: { background: '#0a131c' },
+        bgCircle2: { background: '#253944' },
+        bgCircle1: { background: '#080d11' },
+        bgCircle5: { border: '15px solid #979b8c' },
+        'player-textTitle': { color: '#979b8c', textShadow: '0 0 15px #979b8c' }
+      }
+    },
+    {
+      file: "track46.mp3",
+      title: "bellyache",
+      author: "Billie Eilish",
+      explicit: false,
+      cover: "track46.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/1ni8ZTAY1GHXEFOGHl7fdg?si=38d196ac753b4a05",
+        youtube: "https://music.youtube.com/watch?v=Vg18eeEugOQ&si=YzN4s3Wzz6908tdp",
+        yandex: "https://music.yandex.ru/track/33894103?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #edd978, #eacf66 )' },
+        bgCircle4: { background: '#f3e6a0' },
+        bgCircle3: { background: '#eacf66' },
+        bgCircle2: { background: '#7d0003' },
+        bgCircle1: { background: '#e42137' },
+        bgCircle5: { border: '15px solid #c43139' },
+        'player-textTitle': { color: '#c43139', textShadow: '0 0 15px #c43139' }
+      }
+    },
+    {
+      file: "track47.mp3",
+      title: "Blinding Lights",
+      author: "The Weeknd",
+      explicit: false,
+      cover: "track47.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/0VjIjW4GlUZAMYd2vXMi3b?si=9486e58adbf64fd5",
+        youtube: "https://music.youtube.com/watch?v=J7p4bzqLvCw&si=c5FyQzXK0_YJievs",
+        yandex: "https://music.yandex.ru/track/60292250?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #02070a, #000 )' },
+        bgCircle4: { background: '#83a290' },
+        bgCircle3: { background: '#31402b' },
+        bgCircle2: { background: '#83a290' },
+        bgCircle1: { background: '#080d11' },
+        bgCircle5: { border: '15px solid #860519' },
+        'player-textTitle': { color: '#aec6b8', textShadow: '0 0 15px #aec6b8' }
+      }
+    },
+    {
+      file: "track48.mp3",
+      title: "Save Me",
+      author: "The Parakit, Alden Jacob",
+      explicit: false,
+      cover: "track48.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/2aW5z2LFsJwWl7gAPQCap8?si=389d21f7c3eb483b",
+        youtube: "https://music.youtube.com/watch?v=mn2dgMjEyPU&si=IFqRi5W-kVL8LFQ9",
+        yandex: "https://music.yandex.ru/track/27254433?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #ffffff, #000 )' },
+        bgCircle4: { background: '#00aa85ff' },
+        bgCircle3: { background: '#ffffff' },
+        bgCircle2: { background: '#00a17eff' },
+        bgCircle1: { background: '#ffffff' },
+        bgCircle5: { border: '15px solid #009272ff' },
+        'player-textTitle': { color: '#fff', textShadow: '0 0 15px #fff' }
+      }
+    },
+    {
+      file: "track49.mp3",
+      title: "Ghost Town",
+      author: "Adam Lambert",
+      explicit: true,
+      cover: "track49.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/44aN5xKL3kGHvQ5bXVk6B8?si=190e2f2c7e104da4",
+        youtube: "https://music.youtube.com/watch?v=lDoXekDxHIU&si=3MjUpcLnHaUFpINd",
+        yandex: "https://music.yandex.ru/track/23466120?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #7b7b7b, #000 )' },
+        bgCircle4: { background: '#d6d6d6' },
+        bgCircle3: { background: '#7b7b7b' },
+        bgCircle2: { background: '#d9d9d9' },
+        bgCircle1: { background: '#9e9e9e' },
+        bgCircle5: { border: '15px solid #f0f0f0' },
+        'player-textTitle': { color: '#f0f0f0', textShadow: '0 0 15px #f0f0f0' }
+      }
+    },
+    {
+      file: "track50.mp3",
+      title: "Let Me Love You",
+      author: "DJ Snake, Justin Bieber",
+      explicit: false,
+      cover: "track50.jpg",
+      links: {
+        spotify: "https://open.spotify.com/track/0lYBSQXN6rCTvUZvg9S0lU?si=e65e9d1160ab4f24",
+        youtube: "https://music.youtube.com/watch?v=rJ0D1GbDq1Q&si=XsmhjDEXMMZ0IYO1",
+        yandex: "https://music.yandex.ru/track/66933249?utm_source=web&utm_medium=copy_link"
+      },
+      colors: {
+        backgroundGradient: { background: 'radial-gradient( #c9a66e, #000 )' },
+        bgCircle4: { background: '#c1dee6' },
+        bgCircle3: { background: '#cca369' },
+        bgCircle2: { background: '#f7fbfc' },
+        bgCircle1: { background: '#725124' },
+        bgCircle5: { border: '15px solid #e5c07c' },
+        'player-textTitle': { color: '#e5c07c', textShadow: '0 0 15px #e5c07c' }
+      }
     }
 ];
 
