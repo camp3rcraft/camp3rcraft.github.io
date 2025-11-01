@@ -2,7 +2,7 @@ const projects = [
     {
         icon: "assets/bubblemc.jpg",
         name: "BubbleMC",
-        description: "Добро пожаловать на сервер<br>«🍉Безумные Арбузы»",
+        description: "вайбик лютый такой прям вш",
         openDate: "Дата открытия: 01-08-2025",
         telegram: "https://t.me/bubblemc",
         discord: "https://discord.gg/K4z4TpTnZg",
@@ -10,35 +10,45 @@ const projects = [
         github: ""
     },
     {
-        icon: "assets/gdps-spherium.png",
-        name: "GDPS Spherium",
-        description: "Дружное комьюнити нашей приватки <3",
-        openDate: "Дата открытия: 21-03-2025",
-        telegram: "https://t.me/gdps_spherium",
-        discord: "https://discord.gg/jbgFG9MEkf",
-        website: "",
-        github: ""
-    },
-    {
-        icon: "assets/ckms.png",
-        name: "CKMS Activator",
-        description: "Pirate Windows license ",
-        openDate: "",
+        icon: "assets/prikols/shampurradio.png",
+        name: "ShampurRadio",
+        description: "Гипер музло чтоб да",
+        openDate: "Дата открытия: 13-04-2025",
         telegram: "",
         discord: "",
-        website: "",
-        github: "https://github.com/camp3rcraft/CKMS-Activator"
-    },
-    {
-        icon: "assets/ctn.png",
-        name: "Corridor to Nowhere",
-        description: "Ремастер моей старой кринге карты «Коридор в нИкуда»",
-        openDate: "",
-        telegram: "",
-        discord: "",
-        website: "ctn/index",
+        website: "https://camper.isvery.fun/randomradio",
         github: ""
     }
+    // {
+    //     icon: "assets/gdps-spherium.png",
+    //     name: "GDPS Spherium",
+    //     description: "Дружное комьюнити нашей приватки <3",
+    //     openDate: "Дата открытия: 21-03-2025",
+    //     telegram: "https://t.me/gdps_spherium",
+    //     discord: "https://discord.gg/jbgFG9MEkf",
+    //     website: "",
+    //     github: ""
+    // },
+    // {
+    //     icon: "assets/ckms.png",
+    //     name: "CKMS Activator",
+    //     description: "Pirate Windows license ",
+    //     openDate: "",
+    //     telegram: "",
+    //     discord: "",
+    //     website: "",
+    //     github: "https://github.com/camp3rcraft/CKMS-Activator"
+    // },
+    // {
+    //     icon: "assets/ctn.png",
+    //     name: "Corridor to Nowhere",
+    //     description: "Ремастер моей старой кринге карты «Коридор в нИкуда»",
+    //     openDate: "",
+    //     telegram: "",
+    //     discord: "",
+    //     website: "ctn/index",
+    //     github: ""
+    // }
 ];
 
 const projectsContainer = document.getElementById('projects');
