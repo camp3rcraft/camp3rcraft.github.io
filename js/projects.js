@@ -6,7 +6,7 @@ const projects = [
         openDate: "Дата открытия: 01-08-2025",
         telegram: "https://t.me/bubblemc",
         discord: "https://discord.gg/K4z4TpTnZg",
-        website: "",
+        website: "https://bubblemc.ru",
         github: ""
     },
     {

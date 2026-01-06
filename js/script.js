@@ -26,3 +26,10 @@ nextTrackButton.addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', loadTrack);
+
+function isMobile() {
+  if (window.innerWidth < 769) {
+    return true;
+  }
+  return false;
+}
