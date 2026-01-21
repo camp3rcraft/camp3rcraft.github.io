@@ -31,9 +31,14 @@ async function fetchRPC() {
             if (largeImage.startsWith("spotify:")) {
                 largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
             } else if (largeImage.startsWith("mp:external/")) {
-                // Lanyard прокси для Yandex Music
-                const assetId = largeImage.split('/')[2]; // 7kYkf7yLZs0mlo71GxFahIU3EYQZ1G4MFVTO6Fvbkco
-                largeURL = `https://api.lanyard.rest/asset/${activity.application_id}/${assetId}?size=512`;
+                // Берем ЧИСТЫЙ Yandex URL
+                const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
+                largeURL = urlMatch ? urlMatch[0] : '';
+                
+                // Если Yandex не грузится — fallback на стандартную иконку
+                if (largeURL.includes('yandex.net')) {
+                    largeURL = largeURL.replace(/\/1000x1000$/, '/300x300'); // меньший размер
+                }
             } else {
                 largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
@@ -47,8 +52,8 @@ async function fetchRPC() {
             if (smallImage.startsWith("spotify:")) {
                 smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
             } else if (smallImage.startsWith("mp:external/")) {
-                const assetId = smallImage.split('/')[2];
-                smallURL = `https://api.lanyard.rest/asset/${activity.application_id}/${assetId}?size=64`;
+                const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
+                smallURL = urlMatch ? urlMatch[0] : '';
             } else {
                 smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
@@ -62,7 +67,7 @@ async function fetchRPC() {
             div.innerHTML = `
                 <div class="activity-header">
                     <div class="icon-container">
-                        ${largeURL ? `<img class="activity-icon" src="${largeURL}" alt="${activity.assets?.large_text || ''}" title="${activity.assets?.large_text || ''}">` : ''}
+                        ${largeURL ? `<img class="activity-icon" src="${largeURL}" alt="${activity.assets?.large_text || ''}" title="${activity.assets?.large_text || ''}" onerror="this.src='assets/icons/yandex.jpg'">` : ''}
                         ${smallURL ? `<img class="small-image" src="${smallURL}" alt="${activity.assets?.small_text || ''}" title="${activity.assets?.small_text || ''}">` : ''}
                     </div>
                     <div class="activity-info">
