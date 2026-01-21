@@ -1,8 +1,18 @@
 * {
-    font-family: "Unbounded";
-    font-weight: 500;
+    font-family: "samsung-sharp-sans";
+    font-weight: 400;
     z-index: 1;
 }
+
+
+  @font-face {
+  font-family: "samsung-sharp-sans";
+  src:
+    local("samsung-sharp-sans"),
+    url("/assets/fonts/samsung-sharp-sans-bold.otf") format("opentype") tech(color-COLRv1);
+}
+
+
 
 body {
     background-color: #000;
@@ -749,11 +759,23 @@ body {
 }
 
 .presence-card {
-    background-color: #2f3136;
+    display: flex;
+    font-family: "JetBrains Mono";
+    justify-content: left;
+}
+
+.rpc-activity-card {
+    display: flex;
+    /* justify-self: center; */
+    background-color: #1e1f22;
     border-radius: 10px;
     padding: 20px;
-    width: 400px;
+    max-width: 100%;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.rpc-activity-card:first-child {
+    margin-bottom: 20px;
 }
 
 .activity-header {
@@ -768,10 +790,10 @@ body {
 }
 
 .activity-icon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     vertical-align: top;
-    border-radius: 10px; /* Закругляем углы */
+    border-radius: 5px; /* Закругляем углы */
 }
 
 .small-image {
@@ -793,16 +815,20 @@ body {
 }
 
 .activity-info {
+    font-family: "JetBrains Mono";
     flex: 1; /* Занимает оставшееся место */
 }
 
 .activity-info h2 {
+    font-family: "JetBrains Mono";
     color: #fff;
     margin-top: 0;
-    font-size: 1.2em;
+    font-size: 1em;
+    width: auto;
 }
 
 .activity-info p {
+    font-family: "JetBrains Mono";
     margin: 5px 0;
 }
 
@@ -2242,35 +2268,44 @@ border: 1px solid rgba(255, 255, 255, 0.1);
     width: 45%;
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-template-rows: auto auto;
+    grid-template-rows: 1fr auto;
     gap: 20px;
+    align-content: start;
 }
 
 .index-content-part1-container {
+    display: flex;
+    flex-direction: column;
     grid-column: 1;
     grid-row: 1;
     background-color: rgba(255,255,255,0.05);
     border-radius: 25px;
     border: 2px solid rgba(255,255,255,0.1);
+    align-self: stretch;
+    position: relative;
 }
 
 .index-avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Центр по горизонтали */
+    justify-content: center;  /* Или flex-start/space-between для аватар+карточка */
+    gap: 10px;  /* Отступ между аватаром и карточкой */
     grid-column: 2;
     grid-row: 1 / span 2;
     background-color: rgba(255,255,255,0.05);
     border-radius: 25px;
     border: 2px solid rgba(255,255,255,0.1);
-    align-items: center;
-    justify-content: center;
-    display: flex;
+    padding: 20px;  /* Добавьте padding если нужно */
 }
 
 .index-content-part2-container {
     grid-column: 1;
-    grid-row: 2;
+    grid-row: 2;  /* Добавлена новая строка внизу */
     background-color: rgba(255,255,255,0.05);
     border-radius: 25px;
     border: 2px solid rgba(255,255,255,0.1);
+    align-self: start;
 }
 
 .avatar-wrapper {
@@ -2281,9 +2316,11 @@ border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 45px #ff7300;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-self: center;
     overflow: hidden;
     cursor: pointer;
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .avatar-wrapper img {
@@ -2339,6 +2376,70 @@ border: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
 }
 
+/* Значок статуса поверх аватарки */
+.status-badge {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #121212; /* обводка как в дискорде */
+    border-radius: 50%;
+    background: gray;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.status-badge.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.status-online { background: #43b581; }
+.status-idle { background: #faa61a; }
+.status-dnd { background: #f04747; }
+.status-invisible { background: #747f8d; }
+
+
+/* Контейнер для активностей */
+.activities-container {
+    margin-top: 20px;
+    padding: 10px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.activities-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.activity {
+    background: rgba(255,255,255,0.1);
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.activity-name {
+    font-weight: bold;
+}
+
+.activity-details {
+    font-size: 0.9em;
+    color: #ccc;
+}
+
+
+#activityBlock, #errorBox {
+    width: 100%;
+    max-width: 400px;
+    /* Убрали align-self: flex-start — place-items центрирует */
+}
 
 
 /* адаптация под мобилу */

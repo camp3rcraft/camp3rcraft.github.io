@@ -73,16 +73,45 @@
         <div class="index-main-container">
 
             <div class="index-content-part1-container">
-                <p class="text-content-title">Кемпер</p>
+                <p class="text-content-title">Кемпер</p><br>
                 <p class="text-content-desc">Моё реальное имя Иван. Живу в России, мне 16 годиков, я из города Смоленск. Занимаюсь своим сервером в Minecraft - BubbleMC, изредка что-то делаю на этом сайте. Рад что ты зашёл на мой сайтик, тут есть множество приколов. Потыкай, сверху есть <span class="dash">навбар</span></p>
-                <p class="content-text" id="last-update" style="text-align: center; font-size: 12px; color: #acacac; margin-bottom: 20px; margin-top: 5px;">loading...</p>
+                <p class="content-text" id="last-update" style="position: absolute; left: 50%; transform: translateX(-50%); font-size: 12px; text-align: center; width: 100%; color: #acacac; bottom: 10px;">loading...</p>
             </div>
 
             <div class="index-avatar-container">
                 <div class="avatar-wrapper">
                     <img src="assets/topavatarchevo.png" alt="my ava" id="avatar">
                 </div>
-            </div> 
+                <div id="errorBox"
+                    style=
+                    'font-family: "JetBrains Mono";
+                    display: none;
+                    background-color: #ff4d4f;
+                    color: white;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    margin: 10px auto;
+                    width: 85%;
+                    text-align: center;
+                    font-weight: bold;
+                    grid-column: 1;
+                    grid-row: 2;'
+                    >
+                </div>
+                <div id="activityBlock" class="presence-card">
+                    <div class="activity-header">
+                        <div class="icon-container">
+                            <img id="activityIcon" class="activity-icon" src="" alt="Иконка активности" title="">
+                            <img id="smallImage" class="small-image" src="" alt="" title="">
+                        </div>
+                        <div class="activity-info">
+                            <h2 id="activityTitle"></h2>
+                            <p class="content-text" id="activityText" style="font-size: 13px; font-family: JetBrains Mono"></p>
+                            <p style="color: #389650; font-size: 15px; font-family: JetBrains Mono"><span id="elapsedTime"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="index-content-part2-container">
                 <div class="about-grid">
@@ -110,7 +139,7 @@
         </div>
 
         <div class="gif88x31">
-            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://bubblemc.ru"><img src="assets/bubblemc.gif"  style="margin-right: 10px;"></a><a href="https://camper.isvery.fun/randomradio"><img src="assets/shampurradio.gif"  style="margin-right: 10px;"></a><a href="https://pansangg.su"><img src="assets/pansangg.gif"  style="margin-right: 10px;"></a><a href="https://t.me/beammc"><img src="assets/beammc.gif"  style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif" style="margin-right: 10px;"></a><a href="https://isvery.fun"><img src="https://isvery.fun/assets/88x31.gif" alt="isvery.fun" style="margin-right: 10px;"></a><a href="https://www.mozilla.org/ru/firefox/"><img src="assets/firefox.png"></a>
+            <a href="https://camp3rcraft.github.io"><img src="assets/camp3rcraft.gif"  style="margin-right: 10px;"></a><a href="https://bubblemc.ru"><img src="assets/bubblemc.gif"  style="margin-right: 10px;"></a><a href="https://camper.isvery.fun/randomradio"><img src="assets/shampurradio.gif"  style="margin-right: 10px;"></a><a href="https://n3tael.eu.org/"><img src="assets/n3tael.gif" style="margin-right: 10px;"></a><a href="https://www.mozilla.org/ru/firefox/"><img src="assets/firefox.png"></a>
         </div>
         <script>
             const dash = document.querySelector('.dash');
@@ -150,6 +179,7 @@
           </script>
           <script src="js/last-update.js"></script>
           <script src="js/devices.js"></script>
+          <script src="js/discord-status.js"></script>
           <!-- <script src="js/countdown.js"></script> -->
     </body>
 </html>

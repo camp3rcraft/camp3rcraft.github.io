@@ -1,8 +1,8 @@
 const projects = [
     {
-        icon: "assets/bubblemc.jpg",
+        icon: "assets/bubblemc.png",
         name: "BubbleMC",
-        description: "вайбик лютый такой прям вш",
+        description: "Атмосферный, уютный и уникальный сервер!",
         openDate: "Дата открытия: 01-08-2025",
         telegram: "https://t.me/bubblemc",
         discord: "https://discord.gg/K4z4TpTnZg",
