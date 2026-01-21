@@ -23,51 +23,38 @@ async function fetchRPC() {
         const activities = data.activities.slice(0, 2);
 
         activities.forEach((activity, index) => {
-            // Large image
-            let largeURL = '';
-            if (activity.assets && activity.assets.large_image) {
-                const largeImage = activity.assets.large_image;
-                
-                if (largeImage.startsWith("spotify:")) {
-                    largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
-                } else if (largeImage.startsWith("mp:external/")) {
-                    // Извлекаем реальный URL из mp:external/префикс/https://yandex...
-                    const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
-                    if (urlMatch) {
-                        largeURL = urlMatch[0];
-                        // Добавляем size параметр БЕЗ перезаписи существующих
-                        if (!largeURL.includes('?')) {
-                            largeURL += '?size=256';
-                        } else {
-                            largeURL += '&size=256';
-                        }
-                    }
-                } else {
-                    largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png?size=256`;
-                }
+        // Large image
+        let largeURL = '';
+        if (activity.assets && activity.assets.large_image) {
+            const largeImage = activity.assets.large_image;
+            
+            if (largeImage.startsWith("spotify:")) {
+                largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
+            } else if (largeImage.startsWith("mp:external/")) {
+                // Берем ЧИСТЫЙ URL без добавления параметров
+                const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
+                largeURL = urlMatch ? urlMatch[0] : '';
+                // НЕ добавляем ?size=256 — Yandex это блокирует
+            } else {
+                largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
+        }
 
-            // Small image (аналогично)
-            let smallURL = '';
-            if (activity.assets && activity.assets.small_image) {
-                const smallImage = activity.assets.small_image;
-                
-                if (smallImage.startsWith("spotify:")) {
-                    smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
-                } else if (smallImage.startsWith("mp:external/")) {
-                    const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
-                    if (urlMatch) {
-                        smallURL = urlMatch[0];
-                        if (!smallURL.includes('?')) {
-                            smallURL += '?size=64';
-                        } else {
-                            smallURL += '&size=64';
-                        }
-                    }
-                } else {
-                    smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png?size=64`;
-                }
+        // Small image
+        let smallURL = '';
+        if (activity.assets && activity.assets.small_image) {
+            const smallImage = activity.assets.small_image;
+            
+            if (smallImage.startsWith("spotify:")) {
+                smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
+            } else if (smallImage.startsWith("mp:external/")) {
+                const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
+                smallURL = urlMatch ? urlMatch[0] : '';
+                // НЕ добавляем ?size=64
+            } else {
+                smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
+        }
 
             // Создаём карточку
             const div = document.createElement('div');
