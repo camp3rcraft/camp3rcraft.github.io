@@ -31,10 +31,9 @@ async function fetchRPC() {
             if (largeImage.startsWith("spotify:")) {
                 largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
             } else if (largeImage.startsWith("mp:external/")) {
-                // Берем ЧИСТЫЙ URL без добавления параметров
-                const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
-                largeURL = urlMatch ? urlMatch[0] : '';
-                // НЕ добавляем ?size=256 — Yandex это блокирует
+                // Lanyard прокси для Yandex Music
+                const assetId = largeImage.split('/')[2]; // 7kYkf7yLZs0mlo71GxFahIU3EYQZ1G4MFVTO6Fvbkco
+                largeURL = `https://api.lanyard.rest/asset/${activity.application_id}/${assetId}?size=512`;
             } else {
                 largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
@@ -48,9 +47,8 @@ async function fetchRPC() {
             if (smallImage.startsWith("spotify:")) {
                 smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
             } else if (smallImage.startsWith("mp:external/")) {
-                const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
-                smallURL = urlMatch ? urlMatch[0] : '';
-                // НЕ добавляем ?size=64
+                const assetId = smallImage.split('/')[2];
+                smallURL = `https://api.lanyard.rest/asset/${activity.application_id}/${assetId}?size=64`;
             } else {
                 smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
