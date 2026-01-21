@@ -26,17 +26,47 @@ async function fetchRPC() {
             // Large image
             let largeURL = '';
             if (activity.assets && activity.assets.large_image) {
-                largeURL = activity.assets.large_image.startsWith("spotify:")
-                    ? `https://i.scdn.co/image/${activity.assets.large_image.split(":")[1]}`
-                    : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.large_image}.png`;
+                const largeImage = activity.assets.large_image;
+                
+                if (largeImage.startsWith("spotify:")) {
+                    largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
+                } else if (largeImage.startsWith("mp:external/")) {
+                    // Извлекаем реальный URL из mp:external/префикс/https://yandex...
+                    const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
+                    if (urlMatch) {
+                        largeURL = urlMatch[0];
+                        // Добавляем size параметр БЕЗ перезаписи существующих
+                        if (!largeURL.includes('?')) {
+                            largeURL += '?size=256';
+                        } else {
+                            largeURL += '&size=256';
+                        }
+                    }
+                } else {
+                    largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png?size=256`;
+                }
             }
 
-            // Small image
+            // Small image (аналогично)
             let smallURL = '';
             if (activity.assets && activity.assets.small_image) {
-                smallURL = activity.assets.small_image.startsWith("spotify:")
-                    ? `https://i.scdn.co/image/${activity.assets.small_image.split(":")[1]}`
-                    : `https://cdn.discordapp.com/app-assets/${activity.application_id}/${activity.assets.small_image}.png`;
+                const smallImage = activity.assets.small_image;
+                
+                if (smallImage.startsWith("spotify:")) {
+                    smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
+                } else if (smallImage.startsWith("mp:external/")) {
+                    const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
+                    if (urlMatch) {
+                        smallURL = urlMatch[0];
+                        if (!smallURL.includes('?')) {
+                            smallURL += '?size=64';
+                        } else {
+                            smallURL += '&size=64';
+                        }
+                    }
+                } else {
+                    smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png?size=64`;
+                }
             }
 
             // Создаём карточку
@@ -93,7 +123,7 @@ async function fetchRPC() {
                         timeContainer.innerHTML = `
                             <div style="display: flex; align-items: center; gap: 12px; color: #ffffff; font-weight: 500; font-family: JetBrains Mono">
                                 <span style="min-width: 70px; text-align: right; font-family: JetBrains Mono">${elapsedStrDisplay}</span>
-                                <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; min-width: 200px;">
+                                <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; min-width: 150px;">
                                     <div style="height: 100%; width: ${percent}%; background: linear-gradient(90deg, #ffffff, #ffffff); border-radius: 3px; transition: width 0.5s ease; box-shadow: 0 0 8px rgba(56, 150, 80, 0.4);"></div>
                                 </div>
                                 <span style="min-width: 70px; text-align: left; font-family: JetBrains Mono">${totalStr}</span>
