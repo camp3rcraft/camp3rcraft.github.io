@@ -31,20 +31,18 @@ async function fetchRPC() {
             if (largeImage.startsWith("spotify:")) {
                 largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
             } else if (largeImage.startsWith("mp:external/")) {
-                // Берем ЧИСТЫЙ Yandex URL
-                const urlMatch = largeImage.match(/https?:\/\/[^\s]+/);
-                largeURL = urlMatch ? urlMatch[0] : '';
-                
-                // Если Yandex не грузится — fallback на стандартную иконку
-                if (largeURL.includes('yandex.net')) {
-                    largeURL = largeURL.replace(/\/1000x1000$/, '/300x300'); // меньший размер
+                const parts = largeImage.split('/');
+                const httpsPart = parts.slice(3).join('/');
+                if (httpsPart.startsWith('http')) {
+                    const cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
+                    largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/512x512.png`;
                 }
             } else {
                 largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
         }
 
-        // Small image
+        // Small image  
         let smallURL = '';
         if (activity.assets && activity.assets.small_image) {
             const smallImage = activity.assets.small_image;
@@ -52,8 +50,11 @@ async function fetchRPC() {
             if (smallImage.startsWith("spotify:")) {
                 smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
             } else if (smallImage.startsWith("mp:external/")) {
-                const urlMatch = smallImage.match(/https?:\/\/[^\s]+/);
-                smallURL = urlMatch ? urlMatch[0] : '';
+                const parts = smallImage.split('/');
+                const httpsPart = parts.slice(3).join('/');
+                if (httpsPart.startsWith('http')) {
+                    smallURL = `https://media.discordapp.net/external/${encodeURIComponent(httpsPart)}/64x64.png`;
+                }
             } else {
                 smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
