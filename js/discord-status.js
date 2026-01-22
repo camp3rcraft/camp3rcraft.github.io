@@ -23,42 +23,43 @@ async function fetchRPC() {
         const activities = data.activities.slice(0, 2);
 
         activities.forEach((activity, index) => {
-        // Large image
-        let largeURL = '';
-        if (activity.assets && activity.assets.large_image) {
-            const largeImage = activity.assets.large_image;
-            
-            if (largeImage.startsWith("spotify:")) {
-                largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
-            } else if (largeImage.startsWith("mp:external/")) {
-                const parts = largeImage.split('/');
-                const httpsPart = parts.slice(3).join('/');
-                if (httpsPart.startsWith('http')) {
-                    const cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
-                    largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/512x512.png`;
+            // Large image
+            let largeURL = '';
+            if (activity.assets && activity.assets.large_image) {
+                const largeImage = activity.assets.large_image;
+                
+                if (largeImage.startsWith("spotify:")) {
+                    largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
+                } else if (largeImage.startsWith("mp:external/")) {
+                    const urlMatch = largeImage.match(/mp:external\/[^\/]+\/(.+)$/);
+                    if (urlMatch) {
+                        let httpsPart = urlMatch[1].replace('https/', 'https://');
+                        let cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
+                        largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/512x512.png`;
+                    }
+                } else {
+                    largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
                 }
-            } else {
-                largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
-        }
 
-        // Small image  
-        let smallURL = '';
-        if (activity.assets && activity.assets.small_image) {
-            const smallImage = activity.assets.small_image;
-            
-            if (smallImage.startsWith("spotify:")) {
-                smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
-            } else if (smallImage.startsWith("mp:external/")) {
-                const parts = smallImage.split('/');
-                const httpsPart = parts.slice(3).join('/');
-                if (httpsPart.startsWith('http')) {
-                    smallURL = `https://media.discordapp.net/external/${encodeURIComponent(httpsPart)}/64x64.png`;
+            // Small image
+            let smallURL = '';
+            if (activity.assets && activity.assets.small_image) {
+                const smallImage = activity.assets.small_image;
+                
+                if (smallImage.startsWith("spotify:")) {
+                    smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
+                } else if (smallImage.startsWith("mp:external/")) {
+                    const urlMatch = smallImage.match(/mp:external\/[^\/]+\/(.+)$/);
+                    if (urlMatch) {
+                        let httpsPart = urlMatch[1].replace('https/', 'https://');
+                        let cleanUrl = httpsPart.split('?')[0];
+                        smallURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/64x64.png`;
+                    }
+                } else {
+                    smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
                 }
-            } else {
-                smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
-        }
 
             // Создаём карточку
             const div = document.createElement('div');
