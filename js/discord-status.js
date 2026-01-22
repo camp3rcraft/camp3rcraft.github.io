@@ -31,13 +31,10 @@ async function fetchRPC() {
             if (largeImage.startsWith("spotify:")) {
                 largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
             } else if (largeImage.startsWith("mp:external/")) {
-                // Жёсткий парсинг PulseSync: /hash/https/ → https://
-                const parts = largeImage.split('/');
-                const httpsIndex = parts.findIndex(part => part === 'https');
-                if (httpsIndex > 2) {
-                    let httpsPart = parts.slice(httpsIndex).join('/');
-                    httpsPart = 'https://' + httpsPart.substring(6); // убираем "https/"
-                    let cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
+                // ПРОСТОЙ ПАРСИНГ ПУЛЬСАЙНК: /hash/https/avatars → https://avatars
+                const httpsPart = largeImage.split('/https/')[1];
+                if (httpsPart) {
+                    let cleanUrl = 'https://' + httpsPart.replace(/\/1000x1000$/, '/300x300');
                     largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/400x400.png`;
                 }
             } else {
@@ -45,24 +42,28 @@ async function fetchRPC() {
             }
         }
 
-            // Small image
-            let smallURL = '';
-            if (activity.assets && activity.assets.small_image) {
-                const smallImage = activity.assets.small_image;
-                
-                if (smallImage.startsWith("spotify:")) {
-                    smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
-                } else if (smallImage.startsWith("mp:external/")) {
-                    const urlMatch = smallImage.match(/mp:external\/[^\/]+\/(.+)$/);
-                    if (urlMatch) {
-                        let httpsPart = urlMatch[1].replace('https/', 'https://');
-                        let cleanUrl = httpsPart.split('?')[0];
-                        smallURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/64x64.png`;
+        // Small image
+        let smallURL = '';
+        if (activity.assets && activity.assets.small_image) {
+            const smallImage = activity.assets.small_image;
+            
+            if (smallImage.startsWith("spotify:")) {
+                smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
+            } else if (smallImage.startsWith("mp:external/")) {
+                const httpsPart = smallImage.split('/https/')[1];
+                if (httpsPart) {
+                    let cleanUrl = 'https://' + httpsPart;
+                    // Если Discord CDN — без прокси, иначе с прокси
+                    if (cleanUrl.includes('cdn.discordapp.com')) {
+                        smallURL = cleanUrl.split('?')[0];
+                    } else {
+                        smallURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/60x60.png`;
                     }
-                } else {
-                    smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
                 }
+            } else {
+                smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
+        }
 
             // Создаём карточку
             const div = document.createElement('div');
