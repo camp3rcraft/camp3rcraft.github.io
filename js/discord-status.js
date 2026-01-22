@@ -23,7 +23,7 @@ async function fetchRPC() {
         const activities = data.activities.slice(0, 2);
 
         activities.forEach((activity, index) => {
-        // Large image
+        // Large image — БЕЗ прокси!
         let largeURL = '';
         if (activity.assets && activity.assets.large_image) {
             const largeImage = activity.assets.large_image;
@@ -31,11 +31,9 @@ async function fetchRPC() {
             if (largeImage.startsWith("spotify:")) {
                 largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
             } else if (largeImage.startsWith("mp:external/")) {
-                // ПРОСТОЙ ПАРСИНГ ПУЛЬСАЙНК: /hash/https/avatars → https://avatars
                 const httpsPart = largeImage.split('/https/')[1];
                 if (httpsPart) {
-                    let cleanUrl = 'https://' + httpsPart.replace(/\/1000x1000$/, '/300x300');
-                    largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/400x400.png`;
+                    largeURL = 'https://' + httpsPart.replace(/\/1000x1000$/, '/300x300'); // ПРЯМАЯ!
                 }
             } else {
                 largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
@@ -47,22 +45,28 @@ async function fetchRPC() {
         if (activity.assets && activity.assets.small_image) {
             const smallImage = activity.assets.small_image;
             
+            console.log('🔍 RAW smallImage:', smallImage);   // ДИАГНОСТИКА
+            
             if (smallImage.startsWith("spotify:")) {
                 smallURL = `https://i.scdn.co/image/${smallImage.split(":")[1]}`;
             } else if (smallImage.startsWith("mp:external/")) {
                 const httpsPart = smallImage.split('/https/')[1];
+                console.log('🔍 small httpsPart:', httpsPart);  // ДИАГНОСТИКА
+                
                 if (httpsPart) {
                     let cleanUrl = 'https://' + httpsPart;
-                    // Если Discord CDN — без прокси, иначе с прокси
                     if (cleanUrl.includes('cdn.discordapp.com')) {
                         smallURL = cleanUrl.split('?')[0];
                     } else {
                         smallURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/60x60.png`;
                     }
+                    console.log('✅ FINAL smallURL:', smallURL);  // ДИАГНОСТИКА
                 }
             } else {
                 smallURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${smallImage}.png`;
             }
+            
+            console.log('🎯 ИТОГ smallURL:', smallURL);       // ДИАГНОСТИКА
         }
 
             // Создаём карточку
@@ -84,55 +88,116 @@ async function fetchRPC() {
                 </div>
             `;
 
-            // Логика времени (замени только эту часть в цикле forEach)
             if (activity.timestamps?.start) {
                 const startTime = activity.timestamps.start;
                 const endTime = activity.timestamps.end;
-                
+
                 const timeContainer = document.createElement('div');
                 timeContainer.className = 'time-container';
-                timeContainer.style.cssText = 'margin-top: 8px; font-family: JetBrains Mono; font-size: 15px;';
-                
+                timeContainer.style.cssText = `
+                    margin-top: 8px;
+                    font-family: JetBrains Mono;
+                    font-size: 15px;
+                    width: 100%;
+                `;
+
                 const updateTime = () => {
                     const now = Date.now();
                     const elapsedMs = now - startTime;
-                    
-                    // Время прошедшее (всегда ЧЧ:ММ:СС)
+
                     const elapsedHours = Math.floor(elapsedMs / 3600000);
                     const elapsedMinutes = Math.floor((elapsedMs % 3600000) / 60000);
                     const elapsedSeconds = Math.floor((elapsedMs % 60000) / 1000);
-                    const elapsedStr = `${elapsedHours}:${elapsedMinutes.toString().padStart(2,'0')}:${elapsedSeconds.toString().padStart(2,'0')}`;
 
                     if (endTime) {
                         const totalMs = endTime - startTime;
                         const percent = Math.min(100, (elapsedMs / totalMs) * 100);
-                        
-                        // ПРОШЕДШЕЕ ВРЕМЯ (без ведущего нуля для часов): 2:29
-                        const elapsedHoursDisplay = elapsedHours || '';
-                        const elapsedStrDisplay = elapsedHoursDisplay + (elapsedHours ? ':' : '') + `${elapsedMinutes.toString().padStart(2,'0')}:${elapsedSeconds.toString().padStart(2,'0')}`;
-                        
-                        // ОБЩЕЕ ВРЕМЯ ТРЕКА (только ММ:СС): 03:47
+
+                        // прошедшее время (без ведущего 0 у часов)
+                        const elapsedStr =
+                            (elapsedHours ? elapsedHours + ':' : '') +
+                            `${elapsedMinutes.toString().padStart(2, '0')}:${elapsedSeconds
+                                .toString()
+                                .padStart(2, '0')}`;
+
+                        // общее время (ММ:СС)
                         const totalMinutes = Math.floor(totalMs / 60000);
                         const totalSeconds = Math.floor((totalMs % 60000) / 1000);
-                        const totalStr = `${totalMinutes.toString().padStart(2,'0')}:${totalSeconds.toString().padStart(2,'0')}`;
+                        const totalStr = `${totalMinutes
+                            .toString()
+                            .padStart(2, '0')}:${totalSeconds
+                            .toString()
+                            .padStart(2, '0')}`;
 
                         timeContainer.innerHTML = `
-                            <div style="display: flex; align-items: center; gap: 12px; color: #ffffff; font-weight: 500; font-family: JetBrains Mono">
-                                <span style="min-width: 70px; text-align: right; font-family: JetBrains Mono">${elapsedStrDisplay}</span>
-                                <div style="flex: 1; height: 3px; background: rgba(255,255,255,0.15); border-radius: 3px; overflow: hidden; min-width: 150px;">
-                                    <div style="height: 100%; width: ${percent}%; background: linear-gradient(90deg, #ffffff, #ffffff); border-radius: 3px; transition: width 0.5s ease; box-shadow: 0 0 8px rgba(56, 150, 80, 0.4);"></div>
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                color: #ffffff;
+                                font-weight: 500;
+                                width: 120%;
+                                margin-left: -12%;
+                            ">
+                                <span style="
+                                    font-family: JetBrains Mono;
+                                    width: 70px;
+                                    text-align: right;
+                                    flex-shrink: 0;
+                                ">
+                                    ${elapsedStr}
+                                </span>
+
+                                <div style="
+                                    flex: 1;
+                                    height: 4px;
+                                    background: rgba(255,255,255,0.15);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                ">
+                                    <div style="
+                                        height: 100%;
+                                        width: ${percent}%;
+                                        background: linear-gradient(90deg, #ffffff, #ffffff);
+                                        transition: width 0.5s ease;
+                                        box-shadow: 0 0 10px rgba(56, 150, 80, 0.5);
+                                    "></div>
                                 </div>
-                                <span style="min-width: 70px; text-align: left; font-family: JetBrains Mono">${totalStr}</span>
+
+                                <span style="
+                                    font-family: JetBrains Mono;
+                                    width: 55px;
+                                    text-align: left;
+                                    flex-shrink: 0;
+                                ">
+                                    ${totalStr}
+                                </span>
                             </div>
                         `;
                     } else {
-                        // Только зелёное время
-                        timeContainer.innerHTML = `<p style="color: #3d9e60; margin: 0; font-family: JetBrains Mono">${elapsedStr}</p>`;
+                        // если нет endTime — просто таймер
+                        const elapsedStr = `${elapsedHours}:${elapsedMinutes
+                            .toString()
+                            .padStart(2, '0')}:${elapsedSeconds
+                            .toString()
+                            .padStart(2, '0')}`;
+
+                        timeContainer.innerHTML = `
+                            <p style="
+                                font-family: JetBrains Mono;
+                                color: #3d9e60;
+                                margin: 0;
+                                font-family: JetBrains Mono;
+                                font-weight: 900;
+                            ">
+                                ${elapsedStr}
+                            </p>
+                        `;
                     }
                 };
-                
-                setInterval(updateTime, 1000);
+
                 updateTime();
+                setInterval(updateTime, 1000);
                 
                 div.querySelector('.activity-info').appendChild(timeContainer);
             }
