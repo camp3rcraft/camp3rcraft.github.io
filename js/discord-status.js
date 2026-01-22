@@ -3,10 +3,18 @@ const USER_ID = "870292480631910411";
 async function fetchRPC() {
     const errorBox = document.getElementById('errorBox');
     const activityBlock = document.getElementById('activityBlock');
+    
+    // ✅ ПРОВЕРКА DOM
+    if (!errorBox || !activityBlock) {
+        console.log('DOM не готов, ждём...');
+        setTimeout(fetchRPC, 100);
+        return;
+    }
 
     try {
         const cacheBust = new Date().getTime();
         const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}?_=${cacheBust}`);
+        
         if (!res.ok) throw new Error(`Ошибка API: ${res.status} ${res.statusText}`);
         const { data } = await res.json();
 
