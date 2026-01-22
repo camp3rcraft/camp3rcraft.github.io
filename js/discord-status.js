@@ -5,7 +5,8 @@ async function fetchRPC() {
     const activityBlock = document.getElementById('activityBlock');
 
     try {
-        const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`);
+        const cacheBust = new Date().getTime();
+        const res = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}?_=${cacheBust}`);
         if (!res.ok) throw new Error(`Ошибка API: ${res.status} ${res.statusText}`);
         const { data } = await res.json();
 
