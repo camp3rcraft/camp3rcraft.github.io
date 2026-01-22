@@ -23,24 +23,27 @@ async function fetchRPC() {
         const activities = data.activities.slice(0, 2);
 
         activities.forEach((activity, index) => {
-            // Large image
-            let largeURL = '';
-            if (activity.assets && activity.assets.large_image) {
-                const largeImage = activity.assets.large_image;
-                
-                if (largeImage.startsWith("spotify:")) {
-                    largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
-                } else if (largeImage.startsWith("mp:external/")) {
-                    const urlMatch = largeImage.match(/mp:external\/[^\/]+\/(.+)$/);
-                    if (urlMatch) {
-                        let httpsPart = urlMatch[1].replace('https/', 'https://');
-                        let cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
-                        largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/512x512.png`;
-                    }
-                } else {
-                    largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
+        // Large image
+        let largeURL = '';
+        if (activity.assets && activity.assets.large_image) {
+            const largeImage = activity.assets.large_image;
+            
+            if (largeImage.startsWith("spotify:")) {
+                largeURL = `https://i.scdn.co/image/${largeImage.split(":")[1]}`;
+            } else if (largeImage.startsWith("mp:external/")) {
+                // Жёсткий парсинг PulseSync: /hash/https/ → https://
+                const parts = largeImage.split('/');
+                const httpsIndex = parts.findIndex(part => part === 'https');
+                if (httpsIndex > 2) {
+                    let httpsPart = parts.slice(httpsIndex).join('/');
+                    httpsPart = 'https://' + httpsPart.substring(6); // убираем "https/"
+                    let cleanUrl = httpsPart.split('?')[0].replace(/\/1000x1000$/, '/300x300');
+                    largeURL = `https://media.discordapp.net/external/${encodeURIComponent(cleanUrl)}/400x400.png`;
                 }
+            } else {
+                largeURL = `https://cdn.discordapp.com/app-assets/${activity.application_id}/${largeImage}.png`;
             }
+        }
 
             // Small image
             let smallURL = '';
